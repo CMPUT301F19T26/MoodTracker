@@ -1,4 +1,4 @@
-package com.example.moodtracker.Controller;
+package com.example.moodtracker.controller;
 
 public class UserController {
 

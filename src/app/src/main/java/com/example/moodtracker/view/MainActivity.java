@@ -1,4 +1,4 @@
-package com.example.moodtracker.View;
+package com.example.moodtracker.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
