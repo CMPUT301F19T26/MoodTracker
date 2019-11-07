@@ -12,6 +12,7 @@ import com.example.moodtracker.R;
 import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
+
     FirebaseAuth fb_auth;
     Button loginBtn;
     Button signupBtn;
