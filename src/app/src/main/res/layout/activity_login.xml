@@ -7,14 +7,14 @@
     tools:context=".view.LoginActivity">
 
     <EditText
-        android:id="@+id/text_username"
+        android:id="@+id/text_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="165dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Username"
+        android:text="Email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_username" />
+        app:layout_constraintTop_toBottomOf="@+id/text_email" />
 
     <Button
         android:id="@+id/button_login"
@@ -38,4 +38,5 @@
         android:text="Login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_password" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

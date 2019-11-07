@@ -13,17 +13,33 @@ import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import org.w3c.dom.Document;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
+    String TAG = "signup";
     FirebaseAuth mAuth;
     Button signupBtn;
     EditText emailText;
     EditText passwordText;
+    EditText usernameText;
+    FirebaseFirestore db;
+    String email;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,33 +48,75 @@ public class SignupActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         signupBtn = findViewById(R.id.button_signup);
-        emailText = findViewById(R.id.text_username);
+        usernameText = findViewById(R.id.text_username);
+        emailText = findViewById(R.id.text_email);
         passwordText = findViewById(R.id.text_password);
+        email = emailText.getText().toString();
+        username = usernameText.getText().toString();
+
+        db = FirebaseFirestore.getInstance();
+        final CollectionReference userref = db.collection("users");
+        final CollectionReference usernameref = db.collection("usernames");
+
 
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.createUserWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-//                                    Log.d(TAG, "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Intent homeIntent = new Intent(SignupActivity.this, HomeActivity.class);
-                                    startActivity(homeIntent);
 
-                                } else {
-                                    // If sign in fails, display a message to the user.
-//                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(SignupActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
 
-                                // ...
-                            }
-                        });
+                // check username first
+                db.collection("users").document(usernameText.getText().toString()).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                          @Override
+                          public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                              if (documentSnapshot.exists()) {
+                                  Toast.makeText(SignupActivity.this, "Username taken!", Toast.LENGTH_LONG).show();
+                              } else {
+                                  mAuth.createUserWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
+                                          .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                                              @Override
+                                              public void onComplete(@NonNull Task<AuthResult> task) {
+                                                  if (task.isSuccessful()) {
+
+                                                      Map<String, Object> userMap = new HashMap<>();
+                                                      userMap.put("email", emailText.getText().toString());
+
+                                                      db.collection("users").document(usernameText.getText().toString())
+                                                              .set(userMap)
+                                                              .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                  @Override
+                                                                  public void onSuccess(Void aVoid) {
+                                                                      Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                                      FirebaseUser user = mAuth.getCurrentUser();
+                                                                      Intent homeIntent = new Intent(SignupActivity.this, HomeActivity.class);
+                                                                      startActivity(homeIntent);
+                                                                  }
+                                                              })
+                                                              .addOnFailureListener(new OnFailureListener() {
+                                                                  @Override
+                                                                  public void onFailure(@NonNull Exception e) {
+                                                                      Log.w(TAG, "Error writing document", e);
+                                                                  }
+                                                              });
+
+
+
+                                                  } else {
+                                                      Toast.makeText(SignupActivity.this, "Authentication failed.",
+                                                              Toast.LENGTH_SHORT).show();
+                                                  }
+                                              }
+                                          });
+
+
+                              }
+                          }
+                      });
+
+
+
+
 
             }
         });
