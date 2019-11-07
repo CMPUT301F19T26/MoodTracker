@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
@@ -41,6 +42,12 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
             view = LayoutInflater.from(context).inflate(R.layout.content, parent,false);
         }
 
+        MoodEvent event_item = history.get(position);
+        TextView mood = view.findViewById(R.id.event_mood);
+        TextView date = view.findViewById(R.id.event_date);
+        mood.setText(event_item.getMood().getMoodName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date.setText((sdf.format(event_item.getDate())));
 //        City city = cities.get(position);
 //
 //        final TextView cityName = view.findViewById(R.id.city_text);
