@@ -51,18 +51,12 @@ public class SignupActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.text_username);
         emailText = findViewById(R.id.text_email);
         passwordText = findViewById(R.id.text_password);
-        email = emailText.getText().toString();
-        username = usernameText.getText().toString();
 
         db = FirebaseFirestore.getInstance();
-        final CollectionReference userref = db.collection("users");
-        final CollectionReference usernameref = db.collection("usernames");
-
 
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 // check username first
                 db.collection("users").document(usernameText.getText().toString()).get()
@@ -100,8 +94,6 @@ public class SignupActivity extends AppCompatActivity {
                                                                   }
                                                               });
 
-
-
                                                   } else {
                                                       Toast.makeText(SignupActivity.this, "Authentication failed.",
                                                               Toast.LENGTH_SHORT).show();
@@ -114,16 +106,9 @@ public class SignupActivity extends AppCompatActivity {
                           }
                       });
 
-
-
-
-
             }
         });
 
-
-
     }
-
 
 }
