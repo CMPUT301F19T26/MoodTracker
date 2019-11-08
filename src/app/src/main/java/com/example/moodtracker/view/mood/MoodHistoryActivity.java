@@ -69,7 +69,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 // Add a Mock Activity for now
                 String a = user_id;
                 Date b = new Date();
-                MoodEvent mock_2 = new MoodEvent("Happy", a, b);
+                String mood_num = Integer.toString(constants.HAPPY);
+                MoodEvent mock_2 = new MoodEvent("1", a, b);
                 // Go to the add activity and recieve a result from the add activity
 //                Intent addIntent = new Intent(MoodHistoryActivity.this, AddMoodEventActivity.class);
 //                setResult(RESULT_OK, addIntent);
