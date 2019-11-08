@@ -1,16 +1,22 @@
 package com.example.moodtracker.model;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
 import com.example.moodtracker.constants;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,15 +50,33 @@ public class MoodHistory implements Serializable {
     public MoodHistory(final String user_id) {
         // Get the Mood history for the user
         this.user_id = user_id;
+    }
+
+    public static void getMoodHistory(ArrayAdapter adapter, MoodHistory h) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("moodEvents")
-                .whereEqualTo("user_id", user_id)
+                .whereEqualTo("user_id", h.user_id)
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                            MoodEvent me = new MoodEvent(new Mood(constants.HAPPY), user_id, new Date());
-                            history.add(me);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            if (doc.exists()) {
+                                if (doc.get("reason") == "SAFE_PARCELABLE_NULL_STRING") {
+                                    String reason = "";
+                                }
+                                if (doc.get("photo_url") == "SAFE_PARCELABLE_NULL_STRING" ) {
+                                    String photo_url = "";
+                                }
+//                                Gson gson = new Gson();
+//                                Object mood = doc.get("mood");
+//                                String json = gson.toJson(mood);
+//                                System.out.println(json);
+
+                                MoodEvent me = new MoodEvent(new Mood(constants.HAPPY), h.user_id, new Date());
+                                h.history.add(me);
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
                 })
@@ -62,6 +86,7 @@ public class MoodHistory implements Serializable {
 
                     }
                 });
+
     }
 
     public void addMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {

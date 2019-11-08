@@ -17,11 +17,10 @@ public class Mood {
                 this.moodName = "Happy";
                 this.icon = R.drawable.happy_icon;
                 break;
-            // Todo: Add more moods after
         }
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
@@ -29,7 +28,7 @@ public class Mood {
         return icon;
     }
 
-    public int getMoodName() {
+    public String getMoodName() {
         return moodName;
     }
 
