@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.MoodHistoryAdapter;
@@ -14,6 +15,7 @@ import com.example.moodtracker.controller.MoodHistoryController;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +27,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private ListView moodHistoryList;
     private ArrayAdapter<MoodEvent> HistoryAdapter;
     private MoodHistory moodHistory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,5 +46,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Point the list towards the data
         HistoryAdapter = new MoodHistoryAdapter(this,  moodHistory.history);
         moodHistoryList.setAdapter(HistoryAdapter);
+
+        Toast.makeText(MoodHistoryActivity.this, FirebaseAuth.getInstance().getCurrentUser().getEmail().toString(), Toast.LENGTH_LONG).show();
     }
 }
