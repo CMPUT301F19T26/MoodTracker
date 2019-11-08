@@ -94,8 +94,9 @@ public class ProfileFragment extends AppCompatActivity {
         MoodEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent followersActivity = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
-                startActivity(followersActivity);
+                Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
+                startActivity(moodHistoryIntent);
             }
         });
 

@@ -16,8 +16,8 @@ public class MoodHistoryController {
     }
 
     // Factory method
-    public static MoodHistory getMoodHistory() {
-        MoodHistory new_history = new MoodHistory();
+    public static MoodHistory getMoodHistory(String user_id) {
+        MoodHistory new_history = new MoodHistory(user_id);
         return new_history;
     }
 

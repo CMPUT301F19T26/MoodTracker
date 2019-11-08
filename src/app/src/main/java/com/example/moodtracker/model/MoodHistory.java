@@ -39,9 +39,9 @@ public class MoodHistory implements Serializable {
     // Todo: Make this private
     public ArrayList<MoodEvent> history = new ArrayList<>();
 
-    public MoodHistory() {
-        user_id = auth.getCurrentUser().getUid();
+    public MoodHistory(String user_id) {
         // Get the Mood history for the user
+        this.user_id = user_id;
         db.collection("moodEvents")
                 .whereEqualTo("user_id", user_id)
                 .get()

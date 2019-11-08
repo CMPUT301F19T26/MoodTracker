@@ -3,6 +3,7 @@ package com.example.moodtracker.view.mood;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,6 +32,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private ListView moodHistoryList;
     private ArrayAdapter<MoodEvent> HistoryAdapter;
     private MoodHistory moodHistory;
+    private String user_id;
 
     // Button handler
     FloatingActionButton addMoodEventBTN;
@@ -39,9 +41,13 @@ public class MoodHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
+        Intent intent = getIntent();
+        user_id = intent.getStringExtra("userID");
+
+
         addMoodEventBTN = findViewById(R.id.add_mood_event);
 
-        moodHistory = MoodHistoryController.getMoodHistory();
+        moodHistory = MoodHistoryController.getMoodHistory(user_id);
         // Get the ListView to assign the new data to
         moodHistoryList = findViewById(R.id.mood_history);
         // Point the list towards the data
