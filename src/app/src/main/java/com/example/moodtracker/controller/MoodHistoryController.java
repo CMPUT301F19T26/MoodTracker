@@ -33,8 +33,11 @@ public class MoodHistoryController {
      * Get the mood history
      * @return MoodHistory
      */
-    public static MoodHistory getMoodHistory() {
+    public static MoodHistory getMoodHistory(String user_id) {
+        MoodHistory new_history = new MoodHistory(user_id);
+        return new_history;
         return new MoodHistory();
+
     }
 
     /**
@@ -74,11 +77,13 @@ public class MoodHistoryController {
             @Override
             public void onSuccess(Void document) {
                 // Say success
+                System.out.println("Deleted Successfuly");
             }
 
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Say Failure
+                System.out.println("Delete Failure");
             }
         });
         h.history.remove(index);

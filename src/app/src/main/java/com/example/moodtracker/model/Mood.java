@@ -18,63 +18,49 @@ import com.example.moodtracker.constants;
 
 public class Mood {
     // Should not need db logic in mood
-    private int color;
+    private String color;
     private int icon;
-    private int moodName;
+    private String moodName;
     private int moodNum;
 
-    /**
-     * Mood of mood event
-     *
-     * @param selected_mood the mood selected for the mood event
-     */
-    public Mood(int selected_mood) {
-        this.moodNum = selected_mood;
-        switch(selected_mood) {
-            case constants.HAPPY:
-                this.color = R.color.color_happy;
-                this.moodName = R.string.happy_mood;
-                this.icon = R.drawable.happy_icon;
-                break;
-            // Todo: Add more moods after
-        }
+    public Mood(String selected_mood) {
+//        this.moodNum = selected_mood;
+//        switch(selected_mood) {
+//            case constants.HAPPY:
+//                this.color = "Green";
+//                this.moodName = "Happy";
+//                this.icon = R.drawable.happy_icon;
+//                break;
+//
+//            case constants.NEUTRAL:
+//                this.color = R.color.color_neutral;
+//                this.moodName = R.string.happy_mood;
+//                this.icon = R.drawable.happy_icon;
+//                break;
+//
+//            case constants.SURPRISED:
+//                this.color = R.color.color_surprised;
+//                this.moodName = R.string.happy_mood;
+//                this.icon = R.drawable.happy_icon;
+//                break;
+//        }
     }
+//
+//    public String getColor() {
+//        return color;
+//    }
 
-    /**
-     * get color
-     *
-     * @return color
-     */
-    public int getColor() {
-        return color;
-    }
+//    public int getIcon() {
+//        return icon;
+//    }
 
-    /**
-     * get icon
-     *
-     * @return icon
-     */
-    public int getIcon() {
-        return icon;
-    }
+//    public String getMoodName() {
+//        return moodName;
+//    }
 
-    /**
-     * get name of mood
-     *
-     * @return mood name
-     */
-    public int getMoodName() {
-        return moodName;
-    }
-
-    /**
-     * Get the mood number
-     *
-     * @return mood number
-     */
-    public int getMoodNum() {
-        return moodNum;
-    }
+//    public String getMoodNum() {
+//        return moodNum;
+//    }
 }
 
 

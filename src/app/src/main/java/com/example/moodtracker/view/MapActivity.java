@@ -14,19 +14,26 @@
 
 package com.example.moodtracker.view;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.model.Location;
 import com.example.moodtracker.model.User;
+import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -42,6 +49,46 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+//
+//        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+//        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+//        Menu menu = bottomNavigationView.getMenu();
+//        MenuItem menuItem = menu.getItem(1);
+//        menuItem.setChecked(true);
+//
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId()){
+//                    case R.id.ic_Profile:
+//                        Intent intent0 = new Intent(MapActivity.this, ProfileFragment.class);
+//                        startActivity(intent0);
+//                        break;
+//
+//                    case R.id.ic_Search:
+//                        Intent intent1 = new Intent(MapActivity.this, MapActivity.class);
+//                        startActivity(intent1);
+//                        break;
+//
+//                    case R.id.ic_Add:
+//                        Intent intent2 = new Intent(MapActivity.this, AddMoodEventActivity.class);
+//                        startActivity(intent2);
+//                        break;
+//
+//                    case R.id.ic_Map:
+//
+//                        break;
+//
+//                    case R.id.ic_Feed:
+//
+//                        break;
+//
+//                }
+//
+//                return false;
+//            }
+//        });
     }
 
 
@@ -70,7 +117,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         //get locations
         if (mode == 0) {
-
             locations = user.getUserLocations();
         }
 

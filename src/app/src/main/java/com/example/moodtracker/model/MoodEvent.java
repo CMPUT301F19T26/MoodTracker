@@ -14,6 +14,10 @@
 
 package com.example.moodtracker.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Pair;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -30,32 +34,52 @@ import java.util.UUID;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-public class MoodEvent implements Serializable {
+// Todo: Implement Parcelable
+public class MoodEvent{
     // Need access to the db
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String mood_id = UUID.randomUUID().toString();
-    private Mood mood;
+    private String mood;
     private String user_id;
     private Date date;
     private String reason = NULL;
     private String photo_url = NULL;
-    private LatLng location;
+    private Double lat;
+    private Double lng;
     private String social_situation = NULL;
 
-    /**
+   
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+  
+   /**
      * Mood event init and set
      * @param mood the mood input
      * @param user_id the user_id
      * @param date the date input
      */
-    public MoodEvent(@NonNull Mood mood, @NonNull String user_id, @NonNull Date date) {
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
     }
 
 
-    public MoodEvent(@NonNull Mood mood, @NonNull String user_id, @NonNull Date date, @Nullable String reason) {
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date, @Nullable String reason) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
@@ -72,15 +96,33 @@ public class MoodEvent implements Serializable {
      * @param location the location input
      * @param social_sit the social situation input
      */
-    public MoodEvent(@NonNull Mood mood, @NonNull String user_id, @NonNull Date date,
-                     @Nullable String reason, @Nullable String photo_url, @Nullable LatLng location, @Nullable SocialSituation social_sit) {
+
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date, @Nullable Double lat, @Nullable Double lng) {
+        this.mood = mood;
+        this.user_id = user_id;
+        this.date = date;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date,
+                     @Nullable String reason, @Nullable String photo_url, @Nullable Double lat, Double lng, @Nullable String social_sit) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
         this.reason = reason;
         this.photo_url = photo_url;
-        this.location = location;
-        this.social_situation = social_sit.getSocialType();
+        this.lat = lat;
+        this.lng = lng;
+        this.social_situation = social_sit;
+    }
+
+    public String getSocialSituation() {
+        return this.social_situation;
+    }
+
+    public void setSocial_situation(String ss) {
+        this.social_situation = ss;
     }
 
     /**
@@ -89,6 +131,10 @@ public class MoodEvent implements Serializable {
      */
     public String getMood_id() {
         return this.mood_id;
+    }
+
+    public void setMood_id(String id) {
+        this.mood_id = id;
     }
 
     public static void addToDB(MoodEvent e) {
@@ -103,13 +149,14 @@ public class MoodEvent implements Serializable {
         // Go into the db and delete a selected mood event
     }
 
-    public Mood getMood() {
+    public String getMood() {
         return mood;
     }
 
-    public void setMood(Mood mood) {
+    public String setMood(String mood) {
         // Should hit the db
         this.mood = mood;
+        return this.mood;
     }
 
     public String getUser_id() {
@@ -134,13 +181,5 @@ public class MoodEvent implements Serializable {
 
     public void setPhoto_url(String photo_url) {
         this.photo_url = photo_url;
-    }
-
-    public LatLng getLocation() {
-        return location;
-    }
-
-    public void setLocation(LatLng location) {
-        this.location = location;
     }
 }

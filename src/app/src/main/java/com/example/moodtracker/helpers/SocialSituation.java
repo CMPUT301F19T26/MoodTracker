@@ -26,6 +26,8 @@ public class SocialSituation {
      */
     public SocialSituation(int type) {
         switch (type) {
+            case constants.ALONE:
+                social_type = "Alone";
             case constants.ONE_OTHER:
                 social_type = "One Other";
                 break;
@@ -38,8 +40,11 @@ public class SocialSituation {
             case constants.CROWD:
                 social_type = "Crowd";
                 break;
+            case constants.NONE:
+                social_type = "None";
+                break;
             default:
-                social_type = "Alone";
+                social_type = "Nothing rn";
                 break;
         }
     }

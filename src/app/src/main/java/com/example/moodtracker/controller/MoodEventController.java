@@ -39,10 +39,11 @@ public class MoodEventController {
      * @param social_situation the social situation input
      * @return the mood event
      */
-    public static MoodEvent createMoodEvent(@NonNull Mood mood, @NonNull String user_id, @NonNull Date date,
+
+    public static MoodEvent createMoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date,
                                             @Nullable String reason, @Nullable String photo_url, @Nullable LatLng location,
                                             @Nullable SocialSituation social_situation) {
-        MoodEvent new_event = new MoodEvent(mood, user_id, date, reason, photo_url, location, social_situation);
+        MoodEvent new_event = new MoodEvent(mood, user_id, date);
         // Todo: Add to db
         // MoodEvent.addToDB(new_event);
         return new_event;
