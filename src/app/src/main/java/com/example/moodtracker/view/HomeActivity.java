@@ -24,7 +24,6 @@ public class HomeActivity extends AppCompatActivity {
         logoutBtn = findViewById(R.id.button_logout);
         usernameText = findViewById(R.id.text_email);
 
-
         usernameText.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
