@@ -1,3 +1,18 @@
+/**
+ * MoodHistoryAdapter
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * Copyright (c) $today.year. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ *
+ */
+
 package com.example.moodtracker.adapter;
 
 import android.content.Context;
@@ -30,6 +45,12 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
     private Context context;
     private MoodHistoryAdapter adapter;
 
+
+    /**
+     * Create adapter for Mood History
+     * @param context the context of mood history
+     * @param h the mood history
+     */
     public MoodHistoryAdapter(Context context, MoodHistory h) {
         super(context, 0, h.history);
         this.history = h.history;
@@ -38,6 +59,13 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         this.adapter = this;
     }
 
+    /**
+     * Obtain the view of Mood History
+     * @param position position in array
+     * @param convertView converted view
+     * @param parent parent of view
+     * @return view
+     */
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {

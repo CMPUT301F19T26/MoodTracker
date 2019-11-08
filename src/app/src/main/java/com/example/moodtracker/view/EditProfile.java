@@ -1,3 +1,17 @@
+/**
+ * EditProfile
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.example.moodtracker.view;
 
 import android.content.Intent;
@@ -32,6 +46,10 @@ public class EditProfile extends AppCompatActivity implements PopupMenu.OnMenuIt
     private AlertDialog.Builder passAuthenticate;
     private FirebaseUser user;
 
+    /**
+     * On Create
+     * @param savedInstanceState the instance
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +85,11 @@ public class EditProfile extends AppCompatActivity implements PopupMenu.OnMenuIt
 
     }
 
+    /**
+     * return false on menu item click
+     * @param item the item
+     * @return false
+     */
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;

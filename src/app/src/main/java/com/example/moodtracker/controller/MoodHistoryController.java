@@ -1,3 +1,17 @@
+/**
+ * MoodHistoryController
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.example.moodtracker.controller;
 
 import android.widget.ArrayAdapter;
@@ -15,12 +29,23 @@ public class MoodHistoryController {
     public MoodHistoryController() {
     }
 
-    // Factory method
+    /**
+     * Get the mood history
+     * @return MoodHistory
+     */
     public static MoodHistory getMoodHistory(String user_id) {
         MoodHistory new_history = new MoodHistory(user_id);
         return new_history;
+        return new MoodHistory();
+
     }
 
+    /**
+     * Adds mood event to history.
+     * @param event the event to add
+     * @param h the mood history
+     * @param adapter the adapter for mood history
+     */
     public static void addEventToHistory(final MoodEvent event, MoodHistory h, ArrayAdapter adapter) {
         // Todo:Should add handling for photos
         h.addMoodEvent(event, new MoodHistory.FirebaseCallback<Void>() {
@@ -39,6 +64,13 @@ public class MoodHistoryController {
 
     }
 
+    /**
+     * Delete an event from mood history
+     * @param e the mood event
+     * @param h the mood history
+     * @param index the index being deleted
+     * @param adapter the adapter for the array
+     */
     public static void deleteEventFromHistory(MoodEvent e, MoodHistory h, int index, ArrayAdapter adapter) {
         // Should be able to delet
         h.deleteMoodEvent(e, new MoodHistory.FirebaseCallback<Void>() {
