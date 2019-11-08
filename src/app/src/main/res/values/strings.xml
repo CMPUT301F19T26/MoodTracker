@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MoodTracker</string>
+    <string name="search_hint">search for a user</string>
+    <string name="search_button_text">search</string>
     <string name="title_activity_map">Map</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
