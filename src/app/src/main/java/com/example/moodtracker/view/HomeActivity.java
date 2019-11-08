@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
     Button logoutBtn;
+    Button mapsBtn;
+//    Button searchBtn;
+
     TextView usernameText;
     Button gotoMoodHistory;
 
@@ -24,6 +28,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         logoutBtn = findViewById(R.id.button_logout);
+        mapsBtn = findViewById(R.id.button_maps);
+//        searchBtn = findViewById(R.id.button_search);
+
         usernameText = findViewById(R.id.text_email);
         gotoMoodHistory = findViewById(R.id.button_moodhistory);
 
@@ -39,6 +46,27 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        mapsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(HomeActivity.this, MapActivity.class);
+
+                User Jared = new User("21");
+                searchIntent.putExtra("USER", Jared);
+                searchIntent.putExtra("MODE", 0);
+                startActivity(searchIntent);
+            }
+        });
+
+//        searchBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent searchIntent = new Intent(HomeActivity.this, FindActivity.class);
+//                startActivity(searchIntent);
+//
+//            }
+//        });
+
         gotoMoodHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
 
     }
 }

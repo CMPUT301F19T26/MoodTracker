@@ -6,21 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/AddMoodFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/design_default_color_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_add_circle_outline_black_24dp"
-        app:elevation="6dp"
-        android:layout_margin="10dp"
-        app:fabSize="normal"
-        android:clickable="true"
-        android:focusable="true"
-        />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pictureContainer"
         android:layout_width="match_parent"
@@ -75,9 +60,6 @@
             android:id="@+id/FollowingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="1dp"
             android:text="Following"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/FollowersButton"
@@ -88,10 +70,6 @@
             android:id="@+id/FollowersButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="61dp"
-            android:layout_marginBottom="1dp"
             android:text="Followers"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/MoodEventButton"
@@ -102,9 +80,6 @@
             android:id="@+id/MoodEventButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
             android:text="MoodEvent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/FollowersButton"
@@ -112,5 +87,21 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavView_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_grey_border_top"
+            app:menu="@menu/bottom_navigation_menu"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
