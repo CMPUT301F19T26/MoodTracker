@@ -7,9 +7,9 @@ public class Mood {
     private int color;
     private int icon;
     private int moodName;
-    private int moodNum;
+    private String moodNum;
 
-    public Mood(int selected_mood) {
+    public Mood(String selected_mood) {
         this.moodNum = selected_mood;
         switch(selected_mood) {
             case constants.HAPPY:
@@ -17,7 +17,19 @@ public class Mood {
                 this.moodName = R.string.happy_mood;
                 this.icon = R.drawable.happy_icon;
                 break;
-            // Todo: Add more moods after
+
+            case constants.NEUTRAL:
+                this.color = R.color.color_neutral;
+                this.moodName = R.string.happy_mood;
+                this.icon = R.drawable.happy_icon;
+                break;
+
+            case constants.SURPRISED:
+                this.color = R.color.color_surprised;
+                this.moodName = R.string.happy_mood;
+                this.icon = R.drawable.happy_icon;
+                break;
+
         }
     }
 
@@ -33,7 +45,7 @@ public class Mood {
         return moodName;
     }
 
-    public int getMoodNum() {
+    public String getMoodNum() {
         return moodNum;
     }
 }
