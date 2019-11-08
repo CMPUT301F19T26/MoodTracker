@@ -39,7 +39,6 @@
                 android:text="Reason"
                 android:textSize="10pt">
             </TextView>
-
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
@@ -48,6 +47,20 @@
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:maxLength="20"/>
+
+            <TextView
+                android:id="@+id/social_sitation_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Social Situation"
+                android:textSize="10pt">
+            </TextView>
+            <Spinner
+                android:id="@+id/social_sitation_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"/>
 
             <Button
                 android:id="@+id/add_mood_event_submit"
