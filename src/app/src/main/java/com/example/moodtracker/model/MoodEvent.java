@@ -1,3 +1,17 @@
+/**
+ * MoodEvent
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.example.moodtracker.model;
 
 import android.os.Parcel;
@@ -34,6 +48,8 @@ public class MoodEvent{
     private Double lng;
     private String social_situation = NULL;
 
+   
+
     public Double getLat() {
         return lat;
     }
@@ -49,12 +65,19 @@ public class MoodEvent{
     public void setLng(Double lng) {
         this.lng = lng;
     }
-
+  
+   /**
+     * Mood event init and set
+     * @param mood the mood input
+     * @param user_id the user_id
+     * @param date the date input
+     */
     public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
     }
+
 
     public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date, @Nullable String reason) {
         this.mood = mood;
@@ -62,6 +85,17 @@ public class MoodEvent{
         this.date = date;
         this.reason = reason;
     }
+
+    /**
+     * The MoodEvent
+     * @param mood the mood input
+     * @param user_id the users id
+     * @param date the date input
+     * @param reason the reason input
+     * @param photo_url the photo url
+     * @param location the location input
+     * @param social_sit the social situation input
+     */
 
     public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date, @Nullable Double lat, @Nullable Double lng) {
         this.mood = mood;
@@ -91,6 +125,10 @@ public class MoodEvent{
         this.social_situation = ss;
     }
 
+    /**
+     * get mood id
+     * @return mood id
+     */
     public String getMood_id() {
         return this.mood_id;
     }

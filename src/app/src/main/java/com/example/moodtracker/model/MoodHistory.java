@@ -1,3 +1,17 @@
+/**
+ * MoodHistory
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.example.moodtracker.model;
 
 import android.util.Log;
@@ -47,7 +61,10 @@ public class MoodHistory implements Serializable {
     private String user_id;
     // Todo: Make this private
     public ArrayList<MoodEvent> history = new ArrayList<>();
-
+  
+    /**
+     * Get the mood history for the user
+     */
     public MoodHistory(final String user_id) {
         // Get the Mood history for the user
         this.user_id = user_id;
@@ -87,12 +104,25 @@ public class MoodHistory implements Serializable {
 
     }
 
+    /**
+     * add the mood event
+     *
+     * @param e the mood event
+     * @param cb the call back to the firebase db
+     */
     public void addMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
         db.collection("moodEvents").document(e.getMood_id())
                 .set(e)
                 .addOnSuccessListener(cb::onSuccess)
                 .addOnFailureListener(cb::onFailure);
     }
+
+    /**
+     * Delete a mood event
+     *
+     * @param e the mood event
+     * @param cb the call back to the firebase db
+     */
 
     public static void externalAddMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
