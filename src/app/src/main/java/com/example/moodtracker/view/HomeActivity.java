@@ -1,22 +1,45 @@
 package com.example.moodtracker.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class HomeActivity extends AppCompatActivity {
 
     Button logoutBtn;
     TextView usernameText;
+    EditText followUsernameText;
     Button gotoMoodHistory;
+    Button followBtn;
+    String toFollowId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +47,11 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         logoutBtn = findViewById(R.id.button_logout);
+        followBtn = findViewById(R.id.button_follow);
+
         usernameText = findViewById(R.id.text_email);
         gotoMoodHistory = findViewById(R.id.button_moodhistory);
+        followUsernameText = findViewById(R.id.input_username);
 
         usernameText.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
 
@@ -43,11 +69,64 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                Intent myIntent = new Intent(HomeActivity.this, MoodHistoryActivity.class);
-            Intent myIntent = new Intent(HomeActivity.this, ProfileFragment.class);
-
+                Intent myIntent = new Intent(HomeActivity.this, ProfileFragment.class);
                 startActivity(myIntent);
             }
         });
+
+        followBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get username of myself
+                String myId = FirebaseAuth.getInstance().getUid();
+
+                // get username of the person trying to follow
+
+                FirebaseFirestore.getInstance().collection("users").whereEqualTo("username", followUsernameText.getText().toString()).get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                                        if (doc.exists()) {
+                                            Log.d("HOME", "DocumentSnapshot data: " + doc.getId());
+                                            // put in a hashmap
+                                            Map<String, Object> followMap = new HashMap<>();
+                                            followMap.put("follower_id", myId);
+                                            followMap.put("following_id", doc.getId());
+
+                                            // store in db
+                                            FirebaseFirestore.getInstance().collection("follow").document(UUID.randomUUID().toString())
+                                                    .set(followMap)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d("Home", "DocumentSnapshot successfully written!");
+
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.w("Home", "Error writing document", e);
+                                                        }
+                                                    });
+                                        } else {
+                                            Log.d("HOME", "No such document");
+                                        }
+                                    }
+                                } else{
+                                    Log.d("HOME", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+
+            }
+        });
+
+
 
     }
 }

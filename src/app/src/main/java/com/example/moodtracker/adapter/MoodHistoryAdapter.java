@@ -51,7 +51,7 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         MoodEvent event_item = history.get(position);
         TextView mood = view.findViewById(R.id.event_mood);
         TextView date = view.findViewById(R.id.event_date);
-        mood.setText(event_item.getMood().getMoodName());
+        mood.setText(event_item.getMood());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         date.setText((sdf.format(event_item.getDate())));
 //
