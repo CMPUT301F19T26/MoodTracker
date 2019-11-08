@@ -12,12 +12,14 @@ import com.google.type.LatLng;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 public class MoodEvent implements Serializable {
     // Need access to the db
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String mood_id = UUID.randomUUID().toString();
     private Mood mood;
     private String user_id;
     private Date date;
@@ -48,6 +50,10 @@ public class MoodEvent implements Serializable {
         this.photo_url = photo_url;
         this.location = location;
         this.social_situation = social_sit.getSocialType();
+    }
+
+    public String getMood_id() {
+        return this.mood_id;
     }
 
     public static void addToDB(MoodEvent e) {

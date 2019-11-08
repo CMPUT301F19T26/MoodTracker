@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.controller.MoodHistoryController;
 import com.example.moodtracker.model.MoodEvent;
+import com.example.moodtracker.model.MoodHistory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,17 +26,21 @@ import java.util.ArrayList;
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> history; // History
+    private MoodHistory h;
     private Context context;
+    private MoodHistoryAdapter adapter;
 
-    public MoodHistoryAdapter(Context context, ArrayList<MoodEvent> h) {
-        super(context, 0, h);
-        this.history = h;
+    public MoodHistoryAdapter(Context context, MoodHistory h) {
+        super(context, 0, h.history);
+        this.history = h.history;
+        this.h = h;
         this.context = context;
+        this.adapter = this;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 //        return super.getView(position, convertView, parent);
         View view = convertView;
 
@@ -56,12 +62,15 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 //        cityName.setText(city.getCityName());
 //        provinceName.setText(city.getProvinceName());
 //
-//        Button delete_btn = view.findViewById(R.id.delete_item);
+        Button delete_btn = view.findViewById(R.id.delete_item);
 
 
-//        delete_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public  void onClick(View v) {
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public  void onClick(View v) {
+//                history.remove(position);
+//                notifyDataSetChanged();
+                MoodHistoryController.deleteEventFromHistory(history.get(position), h, position, adapter);
 //                FirebaseFirestore db = MainActivity.getInstance().firebaseInstance();
 //                db.collection("Cities").document(cityName.getText().toString())
 //                        .delete()
@@ -77,9 +86,9 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 //                                Log.w("FAIL", "Error deleting document", e);
 //                            }
 //                        });
-//
-//            }
-//        });
+
+            }
+        });
 
         return view;
 

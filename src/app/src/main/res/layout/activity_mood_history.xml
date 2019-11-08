@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".view.mood.MoodHistoryActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,7 +16,14 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="3dp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_mood_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@android:drawable/ic_input_add"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
