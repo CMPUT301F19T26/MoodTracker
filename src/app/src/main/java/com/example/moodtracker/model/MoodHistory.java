@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
+import com.google.type.LatLng;
 
 import org.json.JSONObject;
 
@@ -68,8 +69,10 @@ public class MoodHistory implements Serializable {
                                 if (doc.get("photo_url") == "SAFE_PARCELABLE_NULL_STRING" ) {
                                     String photo_url = "";
                                 }
+//                                System.out.println(doc.get("mood_id"));
                                 // Todo: Assume this is working
                                 MoodEvent me = new MoodEvent(doc.get("mood").toString(), h.user_id, new Date());
+                                me.setMood_id(doc.get("mood_id").toString());
                                 h.history.add(me);
                                 adapter.notifyDataSetChanged();
                             }
@@ -79,13 +82,20 @@ public class MoodHistory implements Serializable {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
 
     }
 
     public void addMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
+        db.collection("moodEvents").document(e.getMood_id())
+                .set(e)
+                .addOnSuccessListener(cb::onSuccess)
+                .addOnFailureListener(cb::onFailure);
+    }
+
+    public static void externalAddMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("moodEvents").document(e.getMood_id())
                 .set(e)
                 .addOnSuccessListener(cb::onSuccess)

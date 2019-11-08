@@ -67,16 +67,17 @@ public class MoodHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Add a Mock Activity for now
-                String a = user_id;
-                Date b = new Date();
-                String mood_num = Integer.toString(constants.HAPPY);
-                MoodEvent mock_2 = new MoodEvent("1", a, b);
+//                String a = user_id;
+//                Date b = new Date();
+//                String mood_num = Integer.toString(constants.HAPPY);
+//                MoodEvent mock_2 = new MoodEvent("1", a, b);
                 // Go to the add activity and recieve a result from the add activity
                 Intent addIntent = new Intent(MoodHistoryActivity.this, AddMoodEventActivity.class);
+                addIntent.putExtra("user_id", user_id);
                 setResult(RESULT_OK, addIntent);
                 startActivityForResult(addIntent, 1);
                 // Item, History, Adapter
-                MoodHistoryController.addEventToHistory(mock_2, moodHistory, HistoryAdapter);
+//                MoodHistoryController.addEventToHistory(mock_2, moodHistory, HistoryAdapter);
             }
         });
 
@@ -86,7 +87,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Check which request we're responding to
         if (requestCode == 1) { // We wanted to add a Mood Event
             // Make sure the request was successful
-            System.out.println("OUTPUT");
+            moodHistory.history.clear();
+            HistoryAdapter.notifyDataSetChanged();
+            MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
 //            MoodEvent event = data.getSerializableExtra("new_mood_event");
         }
     }

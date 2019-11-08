@@ -9,32 +9,44 @@ public class Mood {
     private String moodName;
     private int moodNum;
 
-    public Mood(int selected_mood) {
-        this.moodNum = selected_mood;
-        switch(selected_mood) {
-            case constants.HAPPY:
-                this.color = "Green";
-                this.moodName = "Happy";
-                this.icon = R.drawable.happy_icon;
-                break;
-        }
+    public Mood(String selected_mood) {
+//        this.moodNum = selected_mood;
+//        switch(selected_mood) {
+//            case constants.HAPPY:
+//                this.color = "Green";
+//                this.moodName = "Happy";
+//                this.icon = R.drawable.happy_icon;
+//                break;
+//
+//            case constants.NEUTRAL:
+//                this.color = R.color.color_neutral;
+//                this.moodName = R.string.happy_mood;
+//                this.icon = R.drawable.happy_icon;
+//                break;
+//
+//            case constants.SURPRISED:
+//                this.color = R.color.color_surprised;
+//                this.moodName = R.string.happy_mood;
+//                this.icon = R.drawable.happy_icon;
+//                break;
+//        }
     }
+//
+//    public String getColor() {
+//        return color;
+//    }
 
-    public String getColor() {
-        return color;
-    }
+//    public int getIcon() {
+//        return icon;
+//    }
 
-    public int getIcon() {
-        return icon;
-    }
+//    public String getMoodName() {
+//        return moodName;
+//    }
 
-    public String getMoodName() {
-        return moodName;
-    }
-
-    public int getMoodNum() {
-        return moodNum;
-    }
+//    public String getMoodNum() {
+//        return moodNum;
+//    }
 }
 
 
