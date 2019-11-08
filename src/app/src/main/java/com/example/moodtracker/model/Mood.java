@@ -4,17 +4,17 @@ import com.example.moodtracker.constants;
 
 public class Mood {
     // Should not need db logic in mood
-    private int color;
+    private String color;
     private int icon;
-    private int moodName;
+    private String moodName;
     private int moodNum;
 
     public Mood(int selected_mood) {
         this.moodNum = selected_mood;
         switch(selected_mood) {
             case constants.HAPPY:
-                this.color = R.color.color_happy;
-                this.moodName = R.string.happy_mood;
+                this.color = "Green";
+                this.moodName = "Happy";
                 this.icon = R.drawable.happy_icon;
                 break;
             // Todo: Add more moods after

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.moodtracker.constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MoodHistory implements Serializable {
@@ -39,7 +41,7 @@ public class MoodHistory implements Serializable {
     // Todo: Make this private
     public ArrayList<MoodEvent> history = new ArrayList<>();
 
-    public MoodHistory(String user_id) {
+    public MoodHistory(final String user_id) {
         // Get the Mood history for the user
         this.user_id = user_id;
         db.collection("moodEvents")
@@ -48,9 +50,8 @@ public class MoodHistory implements Serializable {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        history.clear();
                         for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                            MoodEvent me = doc.toObject(MoodEvent.class);
+                            MoodEvent me = new MoodEvent(new Mood(constants.HAPPY), user_id, new Date());
                             history.add(me);
                         }
                     }

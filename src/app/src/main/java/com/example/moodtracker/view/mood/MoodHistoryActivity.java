@@ -56,8 +56,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
         Toast.makeText(MoodHistoryActivity.this, FirebaseAuth.getInstance().getCurrentUser().getEmail().toString(), Toast.LENGTH_LONG).show();
 
-        final CollectionReference collectionReference = db.collection("moodEvents");
-
         // Handler for the add button
         addMoodEventBTN.setOnClickListener(new View.OnClickListener() {
             @Override
