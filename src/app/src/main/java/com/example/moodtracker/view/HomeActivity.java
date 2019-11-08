@@ -34,6 +34,12 @@ import java.util.UUID;
 
 public class HomeActivity extends AppCompatActivity {
 
+    // move :
+    // logout
+    // follow that person
+    // maps
+    // mood history
+
     Button logoutBtn;
     Button mapsBtn;
 //    Button searchBtn;
