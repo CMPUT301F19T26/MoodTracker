@@ -17,7 +17,8 @@ public class MoodHistoryController {
 
     // Factory method
     public static MoodHistory getMoodHistory() {
-        return new MoodHistory();
+        MoodHistory new_history = new MoodHistory();
+        return new_history;
     }
 
     public static void addEventToHistory(final MoodEvent event, MoodHistory h, ArrayAdapter adapter) {

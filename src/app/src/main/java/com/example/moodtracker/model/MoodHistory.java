@@ -1,9 +1,15 @@
 package com.example.moodtracker.model;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,6 +42,25 @@ public class MoodHistory implements Serializable {
     public MoodHistory() {
         user_id = auth.getCurrentUser().getUid();
         // Get the Mood history for the user
+        db.collection("moodEvents")
+                .whereEqualTo("user_id", user_id)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        history.clear();
+                        for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            MoodEvent me = doc.toObject(MoodEvent.class);
+                            history.add(me);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
     public void addMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
