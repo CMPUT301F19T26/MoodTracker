@@ -111,7 +111,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
 
         //append locations to map
+        System.out.println("PRINTING");
         for(Location location: locations) {
+            System.out.println(location.getLatitude());
+            System.out.println(location.getLongitude());
+            System.out.println(location.getMood());
             LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
             mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
