@@ -16,6 +16,7 @@ public class constants {
     public static final int TWO_OTHER = 2;
     public static final int SEVERAL = 3;
     public static final int CROWD = 4;
+    public static final int NONE = 5;
 
 //    public static final Map<String, Integer> PossibleMoods;
 //    static {

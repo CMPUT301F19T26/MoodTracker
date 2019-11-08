@@ -40,13 +40,30 @@
                 android:textSize="10pt">
             </TextView>
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/reason_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:maxLength="20"/>
+            <TextView
+                android:id="@+id/location_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textSize="10pt">
+            </TextView>
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="match_parent"
+                android:hint="Lat"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/longitude"
+                android:hint="Lng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/social_sitation_title"

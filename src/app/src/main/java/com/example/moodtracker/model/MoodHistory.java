@@ -93,6 +93,14 @@ public class MoodHistory implements Serializable {
                 .addOnFailureListener(cb::onFailure);
     }
 
+    public static void externalAddMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("moodEvents").document(e.getMood_id())
+                .set(e)
+                .addOnSuccessListener(cb::onSuccess)
+                .addOnFailureListener(cb::onFailure);
+    }
+
     public void deleteMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
         // Deleting a mood event
         db.collection("moodEvents").document(e.getMood_id())

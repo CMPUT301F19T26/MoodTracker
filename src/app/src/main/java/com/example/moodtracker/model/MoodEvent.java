@@ -2,6 +2,7 @@ package com.example.moodtracker.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +30,25 @@ public class MoodEvent{
     private Date date;
     private String reason = NULL;
     private String photo_url = NULL;
-    private LatLng location;
+    private Double lat;
+    private Double lng;
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
     private String social_situation = NULL;
 
     public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date) {
@@ -46,13 +65,14 @@ public class MoodEvent{
     }
 
     public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date,
-                     @Nullable String reason, @Nullable String photo_url, @Nullable LatLng location, @Nullable SocialSituation social_sit) {
+                     @Nullable String reason, @Nullable String photo_url, @Nullable Double lat, Double lng, @Nullable SocialSituation social_sit) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
         this.reason = reason;
         this.photo_url = photo_url;
-        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
         this.social_situation = social_sit.getSocialType();
     }
 
@@ -106,13 +126,6 @@ public class MoodEvent{
         this.photo_url = photo_url;
     }
 
-    public LatLng getLocation() {
-        return location;
-    }
-
-    public void setLocation(LatLng location) {
-        this.location = location;
-    }
 
 //    protected MoodEvent(Parcel in) {
 //
