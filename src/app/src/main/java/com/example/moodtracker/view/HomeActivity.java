@@ -42,7 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         gotoMoodHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(HomeActivity.this, MoodHistoryActivity.class);
+//                Intent myIntent = new Intent(HomeActivity.this, MoodHistoryActivity.class);
+            Intent myIntent = new Intent(HomeActivity.this, ProfileFragment.class);
+
                 startActivity(myIntent);
             }
         });

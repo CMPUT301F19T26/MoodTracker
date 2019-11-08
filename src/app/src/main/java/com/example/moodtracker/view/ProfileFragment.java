@@ -1,9 +1,7 @@
-package com.example.moodtracker;
+package com.example.moodtracker.view;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+//import com.example.moodtracker.view.AddMoodEvent;
+import com.example.moodtracker.R;
 import com.example.moodtracker.model.MoodEvent;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.moodtracker.view.mood.MoodHistoryActivity;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.auth.FirebaseAuthCredentialsProvider;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class ProfileFragment extends Fragment {
-    private FloatingActionButton EditFab;
+public class ProfileFragment extends AppCompatActivity {
+    private MaterialButton EditFab;
     private FloatingActionButton AddMoodFab;
     private FirebaseAuth fAuth;
     private Button FollowersButton;
@@ -36,41 +37,42 @@ public class ProfileFragment extends Fragment {
     private Button MoodEventButton;
 
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_profile);
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         //Gets Current User
         fAuth = FirebaseAuth.getInstance();
-        String username = fAuth.getCurrentUser().getDisplayName();
-        final View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+//        String username = fAuth.getCurrentUser().getDisplayName();
+//        final View view = inflater.inflate(R.layout.fragment_profile, container, false);
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         //Gets the textView fields
-        final TextView ProfileName = (TextView) view.findViewById(R.id.userNameFragmentProfile);
-        EditFab = view.findViewById(R.id.EditFab);
+        final TextView ProfileName = (TextView) findViewById(R.id.userNameFragmentProfile);
+        EditFab = findViewById(R.id.EditFab);
         EditFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent editActivity = new Intent(getActivity(), EditProfile.class);
+                Intent editActivity = new Intent(ProfileFragment.this, EditProfile.class);
                 editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
                 editActivity.putExtra("username", ProfileName.getText());
-                getActivity().startActivity(editActivity);
+                startActivity(editActivity);
 
             }
         });
 
-        AddMoodFab = view.findViewById(R.id.AddMoodFab);
+        AddMoodFab = findViewById(R.id.AddMoodFab);
         AddMoodFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent addActivity = new Intent(getActivity(), AddMoodEvent.class);
-                getActivity().startActivity(addActivity);
+                Intent addActivity = new Intent(ProfileFragment.this, AddMoodEvent.class);
+                startActivity(addActivity);
             }
         });
 
-        FollowersButton = view.findViewById(R.id.FollowersButton);
+        FollowersButton = findViewById(R.id.FollowersButton);
         FollowersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +81,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        FollowingButton = view.findViewById(R.id.FollowingButton);
+        FollowingButton = findViewById(R.id.FollowingButton);
         FollowingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,17 +90,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        MoodEventButton = view.findViewById(R.id.MoodEventButton);
+        MoodEventButton = findViewById(R.id.MoodEventButton);
         MoodEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent followersActivity = new Intent(getActivity(), MoodEvent.class);
-                getActivity().startActivity(followersActivity);
+                Intent followersActivity = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+                startActivity(followersActivity);
             }
         });
 
         //Sets the name
-        ProfileName.setText(fAuth.getCurrentUser().getDisplayName());
+//        ProfileName.setText(fAuth.getCurrentUser().getDisplayName());
 
 
 
@@ -115,7 +117,6 @@ public class ProfileFragment extends Fragment {
 //            }
 //        });
 
-        return view;
 //    }
 
      }

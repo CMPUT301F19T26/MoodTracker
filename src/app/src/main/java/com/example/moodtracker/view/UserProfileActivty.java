@@ -1,4 +1,4 @@
-package com.example.moodtracker;
+package com.example.moodtracker.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.moodtracker.R;
 
 public class UserProfileActivty extends AppCompatActivity {
     Button followButton;
