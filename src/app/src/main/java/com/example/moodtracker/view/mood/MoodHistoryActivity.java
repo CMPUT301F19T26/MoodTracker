@@ -14,7 +14,6 @@ import com.example.moodtracker.adapter.MoodHistoryAdapter;
 import com.example.moodtracker.constants;
 import com.example.moodtracker.controller.MoodEventController;
 import com.example.moodtracker.controller.MoodHistoryController;
-import com.example.moodtracker.model.FirebaseCallback;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;

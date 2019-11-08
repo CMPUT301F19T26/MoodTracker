@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class MoodHistory implements Serializable, FirebaseCallback {
+public class MoodHistory implements Serializable {
     public interface FirebaseCallback<T> {
         /**
          * callback handler for handling success cases, returned the value is stored in `document` variable
