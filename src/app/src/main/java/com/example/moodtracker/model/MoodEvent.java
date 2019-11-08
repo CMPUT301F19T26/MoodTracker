@@ -1,3 +1,17 @@
+/**
+ * MoodEvent
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.example.moodtracker.model;
 
 import androidx.annotation.NonNull;
@@ -28,11 +42,18 @@ public class MoodEvent implements Serializable {
     private LatLng location;
     private String social_situation = NULL;
 
+    /**
+     * Mood event init and set
+     * @param mood the mood input
+     * @param user_id the user_id
+     * @param date the date input
+     */
     public MoodEvent(@NonNull Mood mood, @NonNull String user_id, @NonNull Date date) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
     }
+
 
     public MoodEvent(@NonNull Mood mood, @NonNull String user_id, @NonNull Date date, @Nullable String reason) {
         this.mood = mood;
@@ -41,6 +62,16 @@ public class MoodEvent implements Serializable {
         this.reason = reason;
     }
 
+    /**
+     * The MoodEvent
+     * @param mood the mood input
+     * @param user_id the users id
+     * @param date the date input
+     * @param reason the reason input
+     * @param photo_url the photo url
+     * @param location the location input
+     * @param social_sit the social situation input
+     */
     public MoodEvent(@NonNull Mood mood, @NonNull String user_id, @NonNull Date date,
                      @Nullable String reason, @Nullable String photo_url, @Nullable LatLng location, @Nullable SocialSituation social_sit) {
         this.mood = mood;
@@ -52,6 +83,10 @@ public class MoodEvent implements Serializable {
         this.social_situation = social_sit.getSocialType();
     }
 
+    /**
+     * get mood id
+     * @return mood id
+     */
     public String getMood_id() {
         return this.mood_id;
     }
