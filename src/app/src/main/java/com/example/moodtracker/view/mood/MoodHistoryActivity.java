@@ -69,29 +69,23 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 // Add a Mock Activity for now
                 String a = user_id;
                 Date b = new Date();
-                Mood m = new Mood(constants.HAPPY);
-                MoodEvent mock_2 = new MoodEvent(m, a, b);
-//                moodHistory.history.add(mock_2);
-//                HistoryAdapter.notifyDataSetChanged();
+                MoodEvent mock_2 = new MoodEvent("Happy", a, b);
                 // Go to the add activity and recieve a result from the add activity
+//                Intent addIntent = new Intent(MoodHistoryActivity.this, AddMoodEventActivity.class);
+//                setResult(RESULT_OK, addIntent);
+//                startActivityForResult(addIntent, 1);
                 // Item, History, Adapter
                 MoodHistoryController.addEventToHistory(mock_2, moodHistory, HistoryAdapter);
             }
         });
 
-//        final CollectionReference collectionReference = db.collection("moodEvents");
-//        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                // clear the old list
-//                for(QueryDocumentSnapshot doc: queryDocumentSnapshots){
-//                    Log.d(TAG, String.valueOf(doc.getData().get("province_name")));
-//                    String city = doc.getId();
-//                    String province = (String)doc.getData().get("province_name");
-//                    cityDataList.add(new City(city, province));
-//                }
-//                HistoryAdapter.notifyDataSetChanged();
-//            }
-//        });
     }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        // Check which request we're responding to
+//        if (requestCode == 1) { // We wanted to add a Mood Event
+//            // Make sure the request was successful
+//            MoodEvent event = data.getSerializableExtra("new_mood_event");
+//        }
+//    }
 }

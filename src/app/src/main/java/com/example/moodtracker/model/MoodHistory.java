@@ -68,12 +68,8 @@ public class MoodHistory implements Serializable {
                                 if (doc.get("photo_url") == "SAFE_PARCELABLE_NULL_STRING" ) {
                                     String photo_url = "";
                                 }
-//                                Gson gson = new Gson();
-//                                Object mood = doc.get("mood");
-//                                String json = gson.toJson(mood);
-//                                System.out.println(json);
-
-                                MoodEvent me = new MoodEvent(new Mood(constants.HAPPY), h.user_id, new Date());
+                                // Todo: Assume this is working
+                                MoodEvent me = new MoodEvent(doc.get("mood").toString(), h.user_id, new Date());
                                 h.history.add(me);
                                 adapter.notifyDataSetChanged();
                             }
