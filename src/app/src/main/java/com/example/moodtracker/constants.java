@@ -5,9 +5,9 @@ import java.util.HashMap;
 public class constants {
 
     // Moods
-    public static final int NEUTRAL = 0;
-    public static final int HAPPY = 1;
-    public static final int SURPRISED = 2;
+    public static final String NEUTRAL = "0";
+    public static final String HAPPY = "1";
+    public static final String SURPRISED = "2";
     public static final int ANGRY = 3;
 
     // Social Situations
@@ -16,6 +16,7 @@ public class constants {
     public static final int TWO_OTHER = 2;
     public static final int SEVERAL = 3;
     public static final int CROWD = 4;
+    public static final int NONE = 5;
 
 //    public static final Map<String, Integer> PossibleMoods;
 //    static {

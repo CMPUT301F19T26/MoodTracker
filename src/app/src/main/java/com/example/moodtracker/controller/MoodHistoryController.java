@@ -16,8 +16,9 @@ public class MoodHistoryController {
     }
 
     // Factory method
-    public static MoodHistory getMoodHistory() {
-        return new MoodHistory();
+    public static MoodHistory getMoodHistory(String user_id) {
+        MoodHistory new_history = new MoodHistory(user_id);
+        return new_history;
     }
 
     public static void addEventToHistory(final MoodEvent event, MoodHistory h, ArrayAdapter adapter) {
@@ -44,11 +45,13 @@ public class MoodHistoryController {
             @Override
             public void onSuccess(Void document) {
                 // Say success
+                System.out.println("Deleted Successfuly");
             }
 
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Say Failure
+                System.out.println("Delete Failure");
             }
         });
         h.history.remove(index);

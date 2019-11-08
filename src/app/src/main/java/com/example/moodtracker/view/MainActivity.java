@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         fb_auth = FirebaseAuth.getInstance();
         if (fb_auth.getCurrentUser() != null) {
-            Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+            Intent homeIntent = new Intent(MainActivity.this, ProfileFragment.class);
             startActivity(homeIntent);
         } else {
             Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();

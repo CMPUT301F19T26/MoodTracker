@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.model.MoodEvent;
+import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,6 +33,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+
+/**
+ * @auhtor CMPUT301F19T26
+ * ProfileFragment extends AppCompactActivity
+ * it overwrites onCreateView
+ */
 
 public class ProfileFragment extends AppCompatActivity {
     private MaterialButton EditFab;
@@ -54,16 +61,23 @@ public class ProfileFragment extends AppCompatActivity {
 //        final View view = inflater.inflate(R.layout.fragment_profile, container, false);
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        //Gets the textView fields
-        final TextView ProfileName = (TextView) findViewById(R.id.userNameFragmentProfile);
+        // displays username
+        TextView ProfileName = (TextView) findViewById(R.id.userNameFragmentProfile);
+        ProfileName.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
+
         EditFab = findViewById(R.id.EditFab);
         EditFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent editActivity = new Intent(ProfileFragment.this, EditProfile.class);
-                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
-                editActivity.putExtra("username", ProfileName.getText());
-                startActivity(editActivity);
+                FirebaseAuth.getInstance().signOut();
+                Intent mainIntent = new Intent(ProfileFragment.this, MainActivity.class);
+                startActivity(mainIntent);
+
+//
+//                Intent editActivity = new Intent(ProfileFragment.this, EditProfile.class);
+//                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
+//                editActivity.putExtra("username", ProfileName.getText());
+//                startActivity(editActivity);
 
             }
         });
@@ -95,15 +109,17 @@ public class ProfileFragment extends AppCompatActivity {
             }
         });
 
-        MoodEventButton = findViewById(R.id.MoodEventButton);
-        MoodEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent followersActivity = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
-                startActivity(followersActivity);
-            }
-        });
+//        MoodEventButton = findViewById(R.id.MoodEventButton);
+//        MoodEventButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+//                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
+//                startActivity(moodHistoryIntent);
+//            }
+//        });
 
+        //add Navigation bar functionality
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -119,19 +135,30 @@ public class ProfileFragment extends AppCompatActivity {
                         break;
 
                     case R.id.ic_Search:
-
+                        Intent intent1 = new Intent(ProfileFragment.this, FindActivity.class);
+                        startActivity(intent1);
                         break;
 
                     case R.id.ic_Add:
-
+                        Intent intent2 = new Intent(ProfileFragment.this, AddMoodEventActivity.class);
+                        startActivity(intent2);
                         break;
 
                     case R.id.ic_Map:
+                        Intent mapIntent = new Intent(ProfileFragment.this, MapActivity.class);
 
+                        User Jared = new User("21");
+                        mapIntent.putExtra("USER", Jared);
+                        mapIntent.putExtra("MODE", 0);
+                        startActivity(mapIntent);
+//                        Intent intent3 = new Intent(ProfileFragment.this, MapActivity.class);
+//                        startActivity(intent3);
                         break;
 
                     case R.id.ic_Feed:
-
+                        Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+                        moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
+                        startActivity(moodHistoryIntent);
                         break;
 
                 }
