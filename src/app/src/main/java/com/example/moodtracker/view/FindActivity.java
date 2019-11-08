@@ -22,11 +22,14 @@ import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.example.moodtracker.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,7 +40,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class FindActivity extends AppCompatActivity {
 
@@ -90,16 +96,71 @@ public class FindActivity extends AppCompatActivity {
         });
 
 
-        final String searchInput = searchText.getText().toString();
-        if (!searchInput.isEmpty()){
-            searchButton.setVisibility(View.VISIBLE);
-            searchButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(FindActivity.this,"SEARCHING" , Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+//        final String searchInput = searchText.getText().toString();
+//        if (!searchInput.isEmpty()){
+//            searchButton.setVisibility(View.VISIBLE);
+//            searchButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(FindActivity.this,"SEARCHING" , Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
+
+        Button followBtn = findViewById(R.id.af_follow_button);
+        EditText followUsernameText = findViewById(R.id.af_username_follow);
+
+        followBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get username of myself
+                String myId = FirebaseAuth.getInstance().getUid();
+
+                // get username of the person trying to follow
+
+                FirebaseFirestore.getInstance().collection("users").whereEqualTo("username", followUsernameText.getText().toString()).get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                                        if (doc.exists()) {
+                                            Log.d("HOME", "DocumentSnapshot data: " + doc.getId());
+                                            // put in a hashmap
+                                            Map<String, Object> followMap = new HashMap<>();
+                                            followMap.put("follower_id", myId);
+                                            followMap.put("following_id", doc.getId());
+
+                                            // store in db
+                                            FirebaseFirestore.getInstance().collection("follow").document(UUID.randomUUID().toString())
+                                                    .set(followMap)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d("Home", "DocumentSnapshot successfully written!");
+
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.w("Home", "Error writing document", e);
+                                                        }
+                                                    });
+                                        } else {
+                                            Log.d("HOME", "No such document");
+                                        }
+                                    }
+                                } else{
+                                    Log.d("HOME", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+                
+            }
+        });
+
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
