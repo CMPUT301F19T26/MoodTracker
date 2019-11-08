@@ -32,6 +32,22 @@
         <activity
             android:name=".view.MapActivity"
             android:label="@string/title_activity_map"></activity>
+
+        <activity android:name=".view.RequestsActivity"></activity>
+        <activity android:name=".view.mood.EditMoodEventActivity"></activity>
+        <activity android:name=".view.mood.AddMoodEventActivity" />
+        <activity android:name=".view.mood.MoodHistoryActivity" />
+        <activity android:name=".view.FollowingActivity" />
+        <activity android:name=".view.FollowersActivity" />
+        <activity android:name=".view.SearchActivity" />
+        <activity android:name=".view.ProfileActivity" />
+        <activity android:name=".view.HomeActivity" />
+        <activity android:name=".view.LoginActivity" />
+        <activity android:name=".view.SignupActivity" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login" />
+
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
