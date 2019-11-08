@@ -157,26 +157,34 @@ public class FindActivity extends AppCompatActivity {
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
-                                                            Log.d("Home", "DocumentSnapshot successfully written!");
+                                                            Toast.makeText(FindActivity.this, "Followed " + followUsernameText.getText().toString(), Toast.LENGTH_LONG).show();
+                                                            Log.d("HOME", "DocumentSnapshot successfully written!");
 
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
                                                         @Override
                                                         public void onFailure(@NonNull Exception e) {
-                                                            Log.w("Home", "Error writing document", e);
+
+
+                                                            Log.d("HOME", "Error writing document", e);
                                                         }
                                                     });
                                         } else {
+
                                             Log.d("HOME", "No such document");
                                         }
                                     }
                                 } else{
+
                                     Log.d("HOME", "get failed with ", task.getException());
                                 }
                             }
+
                         });
-                
+
+
+
             }
         });
 
