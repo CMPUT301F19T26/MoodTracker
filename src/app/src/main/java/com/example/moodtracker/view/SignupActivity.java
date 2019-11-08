@@ -59,7 +59,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // check username first
-                db.collection("users").document(usernameText.getText().toString()).get()
+                db.collection("usernames").document(usernameText.getText().toString()).get()
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                           @Override
                           public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -75,14 +75,33 @@ public class SignupActivity extends AppCompatActivity {
 
                                                       Map<String, Object> userMap = new HashMap<>();
                                                       userMap.put("email", emailText.getText().toString());
+                                                      userMap.put("username", usernameText.getText().toString());
 
-                                                      db.collection("users").document(usernameText.getText().toString())
+                                                      FirebaseUser user = mAuth.getCurrentUser();
+                                                      String uid = user.getUid();
+
+                                                      db.collection("usernames").document(usernameText.getText().toString())
                                                               .set(userMap)
                                                               .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                   @Override
                                                                   public void onSuccess(Void aVoid) {
                                                                       Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                                      FirebaseUser user = mAuth.getCurrentUser();
+
+                                                                  }
+                                                              })
+                                                              .addOnFailureListener(new OnFailureListener() {
+                                                                  @Override
+                                                                  public void onFailure(@NonNull Exception e) {
+                                                                      Log.w(TAG, "Error writing document", e);
+                                                                  }
+                                                              });
+
+                                                      db.collection("users").document(uid)
+                                                              .set(userMap)
+                                                              .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                  @Override
+                                                                  public void onSuccess(Void aVoid) {
+                                                                      Log.d(TAG, "DocumentSnapshot successfully written!");
                                                                       Intent homeIntent = new Intent(SignupActivity.this, HomeActivity.class);
                                                                       startActivity(homeIntent);
                                                                   }
