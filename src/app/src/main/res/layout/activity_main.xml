@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/button_signup"
-        android:layout_width="88dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginEnd="163dp"
@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:text="Welcome to MoodTracker!"
+        android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

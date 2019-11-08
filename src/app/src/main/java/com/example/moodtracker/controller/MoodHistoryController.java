@@ -36,7 +36,6 @@ public class MoodHistoryController {
     public static MoodHistory getMoodHistory(String user_id) {
         MoodHistory new_history = new MoodHistory(user_id);
         return new_history;
-//        return new MoodHistory();
 
     }
 

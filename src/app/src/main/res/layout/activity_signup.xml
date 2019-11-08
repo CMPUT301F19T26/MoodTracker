@@ -14,7 +14,7 @@
         android:layout_marginTop="96dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Email"
+        android:hint="Email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_username" />
 
@@ -36,8 +36,10 @@
         android:layout_marginTop="96dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:hint="Password"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_email" />
+        app:layout_constraintTop_toBottomOf="@+id/text_email"
+         />
 
     <EditText
         android:id="@+id/text_username"
@@ -47,7 +49,7 @@
         android:layout_marginTop="96dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Username"
+        android:hint="Username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
