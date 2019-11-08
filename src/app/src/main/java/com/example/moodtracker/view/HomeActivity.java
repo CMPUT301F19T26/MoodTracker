@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HomeActivity extends AppCompatActivity {
 
     Button logoutBtn;
+    Button searchBtn;
+
     TextView usernameText;
     Button gotoMoodHistory;
 
@@ -24,6 +26,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         logoutBtn = findViewById(R.id.button_logout);
+        searchBtn = findViewById(R.id.button_search);
+
         usernameText = findViewById(R.id.text_email);
         gotoMoodHistory = findViewById(R.id.button_moodhistory);
 
@@ -35,6 +39,15 @@ public class HomeActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Intent mainIntent = new Intent(HomeActivity.this, MainActivity.class);
                 startActivity(mainIntent);
+
+            }
+        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(HomeActivity.this, FindActivity.class);
+                startActivity(searchIntent);
 
             }
         });
