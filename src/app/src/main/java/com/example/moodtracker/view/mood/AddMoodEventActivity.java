@@ -80,30 +80,31 @@ public class AddMoodEventActivity extends AppCompatActivity {
 
                 String situation = social_situation_dropdown.getSelectedItem().toString();
                 int actual_situation = social_situation_mapper.get(situation);
-                SocialSituation social_situation = new SocialSituation(actual_situation);
 
                 // Get lat and lng
                 EditText latitude = findViewById(R.id.latitude);
                 EditText longitude = findViewById(R.id.longitude);
                 String lat = latitude.getText().toString();
                 String lng = longitude.getText().toString();
-                System.out.println("ADDING LAT LNG");
-                System.out.println(lat);
-                System.out.println(lng);
                 MoodEvent new_item;
                 // TODO fix this logic, needs reason rn
                 if (!reason.equals("") &&  !lat.equals("") && !lng.equals("")) {
                     // Convert this to LATLNG
                     Double lat_value = Double.parseDouble(lat);
                     Double lng_value = Double.parseDouble(lng);
-                    new_item = new MoodEvent(mood, user_id, new Date(), reason, "", lat_value,lng_value, social_situation);
-                } else if (!reason.equals("") ){
-                    new_item = new MoodEvent(mood, user_id, new Date(), reason);
-                } else {
+                    new_item = new MoodEvent(mood, user_id, new Date(), reason, "", lat_value,lng_value, situation);
+                    // Only lat lng
+                } else if (reason.equals("") && !lat.equals("") && !lng.equals("")){
+                    Double lat_value = Double.parseDouble(lat);
+                    Double lng_value = Double.parseDouble(lng);
+                    new_item = new MoodEvent(mood, user_id, new Date(), lat_value, lng_value);
+                }else {
                     new_item = new MoodEvent(mood, user_id, new Date());
                 }
-                System.out.println("WHAT WE ARE TRYNA ADD");
-                System.out.println(mood);
+                // Add the optional social situation
+                if (!(situation.equals("None"))) {
+                    new_item.setSocial_situation(situation);
+                }
                 MoodHistory.externalAddMoodEvent(new_item, new MoodHistory.FirebaseCallback<Void>() {
                     @Override
                     public void onSuccess(Void document) {

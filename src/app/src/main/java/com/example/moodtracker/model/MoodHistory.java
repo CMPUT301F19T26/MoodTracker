@@ -82,7 +82,6 @@ public class MoodHistory implements Serializable {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
 

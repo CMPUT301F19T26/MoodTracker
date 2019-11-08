@@ -32,6 +32,7 @@ public class MoodEvent{
     private String photo_url = NULL;
     private Double lat;
     private Double lng;
+    private String social_situation = NULL;
 
     public Double getLat() {
         return lat;
@@ -49,8 +50,6 @@ public class MoodEvent{
         this.lng = lng;
     }
 
-    private String social_situation = NULL;
-
     public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date) {
         this.mood = mood;
         this.user_id = user_id;
@@ -64,8 +63,16 @@ public class MoodEvent{
         this.reason = reason;
     }
 
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date, @Nullable Double lat, @Nullable Double lng) {
+        this.mood = mood;
+        this.user_id = user_id;
+        this.date = date;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
     public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date,
-                     @Nullable String reason, @Nullable String photo_url, @Nullable Double lat, Double lng, @Nullable SocialSituation social_sit) {
+                     @Nullable String reason, @Nullable String photo_url, @Nullable Double lat, Double lng, @Nullable String social_sit) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
@@ -73,7 +80,15 @@ public class MoodEvent{
         this.photo_url = photo_url;
         this.lat = lat;
         this.lng = lng;
-        this.social_situation = social_sit.getSocialType();
+        this.social_situation = social_sit;
+    }
+
+    public String getSocialSituation() {
+        return this.social_situation;
+    }
+
+    public void setSocial_situation(String ss) {
+        this.social_situation = ss;
     }
 
     public String getMood_id() {
@@ -129,19 +144,4 @@ public class MoodEvent{
     public void setPhoto_url(String photo_url) {
         this.photo_url = photo_url;
     }
-
-
-//    protected MoodEvent(Parcel in) {
-//
-//    }
-
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-
-//    @Override
-//    public void writeToParcel(Parcel parcel, int i) {
-//        parcel.write
-//    }
 }
