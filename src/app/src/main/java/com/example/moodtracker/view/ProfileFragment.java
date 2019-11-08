@@ -3,6 +3,8 @@ package com.example.moodtracker.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,8 +18,11 @@ import androidx.fragment.app.Fragment;
 
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
+import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.model.MoodEvent;
+import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,14 +68,14 @@ public class ProfileFragment extends AppCompatActivity {
             }
         });
 
-        AddMoodFab = findViewById(R.id.AddMoodFab);
-        AddMoodFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addActivity = new Intent(ProfileFragment.this, AddMoodEvent.class);
-                startActivity(addActivity);
-            }
-        });
+//        AddMoodFab = findViewById(R.id.AddMoodFab);
+//        AddMoodFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent addActivity = new Intent(ProfileFragment.this, AddMoodEvent.class);
+//                startActivity(addActivity);
+//            }
+//        });
 
         FollowersButton = findViewById(R.id.FollowersButton);
         FollowersButton.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +104,50 @@ public class ProfileFragment extends AppCompatActivity {
             }
         });
 
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.ic_Profile:
+
+                        break;
+
+                    case R.id.ic_Search:
+
+                        break;
+
+                    case R.id.ic_Add:
+
+                        break;
+
+                    case R.id.ic_Map:
+
+                        break;
+
+                    case R.id.ic_Feed:
+
+                        break;
+
+                }
+
+                return false;
+            }
+        });
+    }
+}
+
+
+
+
+
         //Sets the name
 //        ProfileName.setText(fAuth.getCurrentUser().getDisplayName());
-
-
-
 
 //        //Gets the user's profile picture
 //        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -118,8 +162,5 @@ public class ProfileFragment extends AppCompatActivity {
 //        });
 
 //    }
-
-     }
-}
 
 
