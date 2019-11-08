@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MoodTracker</string>
+    <string name="search_hint">search for a user</string>
+    <string name="search_button_text">search</string>
 </resources>
