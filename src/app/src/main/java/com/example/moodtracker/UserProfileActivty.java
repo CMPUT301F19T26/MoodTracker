@@ -54,9 +54,9 @@ public class UserProfileActivty extends AppCompatActivity {
              */
             @Override
             public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), followActivity.class);
-                i.putExtra("key", userID);
-                startActivity(i);
+//                Intent i = new Intent (getApplicationContext(), followActivity.class);
+//                i.putExtra("key", userID);
+//                startActivity(i);
             }
         });
 

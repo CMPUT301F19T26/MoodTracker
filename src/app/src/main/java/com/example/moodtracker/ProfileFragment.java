@@ -74,8 +74,8 @@ public class ProfileFragment extends Fragment {
         FollowersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent followersActivity = new Intent(getActivity(), Followers.class);
-                getActivity().startActivity(followersActivity);
+//                Intent followersActivity = new Intent(getActivity(), Followers.class);
+//                getActivity().startActivity(followersActivity);
             }
         });
 
@@ -83,8 +83,8 @@ public class ProfileFragment extends Fragment {
         FollowingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent followersActivity = new Intent(getActivity(), Following.class);
-                getActivity().startActivity(followersActivity);
+//                Intent followersActivity = new Intent(getActivity(), Following.class);
+//                getActivity().startActivity(followersActivity);
             }
         });
 
