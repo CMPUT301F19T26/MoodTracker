@@ -63,7 +63,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Add a Mock Activity for now
-                String a = "lkands";
+                String a = user_id;
                 Date b = new Date();
                 Mood m = new Mood(constants.HAPPY);
                 MoodEvent mock_2 = new MoodEvent(m, a, b);
