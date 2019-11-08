@@ -20,6 +20,8 @@ import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import com.example.moodtracker.model.User;
+
 public class FindActivity extends AppCompatActivity {
 
     ListView userListView;
@@ -89,5 +91,6 @@ public class FindActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 }

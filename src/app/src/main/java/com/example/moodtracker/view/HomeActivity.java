@@ -17,6 +17,7 @@ public class HomeActivity extends AppCompatActivity {
 
     Button logoutBtn;
     Button mapsBtn;
+    Button searchBtn;
 
     TextView usernameText;
     Button gotoMoodHistory;
@@ -28,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
 
         logoutBtn = findViewById(R.id.button_logout);
         mapsBtn = findViewById(R.id.button_maps);
+        searchBtn = findViewById(R.id.button_search);
 
         usernameText = findViewById(R.id.text_email);
         gotoMoodHistory = findViewById(R.id.button_moodhistory);
@@ -52,6 +54,11 @@ public class HomeActivity extends AppCompatActivity {
                 User Jared = new User("21");
                 searchIntent.putExtra("USER", Jared);
                 searchIntent.putExtra("MODE", 0);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(HomeActivity.this, FindActivity.class);
                 startActivity(searchIntent);
 
             }
