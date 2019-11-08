@@ -99,22 +99,25 @@ public class AddMoodEventActivity extends AppCompatActivity {
                 String lng = longitude.getText().toString();
                 MoodEvent new_item;
                 // TODO fix this logic, needs reason rn
-                if (!reason.equals("") &&  !lat.equals("") && !lng.equals("")) {
+                if (!reason.equals("") && !lat.equals("") && !lng.equals("")) {
                     // Convert this to LATLNG
                     Double lat_value = Double.parseDouble(lat);
                     Double lng_value = Double.parseDouble(lng);
-                    new_item = new MoodEvent(mood, user_id, new Date(), reason, "", lat_value,lng_value, situation);
+                    new_item = new MoodEvent(mood, user_id, new Date(), reason, "", lat_value, lng_value, situation);
                     // Only lat lng
-                } else if (reason.equals("") && !lat.equals("") && !lng.equals("")){
+                } else if (reason.equals("") && !lat.equals("") && !lng.equals("")) {
                     Double lat_value = Double.parseDouble(lat);
                     Double lng_value = Double.parseDouble(lng);
                     new_item = new MoodEvent(mood, user_id, new Date(), lat_value, lng_value);
-                }else {
+                } else {
                     new_item = new MoodEvent(mood, user_id, new Date());
                 }
                 // Add the optional social situation
                 if (!(situation.equals("None"))) {
                     new_item.setSocial_situation(situation);
+                }
+                if (!(reason.equals(""))) {
+                    new_item.setReason(reason);
                 }
                 MoodHistory.externalAddMoodEvent(new_item, new MoodHistory.FirebaseCallback<Void>() {
                     @Override
@@ -127,6 +130,8 @@ public class AddMoodEventActivity extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
 
         //add Navigation bar functionality
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
@@ -167,6 +172,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
 }
