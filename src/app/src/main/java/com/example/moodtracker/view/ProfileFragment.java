@@ -33,6 +33,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+/**
+ * @auhtor CMPUT301F19T26
+ * ProfileFragment extends AppCompactActivity
+ * it overwrites onCreateView
+ */
+
 public class ProfileFragment extends AppCompatActivity {
     private MaterialButton EditFab;
     private FloatingActionButton AddMoodFab;
@@ -104,6 +110,7 @@ public class ProfileFragment extends AppCompatActivity {
             }
         });
 
+        //add Navigation bar functionality
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -119,15 +126,18 @@ public class ProfileFragment extends AppCompatActivity {
                         break;
 
                     case R.id.ic_Search:
-
+                        Intent intent1 = new Intent(ProfileFragment.this, FindActivity.class);
+                        startActivity(intent1);
                         break;
 
                     case R.id.ic_Add:
-
+                        Intent intent2 = new Intent(ProfileFragment.this, AddMoodEventActivity.class);
+                        startActivity(intent2);
                         break;
 
                     case R.id.ic_Map:
-
+//                        Intent intent3 = new Intent(ProfileFragment.this, MapActivity.class);
+//                        startActivity(intent3);
                         break;
 
                     case R.id.ic_Feed:
