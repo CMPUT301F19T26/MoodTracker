@@ -6,19 +6,89 @@
     android:layout_height="match_parent"
     tools:context=".view.mood.AddMoodEventActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavView_Bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/white_grey_border_top"
-            app:menu="@menu/bottom_navigation_menu"
-            />
+            <!--Put form controls here-->
+            <TextView
+                android:id="@+id/MoodTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mood"
+                android:textSize="10pt">
+            </TextView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Spinner
+                android:id="@+id/mood_type_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"/>
+
+            <TextView
+                android:id="@+id/reason_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reason"
+                android:textSize="10pt">
+            </TextView>
+            <EditText
+                android:id="@+id/reason_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:maxLength="20"/>
+            <TextView
+                android:id="@+id/location_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textSize="10pt">
+            </TextView>
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="match_parent"
+                android:hint="Lat"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/longitude"
+                android:hint="Lng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/social_sitation_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Social Situation"
+                android:textSize="10pt">
+            </TextView>
+            <Spinner
+                android:id="@+id/social_sitation_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"/>
+
+            <Button
+                android:id="@+id/add_mood_event_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+
+        </LinearLayout>
+  
+       <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavView_Bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_grey_border_top"
+                app:menu="@menu/bottom_navigation_menu"
+                />
+
+ 
 </androidx.constraintlayout.widget.ConstraintLayout>
