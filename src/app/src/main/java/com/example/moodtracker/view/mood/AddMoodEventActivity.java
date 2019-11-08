@@ -87,7 +87,11 @@ public class AddMoodEventActivity extends AppCompatActivity {
                 EditText longitude = findViewById(R.id.longitude);
                 String lat = latitude.getText().toString();
                 String lng = longitude.getText().toString();
+                System.out.println("ADDING LAT LNG");
+                System.out.println(lat);
+                System.out.println(lng);
                 MoodEvent new_item;
+                // TODO fix this logic, needs reason rn
                 if (!reason.equals("") &&  !lat.equals("") && !lng.equals("")) {
                     // Convert this to LATLNG
                     Double lat_value = Double.parseDouble(lat);
