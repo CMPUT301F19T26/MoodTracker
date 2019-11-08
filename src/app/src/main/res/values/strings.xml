@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MoodTracker</string>
+    <string name="title_activity_map">Map</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -11,5 +12,4 @@
     <string name="login_failed">"Login failed"</string>
     <string name="happy_mood">Happy</string>
     <string name="alone">Alone</string>
-
 </resources>
