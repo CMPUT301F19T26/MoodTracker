@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.model.User;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-public class SearchActivity extends AppCompatActivity {
+public class FindActivity extends AppCompatActivity {
+
     ListView userListView;
     ArrayAdapter<User> userArrayAdapter;
 
@@ -24,7 +24,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_find);
+
 
         searchText = findViewById(R.id.search_bar);
         searchButton = findViewById(R.id.search_button);
@@ -38,7 +39,7 @@ public class SearchActivity extends AppCompatActivity {
             searchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SearchActivity.this,"SEARCHING" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FindActivity.this,"SEARCHING" , Toast.LENGTH_SHORT).show();
                 }
             });
         }
