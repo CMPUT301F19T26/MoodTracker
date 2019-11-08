@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.RequestsActivity"></activity>
+        <activity android:name=".view.mood.EditMoodEventActivity"></activity>
+        <activity android:name=".view.mood.AddMoodEventActivity" />
+        <activity android:name=".view.mood.MoodHistoryActivity" />
         <activity android:name=".view.FollowingActivity" />
         <activity android:name=".view.FollowersActivity" />
         <activity android:name=".view.SearchActivity" />
