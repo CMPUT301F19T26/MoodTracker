@@ -14,4 +14,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="happy_mood">Happy</string>
     <string name="alone">Alone</string>
+    <string name="create_account_clickable_text">Account Clickable</string>
+    <string name="create_account_prompt_string">Create Account</string>
+
 </resources>
