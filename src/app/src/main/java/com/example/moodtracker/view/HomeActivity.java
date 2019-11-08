@@ -1,16 +1,15 @@
 package com.example.moodtracker.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.moodtracker.R;
 import com.example.moodtracker.model.User;
-import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
@@ -50,8 +49,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent searchIntent = new Intent(HomeActivity.this, MapActivity.class);
-
-                User Jared = new User("21");
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                String user_id = auth.getCurrentUser().getUid();
+                User Jared = new User(user_id);
                 searchIntent.putExtra("USER", Jared);
                 searchIntent.putExtra("MODE", 0);
                 startActivity(searchIntent);

@@ -18,6 +18,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User implements Parcelable {
 
@@ -25,8 +26,13 @@ public class User implements Parcelable {
     public ArrayList<String> followingIDs = new ArrayList<String>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    HashMap<String, String> map_moods = new HashMap<>();
+
     public User(String id) {
         userID = id;
+        map_moods.put("0", "Neutral");
+        map_moods.put("1", "Happy");
+        map_moods.put("2", "Surprised");
     }
 
     public ArrayList<String> getFriendIDs() {
@@ -64,10 +70,11 @@ public class User implements Parcelable {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for(QueryDocumentSnapshot doc: task.getResult()) {
                             if (doc.exists()) {
-                                if (doc.get("location") != null) {
-                                    LatLng coords = (LatLng)doc.get("location");
-                                    String moodName = (String)doc.get("moodName");
-                                    Location location = new Location(coords.latitude,coords.longitude,moodName);
+                                if (doc.get("lat") != null) {
+                                    Double latitude = Double.parseDouble(doc.get("lat").toString());
+                                    Double longitude = Double.parseDouble(doc.get("lat").toString());
+                                    String moodName = map_moods.get((String)doc.get("mood"));
+                                    Location location = new Location(latitude,longitude,moodName);
                                     locations.add(location);
 
                                 }
