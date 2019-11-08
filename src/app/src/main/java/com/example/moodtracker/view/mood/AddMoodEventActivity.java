@@ -42,6 +42,8 @@ public class AddMoodEventActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         submit_btn = findViewById(R.id.add_mood_event_submit);
+        mood_name_to_num_mapper = new HashMap<>();
+        social_situation_mapper = new HashMap<>();
         // Create Hashmaps
         mood_name_to_num_mapper.put("Neutral", "0");
         mood_name_to_num_mapper.put("Happy", "1");
@@ -73,7 +75,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
                 EditText reason_view = findViewById(R.id.reason_edit);
                 // Add it to the DB
                 // Re-get the MoodHistory
-                String mood = mood_dropdown.getSelectedItem().toString();
+                String mood = mood_name_to_num_mapper.get(mood_dropdown.getSelectedItem().toString());
                 String reason = reason_view.getText().toString();
 
                 String situation = social_situation_dropdown.getSelectedItem().toString();
@@ -96,6 +98,8 @@ public class AddMoodEventActivity extends AppCompatActivity {
                 } else {
                     new_item = new MoodEvent(mood, user_id, new Date());
                 }
+                System.out.println("WHAT WE ARE TRYNA ADD");
+                System.out.println(mood);
                 MoodHistory.externalAddMoodEvent(new_item, new MoodHistory.FirebaseCallback<Void>() {
                     @Override
                     public void onSuccess(Void document) {

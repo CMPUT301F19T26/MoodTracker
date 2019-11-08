@@ -87,6 +87,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Check which request we're responding to
         if (requestCode == 1) { // We wanted to add a Mood Event
             // Make sure the request was successful
+            moodHistory.history.clear();
+            HistoryAdapter.notifyDataSetChanged();
             MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
 //            MoodEvent event = data.getSerializableExtra("new_mood_event");
         }

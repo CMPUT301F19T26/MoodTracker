@@ -80,6 +80,10 @@ public class MoodEvent{
         return this.mood_id;
     }
 
+    public void setMood_id(String id) {
+        this.mood_id = id;
+    }
+
     public static void addToDB(MoodEvent e) {
         // Handle it in the db
     }

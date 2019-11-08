@@ -69,8 +69,10 @@ public class MoodHistory implements Serializable {
                                 if (doc.get("photo_url") == "SAFE_PARCELABLE_NULL_STRING" ) {
                                     String photo_url = "";
                                 }
+//                                System.out.println(doc.get("mood_id"));
                                 // Todo: Assume this is working
                                 MoodEvent me = new MoodEvent(doc.get("mood").toString(), h.user_id, new Date());
+                                me.setMood_id(doc.get("mood_id").toString());
                                 h.history.add(me);
                                 adapter.notifyDataSetChanged();
                             }

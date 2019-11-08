@@ -45,11 +45,13 @@ public class MoodHistoryController {
             @Override
             public void onSuccess(Void document) {
                 // Say success
+                System.out.println("Deleted Successfuly");
             }
 
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Say Failure
+                System.out.println("Delete Failure");
             }
         });
         h.history.remove(index);
