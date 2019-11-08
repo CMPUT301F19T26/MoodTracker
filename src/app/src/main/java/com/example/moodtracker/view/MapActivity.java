@@ -56,7 +56,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         //get locations
         if (mode == 0) {
-
             locations = user.getUserLocations();
         }
 
