@@ -1,8 +1,12 @@
 package com.example.moodtracker.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +15,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.model.User;
+import com.example.moodtracker.view.mood.AddMoodEventActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.example.moodtracker.model.User;
 
 public class FindActivity extends AppCompatActivity {
@@ -43,5 +52,45 @@ public class FindActivity extends AppCompatActivity {
                 }
             });
         }
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.ic_Profile:
+                        Intent intent0 = new Intent(FindActivity.this, ProfileFragment.class);
+                        startActivity(intent0);
+                        break;
+
+                    case R.id.ic_Search:
+
+                        break;
+
+                    case R.id.ic_Add:
+                        Intent intent2 = new Intent(FindActivity.this, AddMoodEventActivity.class);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_Map:
+//                        Intent intent3 = new Intent(FindActivity.this, MapActivity.class);
+//                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_Feed:
+
+                        break;
+
+                }
+
+                return false;
+            }
+        });
+
     }
 }
