@@ -72,21 +72,22 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 String mood_num = Integer.toString(constants.HAPPY);
                 MoodEvent mock_2 = new MoodEvent("1", a, b);
                 // Go to the add activity and recieve a result from the add activity
-//                Intent addIntent = new Intent(MoodHistoryActivity.this, AddMoodEventActivity.class);
-//                setResult(RESULT_OK, addIntent);
-//                startActivityForResult(addIntent, 1);
+                Intent addIntent = new Intent(MoodHistoryActivity.this, AddMoodEventActivity.class);
+                setResult(RESULT_OK, addIntent);
+                startActivityForResult(addIntent, 1);
                 // Item, History, Adapter
                 MoodHistoryController.addEventToHistory(mock_2, moodHistory, HistoryAdapter);
             }
         });
 
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        // Check which request we're responding to
-//        if (requestCode == 1) { // We wanted to add a Mood Event
-//            // Make sure the request was successful
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) { // We wanted to add a Mood Event
+            // Make sure the request was successful
+            System.out.println("OUTPUT");
 //            MoodEvent event = data.getSerializableExtra("new_mood_event");
-//        }
-//    }
+        }
+    }
 }
