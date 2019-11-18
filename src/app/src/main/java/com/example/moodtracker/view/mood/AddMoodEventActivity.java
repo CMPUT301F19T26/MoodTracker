@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,12 +13,10 @@ import android.widget.Spinner;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
-import com.example.moodtracker.helpers.SocialSituation;
-import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
-import com.google.type.LatLng;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -36,41 +33,29 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AddMoodEventActivity extends AppCompatActivity {
     private String user_id;
+
+    // Logic Mappers
+    HashMap<String, String> mood_name_to_num_mapper = constants.mood_name_to_num_mapper;
+
+    // Front end Views
     ArrayAdapter<String> adapt;
     ArrayAdapter<String> social_adapt;
     Spinner mood_dropdown;
     Spinner social_situation_dropdown;
     Button submit_btn;
-    HashMap<String, String> mood_name_to_num_mapper;
-    HashMap<String, Integer> social_situation_mapper;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mood_event);
+        // Get user Id from the intent
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
-        submit_btn = findViewById(R.id.add_mood_event_submit);
-        mood_name_to_num_mapper = new HashMap<>();
-        social_situation_mapper = new HashMap<>();
-        // Create Hashmaps
-        mood_name_to_num_mapper.put("Neutral", "0");
-        mood_name_to_num_mapper.put("Happy", "1");
-        mood_name_to_num_mapper.put("Surprised", "2");
 
-        // Social Situation Mapper
-        social_situation_mapper.put("None", constants.NONE);
-        social_situation_mapper.put("Alone", constants.ALONE);
-        social_situation_mapper.put("One Other", constants.ONE_OTHER);
-        social_situation_mapper.put("Two Others", constants.TWO_OTHER);
-        social_situation_mapper.put("Several", constants.SEVERAL);
-        social_situation_mapper.put("Crowd", constants.CROWD);
-
-        //get the spinner from the xml.
         mood_dropdown = findViewById(R.id.mood_type_selector);
-        String[] mood_items = new String[]{"Happy", "Neutral", "Surprised"};
+        // Dynamically create the moods list
+        String[] mood_items = Arrays.copyOf(mood_name_to_num_mapper.keySet().toArray(), mood_name_to_num_mapper.keySet().toArray().length, String[].class);
         adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mood_items);
         mood_dropdown.setAdapter(adapt);
 
@@ -79,6 +64,8 @@ public class AddMoodEventActivity extends AppCompatActivity {
         social_adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, social_items);
         social_situation_dropdown.setAdapter(social_adapt);
 
+        // Submission handling
+        submit_btn = findViewById(R.id.add_mood_event_submit);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +77,6 @@ public class AddMoodEventActivity extends AppCompatActivity {
                 String reason = reason_view.getText().toString();
 
                 String situation = social_situation_dropdown.getSelectedItem().toString();
-                int actual_situation = social_situation_mapper.get(situation);
 
                 // Get lat and lng
                 EditText latitude = findViewById(R.id.latitude);

@@ -14,7 +14,6 @@
 
 package com.example.moodtracker.model;
 
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -37,7 +36,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 public class MoodHistory implements Serializable {
     public interface FirebaseCallback<T> {
         /**
@@ -55,9 +53,8 @@ public class MoodHistory implements Serializable {
         void onFailure(@NonNull Exception e);
     }
 
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance(); // Access to the db
-    private FirebaseAuth auth = FirebaseAuth.getInstance();
+
     private String user_id;
     // Todo: Make this private
     public ArrayList<MoodEvent> history = new ArrayList<>();

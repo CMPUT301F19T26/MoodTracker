@@ -23,8 +23,12 @@ import com.example.moodtracker.model.MoodHistory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -34,7 +38,6 @@ import java.util.Date;
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 public class MoodHistoryActivity extends AppCompatActivity {
-
     private ListView moodHistoryList;
     private ArrayAdapter<MoodEvent> HistoryAdapter;
     private MoodHistory moodHistory;
@@ -47,11 +50,12 @@ public class MoodHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
+        // Get the user's ID
         Intent intent = getIntent();
         user_id = intent.getStringExtra("userID");
-
-
+        // Buttons
         addMoodEventBTN = findViewById(R.id.add_mood_event);
+        // Create a new MoodHistory class that gets the mood history for the given user
         moodHistory = new MoodHistory(user_id);
         // Get the ListView to assign the new data to
         moodHistoryList = findViewById(R.id.mood_history);
@@ -82,15 +86,19 @@ public class MoodHistoryActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+    // Have a listener that detects changes in the list
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == 1) { // We wanted to add a Mood Event
-            // Make sure the request was successful
+//             Make sure the request was successful
             moodHistory.history.clear();
             HistoryAdapter.notifyDataSetChanged();
             MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
-//            MoodEvent event = data.getSerializableExtra("new_mood_event");
         }
     }
 }
