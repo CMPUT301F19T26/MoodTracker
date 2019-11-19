@@ -16,19 +16,27 @@
 package com.example.moodtracker.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.constants;
 import com.example.moodtracker.controller.MoodHistoryController;
+import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +45,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 
@@ -45,6 +54,8 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
     private Context context;
     private MoodHistoryAdapter adapter;
 
+    // Mood Num to item mapper
+    private HashMap<String, Mood> mood_num_to_mood_obj_map = constants.mood_num_to_mood_obj_mapper;
 
     /**
      * Create adapter for Mood History
@@ -76,13 +87,22 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
             view = LayoutInflater.from(context).inflate(R.layout.content, parent,false);
         }
 
-        MoodEvent event_item = history.get(position);
+        MoodEvent event_item = history.get(position); // Actual Item
+        Mood mood_obj = mood_num_to_mood_obj_map.get(event_item.getMood()); // The Mood Object this event refers to
+
+        // MoodEvent Views
+        CardView mood_event_item = view.findViewById(R.id.mood_event_item);
         TextView mood = view.findViewById(R.id.event_mood);
         TextView date = view.findViewById(R.id.event_date);
-        mood.setText(event_item.getMood());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        date.setText((sdf.format(event_item.getDate())));
-//
+        ImageView icon = view.findViewById(R.id.icon_image);
+
+        mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
+        mood.setText(mood_obj.getMoodName());
+        icon.setImageResource(mood_obj.getIcon());
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date.setText(event_item.getDate());
+
         Button delete_btn = view.findViewById(R.id.delete_item);
 
         delete_btn.setOnClickListener(new View.OnClickListener() {

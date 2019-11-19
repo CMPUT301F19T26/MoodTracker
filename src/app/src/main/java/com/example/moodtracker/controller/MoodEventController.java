@@ -40,7 +40,7 @@ public class MoodEventController {
      * @return the mood event
      */
 
-    public static MoodEvent createMoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date,
+    public static MoodEvent createMoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull String date,
                                             @Nullable String reason, @Nullable String photo_url, @Nullable LatLng location,
                                             @Nullable SocialSituation social_situation) {
         MoodEvent new_event = new MoodEvent(mood, user_id, date);

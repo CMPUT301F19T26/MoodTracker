@@ -40,13 +40,14 @@ public class MoodEvent{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String mood_id = UUID.randomUUID().toString();
     private String mood;
+    private String user_name;
     private String user_id;
-    private Date date;
-    private String reason = NULL;
-    private String photo_url = NULL;
+    private String date;
+    private String reason = null;
+    private String photo_url = null;
     private Double lat;
     private Double lng;
-    private String social_situation = NULL;
+    private String social_situation = null;
 
    
 
@@ -62,6 +63,10 @@ public class MoodEvent{
         return lng;
     }
 
+    private void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
     public void setLng(Double lng) {
         this.lng = lng;
     }
@@ -72,14 +77,14 @@ public class MoodEvent{
      * @param user_id the user_id
      * @param date the date input
      */
-    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date) {
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull String date) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
     }
 
 
-    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date, @Nullable String reason) {
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull String date, @Nullable String reason) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
@@ -97,7 +102,7 @@ public class MoodEvent{
      * @param social_sit the social situation input
      */
 
-    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date, @Nullable Double lat, @Nullable Double lng) {
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull String date, @Nullable Double lat, @Nullable Double lng) {
         this.mood = mood;
         this.user_id = user_id;
         this.date = date;
@@ -105,7 +110,7 @@ public class MoodEvent{
         this.lng = lng;
     }
 
-    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull Date date,
+    public MoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull String date,
                      @Nullable String reason, @Nullable String photo_url, @Nullable Double lat, Double lng, @Nullable String social_sit) {
         this.mood = mood;
         this.user_id = user_id;
@@ -163,7 +168,7 @@ public class MoodEvent{
         return user_id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 

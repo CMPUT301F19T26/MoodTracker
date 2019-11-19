@@ -14,7 +14,6 @@
 
 package com.example.moodtracker.model;
 
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -37,7 +36,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 public class MoodHistory implements Serializable {
     public interface FirebaseCallback<T> {
         /**
@@ -55,9 +53,8 @@ public class MoodHistory implements Serializable {
         void onFailure(@NonNull Exception e);
     }
 
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance(); // Access to the db
-    private FirebaseAuth auth = FirebaseAuth.getInstance();
+
     private String user_id;
     // Todo: Make this private
     public ArrayList<MoodEvent> history = new ArrayList<>();
@@ -80,16 +77,7 @@ public class MoodHistory implements Serializable {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             if (doc.exists()) {
-                                if (doc.get("reason") == "SAFE_PARCELABLE_NULL_STRING") {
-                                    String reason = "";
-                                }
-                                if (doc.get("photo_url") == "SAFE_PARCELABLE_NULL_STRING" ) {
-                                    String photo_url = "";
-                                }
-//                                System.out.println(doc.get("mood_id"));
-                                // Todo: Assume this is working
-                                MoodEvent me = new MoodEvent(doc.get("mood").toString(), h.user_id, new Date());
-                                me.setMood_id(doc.get("mood_id").toString());
+                                MoodEvent me  = buildMoodEventFromDoc(doc, h.user_id);
                                 h.history.add(me);
                                 adapter.notifyDataSetChanged();
                             }
@@ -102,6 +90,28 @@ public class MoodHistory implements Serializable {
                     }
                 });
 
+    }
+
+    private static MoodEvent buildMoodEventFromDoc(QueryDocumentSnapshot doc, String user_id) {
+        String date = doc.get("date").toString();
+        String mood = doc.get("mood").toString();
+        String mood_id = doc.get("mood_id").toString();
+        MoodEvent me = new MoodEvent(mood, user_id, date);
+        me.setMood_id(mood_id);
+        if (doc.get("reason") != null) {
+            me.setReason(doc.get("reason").toString());
+        }
+        if (doc.get("photo_url") != null ) {
+            me.setPhoto_url(doc.get("photo_url").toString());
+        }
+        if (doc.get("socialSituation") != null)  {
+            me.setSocial_situation(doc.get("socialSituation").toString());
+        }
+        if (doc.get("lat") !=null) {
+            me.setLat(Double.valueOf(doc.get("lat").toString()));
+            me.setLng(Double.valueOf(doc.get("lng").toString()));
+        }
+        return me;
     }
 
     /**
