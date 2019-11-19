@@ -59,9 +59,4 @@ public class constants {
         mood_num_to_mood_obj_mapper.put(SURPRISED, new Surprised("#ffff00", R.drawable.surprised, "Surprised", SURPRISED));
         mood_num_to_mood_obj_mapper.put(ANGRY, new Angry("#ff2929", R.drawable.angry, "Angry", ANGRY));
     }
-
-//    public static HashMap<String, Integer> mood_to_icon_mapper = new HashMap<>();
-//    static {
-//        mood_to_icon_mapper.put(HAPPY, R.drawable.happy_icon)
-//    }
 }

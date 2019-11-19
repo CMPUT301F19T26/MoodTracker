@@ -144,7 +144,10 @@ public class AddMoodEventActivity extends AppCompatActivity {
         if (!(social_situation.equals("None"))) {
             new_item.setSocial_situation(social_situation);
         }
-        if (!(lat.equals("") && !lng.equals(""))) {
+        if (lat.equals("")) {
+            System.out.println("Latitude: " + lat);
+        }
+        if (!lat.equals("")) {
             Double lat_value = Double.parseDouble(lat);
             Double lng_value = Double.parseDouble(lng);
             new_item.setLat(lat_value);
