@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
@@ -90,17 +91,17 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         Mood mood_obj = mood_num_to_mood_obj_map.get(event_item.getMood()); // The Mood Object this event refers to
 
         // MoodEvent Views
-        LinearLayout mood_event_item = view.findViewById(R.id.mood_event_item);
+        CardView mood_event_item = view.findViewById(R.id.mood_event_item);
         TextView mood = view.findViewById(R.id.event_mood);
         TextView date = view.findViewById(R.id.event_date);
         ImageView icon = view.findViewById(R.id.icon_image);
 
-        mood_event_item.setBackgroundColor(Color.parseColor(mood_obj.getColor()));
+        mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
         mood.setText(mood_obj.getMoodName());
         icon.setImageResource(mood_obj.getIcon());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        date.setText((sdf.format(event_item.getDate())));
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date.setText(event_item.getDate());
 
         Button delete_btn = view.findViewById(R.id.delete_item);
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.example.moodtracker.adapter.MoodHistoryAdapter;
 import com.example.moodtracker.constants;
 import com.example.moodtracker.controller.MoodEventController;
 import com.example.moodtracker.controller.MoodHistoryController;
+import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
@@ -66,30 +68,25 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
         Toast.makeText(MoodHistoryActivity.this, FirebaseAuth.getInstance().getCurrentUser().getEmail().toString(), Toast.LENGTH_LONG).show();
 
+        // Handler for view/edit of a Mood Event
+        moodHistoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                System.out.println("CLicked on item " + position);
+            }
+        });
+
         // Handler for the add button
         addMoodEventBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Add a Mock Activity for now
-//                String a = user_id;
-//                Date b = new Date();
-//                String mood_num = Integer.toString(constants.HAPPY);
-//                MoodEvent mock_2 = new MoodEvent("1", a, b);
-                // Go to the add activity and recieve a result from the add activity
                 Intent addIntent = new Intent(MoodHistoryActivity.this, AddMoodEventActivity.class);
-                addIntent.putExtra("user_id", user_id);
                 setResult(RESULT_OK, addIntent);
                 startActivityForResult(addIntent, 1);
-                // Item, History, Adapter
-//                MoodHistoryController.addEventToHistory(mock_2, moodHistory, HistoryAdapter);
             }
         });
 
     }
-
-
-
-    // Have a listener that detects changes in the list
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

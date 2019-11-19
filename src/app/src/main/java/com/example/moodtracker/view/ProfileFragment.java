@@ -71,7 +71,6 @@ public class ProfileFragment extends AppCompatActivity {
 //        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         //Gets Current User
         fAuth = FirebaseAuth.getInstance();
-//        String username = fAuth.getCurrentUser().getDisplayName();
 //        final View view = inflater.inflate(R.layout.fragment_profile, container, false);
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
 

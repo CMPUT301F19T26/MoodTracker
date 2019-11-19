@@ -20,7 +20,9 @@ import com.example.moodtracker.model.mood.Happy;
 import com.example.moodtracker.model.mood.Neutral;
 import com.example.moodtracker.model.mood.Surprised;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.logging.SimpleFormatter;
 
 public class constants {
 
@@ -37,6 +39,8 @@ public class constants {
     public static final int SEVERAL = 3;
     public static final int CROWD = 4;
     public static final int NONE = 5;
+
+    public static final String date_format = "yyyy-MM-dd'T'HH:mm:sss'Z'";
 
     // Front end mappers
     public static HashMap<String, String> mood_name_to_num_mapper = new HashMap<>();
