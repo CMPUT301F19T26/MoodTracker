@@ -1,14 +1,17 @@
 package com.example.moodtracker.view.mood;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.moodtracker.R;
@@ -21,6 +24,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
+import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -32,9 +36,16 @@ import com.example.moodtracker.view.ProfileFragment;
 import com.example.moodtracker.view.SearchActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.StorageReference;
 
 public class AddMoodEventActivity extends AppCompatActivity {
     private String user_id = FirebaseAuth.getInstance().getUid();
+
+    //Image uploading
+    Button choose, cancel;
+    ImageView img;
+    StorageReference mStorageRef;
+    public Uri imguri = null;
 
     // Logic Mappers
     HashMap<String, String> mood_name_to_num_mapper = constants.mood_name_to_num_mapper;
@@ -51,6 +62,10 @@ public class AddMoodEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mood_event);
+        // Image Selectors
+        choose = findViewById(R.id.upload_choose);
+        cancel = findViewById(R.id.upload_cancel);
+        img = findViewById(R.id.me_image);
 
         mood_dropdown = findViewById(R.id.mood_type_selector);
         // Dynamically create the moods list
@@ -81,7 +96,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
                 String lng = longitude.getText().toString();
                 // Build the mood event item
                 MoodEvent new_item = buildMoodEventfromUserInput(mood, user_id, now, lat, lng, reason, situation);
-                MoodHistory.externalAddMoodEvent(new_item, new MoodHistory.FirebaseCallback<Void>() {
+                MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
                     @Override
                     public void onSuccess(Void document) {
                         finish();
@@ -90,6 +105,22 @@ public class AddMoodEventActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {}
                 });
+            }
+        });
+
+        // Image manipulation
+        choose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FileChooser();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                img.setImageResource(0);
+                cancel.setVisibility(View.GONE);
+                choose.setVisibility(View.VISIBLE);
             }
         });
 
@@ -144,12 +175,30 @@ public class AddMoodEventActivity extends AppCompatActivity {
         if (!(social_situation.equals("None"))) {
             new_item.setSocial_situation(social_situation);
         }
-        if (!(lat.equals("") && !lng.equals(""))) {
+        if (lat != null && lat.length() > 0 && lng != null && lng.length() > 0) {
             Double lat_value = Double.parseDouble(lat);
             Double lng_value = Double.parseDouble(lng);
             new_item.setLat(lat_value);
             new_item.setLng(lng_value);
         }
         return new_item;
+    }
+
+    private void FileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode==RESULT_OK && data != null && data.getData()!= null) {
+            imguri = data.getData();
+            img.setImageURI(imguri);
+            choose.setVisibility(View.GONE);
+            cancel.setVisibility(View.VISIBLE);
+        }
     }
 }

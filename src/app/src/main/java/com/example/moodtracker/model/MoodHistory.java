@@ -14,11 +14,13 @@
 
 package com.example.moodtracker.model;
 
+import android.net.Uri;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
 import com.example.moodtracker.constants;
+import com.example.moodtracker.helpers.FirebaseHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -134,12 +136,32 @@ public class MoodHistory implements Serializable {
      * @param cb the call back to the firebase db
      */
 
-    public static void externalAddMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
+    public static void externalAddMoodEvent(MoodEvent e, Uri photo, final FirebaseCallback<Void> cb) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("moodEvents").document(e.getMood_id())
-                .set(e)
-                .addOnSuccessListener(cb::onSuccess)
-                .addOnFailureListener(cb::onFailure);
+        if (photo != null) {
+            // Upload the image
+            // Perform moodevent upload in the callback
+            FirebaseHelper.uploadImage(photo, e.getMood_id(), new FirebaseHelper.FirebaseCallback<Uri>() {
+                @Override
+                public void onSuccess(Uri document) {
+                    e.setPhoto_url(document.toString());
+                    db.collection("moodEvents").document(e.getMood_id())
+                            .set(e)
+                            .addOnSuccessListener(cb::onSuccess)
+                            .addOnFailureListener(cb::onFailure);
+                }
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    System.out.println("Failed to upload image");
+                    cb.onFailure(e);
+                }
+            });
+        } else {
+            db.collection("moodEvents").document(e.getMood_id())
+                    .set(e)
+                    .addOnSuccessListener(cb::onSuccess)
+                    .addOnFailureListener(cb::onFailure);
+        }
     }
 
     public void deleteMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
