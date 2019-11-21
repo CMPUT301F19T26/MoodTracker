@@ -145,6 +145,7 @@ public class MoodHistory implements Serializable {
                 @Override
                 public void onSuccess(Uri document) {
                     e.setPhoto_url(document.toString());
+                    // Check if a location is needed to be added
                     db.collection("moodEvents").document(e.getMood_id())
                             .set(e)
                             .addOnSuccessListener(cb::onSuccess)
@@ -157,6 +158,7 @@ public class MoodHistory implements Serializable {
                 }
             });
         } else {
+            // Check if a location must be added
             db.collection("moodEvents").document(e.getMood_id())
                     .set(e)
                     .addOnSuccessListener(cb::onSuccess)

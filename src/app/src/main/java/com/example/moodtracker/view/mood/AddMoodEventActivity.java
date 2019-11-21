@@ -3,8 +3,13 @@ package com.example.moodtracker.view.mood;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -16,6 +21,7 @@ import android.widget.Spinner;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
+import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 
@@ -27,6 +33,8 @@ import java.util.HashMap;
 import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
@@ -34,12 +42,19 @@ import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.MapActivity;
 import com.example.moodtracker.view.ProfileFragment;
 import com.example.moodtracker.view.SearchActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.StorageReference;
 
 public class AddMoodEventActivity extends AppCompatActivity {
     private String user_id = FirebaseAuth.getInstance().getUid();
+
+    // Process Manager to ensure we dont have multiple request go out per click. Wait till first is done
+    boolean processing = false;
 
     //Image uploading
     Button choose, cancel;
@@ -56,7 +71,11 @@ public class AddMoodEventActivity extends AppCompatActivity {
     Spinner mood_dropdown;
     Spinner social_situation_dropdown;
     Button submit_btn;
+    Switch location_switch;
 
+    // Location provider
+    private FusedLocationProviderClient fusedLocationClient;
+    boolean needs_location = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +85,10 @@ public class AddMoodEventActivity extends AppCompatActivity {
         choose = findViewById(R.id.upload_choose);
         cancel = findViewById(R.id.upload_cancel);
         img = findViewById(R.id.me_image);
+        location_switch = findViewById(R.id.location_switch);
+
+        // Location handling
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         mood_dropdown = findViewById(R.id.mood_type_selector);
         // Dynamically create the moods list
@@ -83,28 +106,75 @@ public class AddMoodEventActivity extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText reason_view = findViewById(R.id.reason_edit);
-                EditText latitude = findViewById(R.id.latitude);
-                EditText longitude = findViewById(R.id.longitude);
-
-                SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat(constants.date_format);
-                String now = ISO_8601_FORMAT.format(new Date());
-                String mood = mood_name_to_num_mapper.get(mood_dropdown.getSelectedItem().toString());
-                String reason = reason_view.getText().toString();
-                String situation = social_situation_dropdown.getSelectedItem().toString();
-                String lat = latitude.getText().toString();
-                String lng = longitude.getText().toString();
-                // Build the mood event item
-                MoodEvent new_item = buildMoodEventfromUserInput(mood, user_id, now, lat, lng, reason, situation);
-                MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void document) {
-                        finish();
+                if (!processing) {
+                    EditText reason_view = findViewById(R.id.reason_edit);
+                    SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat(constants.date_format);
+                    String now = ISO_8601_FORMAT.format(new Date());
+                    String mood = mood_name_to_num_mapper.get(mood_dropdown.getSelectedItem().toString());
+                    String reason = reason_view.getText().toString();
+                    String situation = social_situation_dropdown.getSelectedItem().toString();
+                    // Build the mood event item
+                    MoodEvent new_item = buildMoodEventfromUserInput(mood, user_id, now, reason, situation);
+                    if (location_switch.isChecked()) {
+                        needs_location = true;
                     }
+                    processing = true;
+                    if (needs_location) {
+                        fusedLocationClient.getLastLocation()
+                                .addOnSuccessListener(AddMoodEventActivity.this, new OnSuccessListener<Location>() {
+                                    @Override
+                                    public void onSuccess(Location location) {
+                                        if (location != null) {
+                                            new_item.setLng(location.getLongitude());
+                                            new_item.setLat(location.getLatitude());
+                                            MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
+                                                @Override
+                                                public void onSuccess(Void document) {
+                                                    finish();
+                                                }
 
-                    @Override
-                    public void onFailure(@NonNull Exception e) {}
-                });
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    processing = false;
+                                                }
+                                            });
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(AddMoodEventActivity.this, new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        processing = false;
+                                        Toast.makeText(AddMoodEventActivity.this, "Failed to get the users location, ensure permissions are given.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else { // Basic addition of an event with no location
+                        MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void document) {
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                processing = false;
+                            }
+                        });
+                    }
+                } else {
+                    Toast.makeText(AddMoodEventActivity.this, "Currently Adding Mood Event...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Location toggler
+        location_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (location_switch.isChecked()) {
+                    checkPermission();
+                    System.out.println("permission checked");
+                }
             }
         });
 
@@ -119,6 +189,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 img.setImageResource(0);
+                imguri = null;
                 cancel.setVisibility(View.GONE);
                 choose.setVisibility(View.VISIBLE);
             }
@@ -166,7 +237,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
 
     }
 
-    private static  MoodEvent buildMoodEventfromUserInput(String mood, String user_id, String now, String lat, String lng, String reason, String social_situation) {
+    private static  MoodEvent buildMoodEventfromUserInput(String mood, String user_id, String now, String reason, String social_situation) {
         // TODO fix this logic, needs reason rn
         MoodEvent new_item = new MoodEvent(mood, user_id, now);
         if (!(reason.equals(""))) {
@@ -175,20 +246,27 @@ public class AddMoodEventActivity extends AppCompatActivity {
         if (!(social_situation.equals("None"))) {
             new_item.setSocial_situation(social_situation);
         }
-        if (lat != null && lat.length() > 0 && lng != null && lng.length() > 0) {
-            Double lat_value = Double.parseDouble(lat);
-            Double lng_value = Double.parseDouble(lng);
-            new_item.setLat(lat_value);
-            new_item.setLng(lng_value);
-        }
         return new_item;
     }
 
+    // Opens activity to have access to gallery and select and image
     private void FileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
+    }
+
+    // Checks the user permission to have access to current user location
+    public void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ){//Can add more as per requirement
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                    123);
+        }
     }
 
     @Override

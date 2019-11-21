@@ -8,8 +8,13 @@
 
 package com.example.moodtracker.helpers;
 
+import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 
+import com.example.moodtracker.model.MoodEvent;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
