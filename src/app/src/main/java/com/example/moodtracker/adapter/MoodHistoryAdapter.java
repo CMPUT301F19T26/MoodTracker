@@ -42,19 +42,17 @@ import com.example.moodtracker.model.MoodHistory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
-
-    private ArrayList<MoodEvent> history; // History
+    private ArrayList<MoodEvent> history;
     private MoodHistory h;
     private Context context;
     private MoodHistoryAdapter adapter;
-
-    // Mood Num to item mapper
     private HashMap<String, Mood> mood_num_to_mood_obj_map = constants.mood_num_to_mood_obj_mapper;
 
     /**
@@ -80,31 +78,16 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        return super.getView(position, convertView, parent);
         View view = convertView;
-
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.content, parent,false);
         }
+        // Get a handle on the moodEvent and set up the view for it
+        MoodEvent event_item = history.get(position);
+        setUpMoodEvent(event_item, view);
 
-        MoodEvent event_item = history.get(position); // Actual Item
-        Mood mood_obj = mood_num_to_mood_obj_map.get(event_item.getMood()); // The Mood Object this event refers to
-
-        // MoodEvent Views
-        CardView mood_event_item = view.findViewById(R.id.mood_event_item);
-        TextView mood = view.findViewById(R.id.event_mood);
-        TextView date = view.findViewById(R.id.event_date);
-        ImageView icon = view.findViewById(R.id.icon_image);
-
-        mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
-        mood.setText(mood_obj.getMoodName());
-        icon.setImageResource(mood_obj.getIcon());
-
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        date.setText(event_item.getDate());
-
+        // Handle deletion for the given moodEvent
         Button delete_btn = view.findViewById(R.id.delete_item);
-
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public  void onClick(View v) {
@@ -115,5 +98,34 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         return view;
 
 
+    }
+
+    private void setUpMoodEvent(MoodEvent event_item, View view) {
+        Mood mood_obj = mood_num_to_mood_obj_map.get(event_item.getMood()); // The Mood Object this event refers to
+
+        // MoodEvent Views
+        CardView mood_event_item = view.findViewById(R.id.mood_event_item);
+        TextView mood = view.findViewById(R.id.event_mood);
+        TextView date = view.findViewById(R.id.event_date);
+        ImageView icon = view.findViewById(R.id.icon_image);
+        ImageView photo = view.findViewById(R.id.me_photo);
+        handlePhotos(photo, event_item);
+
+        mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
+        mood.setText(mood_obj.getMoodName());
+        icon.setImageResource(mood_obj.getIcon());
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date.setText(event_item.getDate());
+    }
+
+    private void handlePhotos(ImageView photoView, MoodEvent event_item) {
+        photoView.setImageResource(0);
+        photoView.setVisibility(View.GONE);
+        if (event_item.getPhoto_url()!= null) {
+            // get the image and put it into the view
+            Picasso.get().load(event_item.getPhoto_url()).into(photoView);
+            photoView.setVisibility(View.VISIBLE);
+        }
     }
 }
