@@ -3,8 +3,11 @@ package com.example.moodtracker.view.mood;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +25,7 @@ import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
+import com.example.moodtracker.view.fragment.MoodEventFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,7 +43,7 @@ import java.util.Date;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-public class MoodHistoryActivity extends AppCompatActivity {
+public class MoodHistoryActivity extends AppCompatActivity implements MoodEventFragment.OnFragmentInteractionListener {
     private ListView moodHistoryList;
     private ArrayAdapter<MoodEvent> HistoryAdapter;
     private MoodHistory moodHistory;
@@ -72,7 +76,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
         moodHistoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                System.out.println("CLicked on item " + position);
+                // Will call open fragment and pass it a mood event
+                MoodEvent clicked_event = moodHistory.history.get(position);
+                openFragment(clicked_event, position);
             }
         });
 
@@ -86,6 +92,20 @@ public class MoodHistoryActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void openFragment(MoodEvent moodEvent, int position) {
+        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        System.out.println("We back");
     }
 
     @Override

@@ -14,28 +14,19 @@
 
 package com.example.moodtracker.model;
 
+
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.moodtracker.R;
-import com.example.moodtracker.constants;
-import com.example.moodtracker.controller.MoodEventController;
-import com.example.moodtracker.helpers.SocialSituation;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.LatLng;
-
-import java.io.Serializable;
-import java.util.Date;
 import java.util.UUID;
 
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 // Todo: Implement Parcelable
-public class MoodEvent{
+public class MoodEvent implements Parcelable {
     // Need access to the db
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String mood_id = UUID.randomUUID().toString();
@@ -142,10 +133,6 @@ public class MoodEvent{
         this.mood_id = id;
     }
 
-    public static void addToDB(MoodEvent e) {
-        // Handle it in the db
-    }
-
     public void edit(MoodEvent e) {
         // Go into the db and edit a mood event
     }
@@ -186,5 +173,51 @@ public class MoodEvent{
 
     public void setPhoto_url(String photo_url) {
         this.photo_url = photo_url;
+    }
+
+    protected MoodEvent(Parcel in) {
+        mood_id = in.readString();
+        mood = in.readString();
+        user_name = in.readString();
+        user_id = in.readString();
+        date = in.readString();
+        reason = in.readString();
+        photo_url = in.readString();
+        lat = in.readDouble();
+        lng = in.readDouble();
+        social_situation = in.readString();
+    }
+
+    public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
+        @Override
+        public MoodEvent createFromParcel(Parcel in) {
+            return new MoodEvent(in);
+        }
+
+        @Override
+        public MoodEvent[] newArray(int size) {
+            return new MoodEvent[size];
+        }
+    };
+
+    // Parcelable methods
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mood_id);
+        parcel.writeString(mood);
+        parcel.writeString(user_name);
+        parcel.writeString(user_id);
+        parcel.writeString(date);
+        parcel.writeString(reason);
+        parcel.writeString(photo_url);
+        parcel.writeDouble(lat);
+        parcel.writeDouble(lng);
+        parcel.writeString(social_situation);
+
     }
 }

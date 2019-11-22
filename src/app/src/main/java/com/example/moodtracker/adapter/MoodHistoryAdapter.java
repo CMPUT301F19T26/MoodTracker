@@ -42,12 +42,14 @@ import com.example.moodtracker.model.MoodHistory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
+    // Put fragment
 
     private ArrayList<MoodEvent> history; // History
     private MoodHistory h;
@@ -95,6 +97,8 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         TextView mood = view.findViewById(R.id.event_mood);
         TextView date = view.findViewById(R.id.event_date);
         ImageView icon = view.findViewById(R.id.icon_image);
+        ImageView photo = view.findViewById(R.id.me_photo);
+        handlePhotos(photo, event_item);
 
         mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
         mood.setText(mood_obj.getMoodName());
@@ -115,5 +119,15 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         return view;
 
 
+    }
+
+    private void handlePhotos(ImageView photoView, MoodEvent event_item) {
+        photoView.setImageResource(0);
+        photoView.setVisibility(View.GONE);
+        if (event_item.getPhoto_url()!= null) {
+            // get the image and put it into the view
+            Picasso.get().load(event_item.getPhoto_url()).into(photoView);
+            photoView.setVisibility(View.VISIBLE);
+        }
     }
 }
