@@ -49,14 +49,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
-    // Put fragment
-
-    private ArrayList<MoodEvent> history; // History
+    private ArrayList<MoodEvent> history;
     private MoodHistory h;
     private Context context;
     private MoodHistoryAdapter adapter;
-
-    // Mood Num to item mapper
     private HashMap<String, Mood> mood_num_to_mood_obj_map = constants.mood_num_to_mood_obj_mapper;
 
     /**
@@ -82,14 +78,29 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        return super.getView(position, convertView, parent);
         View view = convertView;
-
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.content, parent,false);
         }
+        // Get a handle on the moodEvent and set up the view for it
+        MoodEvent event_item = history.get(position);
+        setUpMoodEvent(event_item, view);
 
-        MoodEvent event_item = history.get(position); // Actual Item
+        // Handle deletion for the given moodEvent
+        Button delete_btn = view.findViewById(R.id.delete_item);
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public  void onClick(View v) {
+                MoodHistoryController.deleteEventFromHistory(history.get(position), h, position, adapter);
+            }
+        });
+
+        return view;
+
+
+    }
+
+    private void setUpMoodEvent(MoodEvent event_item, View view) {
         Mood mood_obj = mood_num_to_mood_obj_map.get(event_item.getMood()); // The Mood Object this event refers to
 
         // MoodEvent Views
@@ -106,19 +117,6 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         date.setText(event_item.getDate());
-
-        Button delete_btn = view.findViewById(R.id.delete_item);
-
-        delete_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public  void onClick(View v) {
-                MoodHistoryController.deleteEventFromHistory(history.get(position), h, position, adapter);
-            }
-        });
-
-        return view;
-
-
     }
 
     private void handlePhotos(ImageView photoView, MoodEvent event_item) {
