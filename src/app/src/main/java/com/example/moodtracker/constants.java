@@ -62,5 +62,16 @@ public class constants {
         mood_num_to_mood_obj_mapper.put(ANGRY, new Angry("#ff2929", R.drawable.angry, "Angry", ANGRY));
     }
 
-    public static String[]  mood_spinner_list = {"All", "Neutral", "Happy", "Surprised", "Angry"};
+    public static HashMap<String, Integer> SS_name_to_index_mapper = new HashMap<>();
+    static {
+        SS_name_to_index_mapper.put("None", 0);
+        SS_name_to_index_mapper.put("Alone", 1);
+        SS_name_to_index_mapper.put("With One Other", 2);
+        SS_name_to_index_mapper.put("With Two Others", 3);
+        SS_name_to_index_mapper.put("With Several", 4);
+        SS_name_to_index_mapper.put("With a Crowd", 5);
+    }
+
+    public static String[] mood_spinner_list = {"All", "Neutral", "Happy", "Surprised", "Angry"};
+    public static String[] social_situations_list = {"None","Alone", "With One Other", "With Two Others", "With Several", "With a Crowd"};
 }

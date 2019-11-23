@@ -19,11 +19,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.moodtracker.R;
@@ -59,6 +62,8 @@ public class MoodEventFragment extends Fragment {
     private Button cancel;
     private Button done;
     private EditText reason;
+    private Spinner social_situations;
+    private ArrayAdapter<String> social_adapt;
 
     // TODO: Rename and change types of parameters
     private MoodEvent mMoodEvent;
@@ -116,6 +121,8 @@ public class MoodEventFragment extends Fragment {
                 edit.setVisibility(View.GONE);
                 cancel.setVisibility(View.VISIBLE);
                 done.setVisibility(View.VISIBLE);
+                //Enable the views
+                enableViews();
             }
         });
 
@@ -125,6 +132,8 @@ public class MoodEventFragment extends Fragment {
                 cancel.setVisibility(View.GONE);
                 done.setVisibility(View.GONE);
                 edit.setVisibility(View.VISIBLE);
+                //Disable the views again
+                disableViews();
             }
         });
         done.setOnClickListener(new View.OnClickListener() {
@@ -133,12 +142,25 @@ public class MoodEventFragment extends Fragment {
                 cancel.setVisibility(View.GONE);
                 done.setVisibility(View.GONE);
                 edit.setVisibility(View.VISIBLE);
+                // disable views
+                disableViews();
             }
         });
         return view;
     }
 
-    public void setUpFragmentWithMoodEvent(MoodEvent e, View v) {
+    private void enableViews() {
+        // Enable the views
+        reason.setEnabled(true);
+        social_situations.setEnabled(true);
+    }
+
+    private void disableViews() {
+        reason.setEnabled(false);
+        social_situations.setEnabled(false);
+    }
+
+    private void setUpFragmentWithMoodEvent(MoodEvent e, View v) {
         cancel = v.findViewById(R.id.cancel_edit);
         done = v.findViewById(R.id.done_edit);
         edit = v.findViewById(R.id.edit);
@@ -151,7 +173,6 @@ public class MoodEventFragment extends Fragment {
             delete.setVisibility(View.VISIBLE);
         }
 
-        // Reason Handler
         reason = v.findViewById(R.id.reason_me);
         if (e.getReason()!= null) {
             reason.setText(e.getReason());
@@ -162,6 +183,14 @@ public class MoodEventFragment extends Fragment {
         if (e.getPhoto_url()!= null) {
             Picasso.get().load(e.getPhoto_url()).into(frag_image);
         }
+        //Spinner that holds all the possible social_situations
+        social_situations = v.findViewById(R.id.me_frag_spinner);
+        social_adapt = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, constants.social_situations_list);
+        social_situations.setAdapter(social_adapt);
+        if (e.getSocialSituation()!= null) {
+            social_situations.setSelection(constants.SS_name_to_index_mapper.get(e.getSocialSituation()));
+        }
+        social_situations.setEnabled(false);
         // Setting the background based on the mood
         Mood selected_mood = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
         fragment_layout = v.findViewById(R.id.fragment_layout);

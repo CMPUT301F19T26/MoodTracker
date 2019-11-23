@@ -157,12 +157,13 @@
                     android:layout_width="239dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/delete"
-                    android:focusable="false"
+                    android:enabled="false"
                     android:layout_alignStart="@+id/delete"
                     android:layout_centerHorizontal="true"
                     android:hint="@string/reason"
                     android:layout_marginStart="17dp"
-                    android:layout_marginTop="0dp" />
+                    android:layout_marginTop="0dp"
+                    android:maxLength="20"/>
 
                 <Spinner
                     android:id="@+id/me_frag_spinner"
