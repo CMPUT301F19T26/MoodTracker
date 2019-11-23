@@ -71,7 +71,7 @@ public class User implements Parcelable {
 
 
     public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<Location>> cb) {
-        ArrayList<Location> locations = new ArrayList<>();
+        ArrayList<Location> userlocations = new ArrayList<>();
         db.collection("moodEvents")
                 .whereEqualTo("user_id", userID)
                 .get()
@@ -85,31 +85,48 @@ public class User implements Parcelable {
                                     Double lng = (Double)doc.get("lng");
                                     String moodName = (String)doc.get("mood");
                                     Location location = new Location(lat,lng,moodName);
-                                    locations.add(location);
+                                    userlocations.add(location);
 
                                 }
                             }
                         }
-                        cb.onSuccess(locations);
+                        cb.onSuccess(userlocations);
                     }
                 });
-//                    public void onSuccess(@NonNull Task<QuerySnapshot> task) {
-//
-
-//                    }
-//                });
-
-
-//        //query DB instead
-//        Location sydney = new Location(-34, 51, "Happy");
-//        Location edmonton = new Location(53, 113, "Sad");
-//        Location chicago = new Location(41, 87, "Cheeky");
-//        ArrayList<Location> locations = new ArrayList<Location>();
-//        locations.add(sydney);
-//        locations.add(edmonton);
-//        locations.add(chicago);
 
     }
+
+//    public void getFriendLocations(final MoodHistory.FirebaseCallback<ArrayList<Location>> cb) {
+//        ArrayList<Location> friendlocations = new ArrayList<>();
+//        db.collection("follower")
+//                .whereEqualTo("follower_id", userID)
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+//                            if (doc.exists()) {
+//                                if (doc.get("following_id") != null) {
+//                                    String id = (String)doc.get("following_id");
+//                                    //db calli
+//                                    // in cb on success ( do your shit)
+//                                    cont
+//
+//
+//                                    Double lat = (Double)doc.get("lat");
+//                                    Double lng = (Double)doc.get("lng");
+//                                    String moodName = (String)doc.get("mood");
+//                                    Location location = new Location(lat,lng,moodName);
+//                                    friendlocations.add(location);
+//
+//                                }
+//                            }
+//                        }
+//                        cb.onSuccess(friendlocations);
+//                    }
+//                });
+//
+//    }
 
 //    public ArrayList<Location> getFriendsLocations(){
 //

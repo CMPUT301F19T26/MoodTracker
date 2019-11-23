@@ -21,6 +21,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -42,6 +45,31 @@ import java.util.ArrayList;
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private ArrayList<Marker> userMarkers = new ArrayList<Marker>();
+    Button hide = findViewById(R.id.hide_button);
+    Button show = findViewById(R.id.show_button);
+
+//
+//    private View.OnClickListener hideclick = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v){
+//            for (Marker m : userMarkers) {
+//                m.setVisible(false);
+//            }
+//
+//        }
+//    };
+//
+//    private View.OnClickListener showclick = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v){
+//            for (Marker m : userMarkers) {
+//                m.setVisible(true);
+//            }
+//
+//        }
+//    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +79,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+//        hide.setOnClickListener(hideclick);
+//        show.setOnClickListener(showclick);
 
 //
 //        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
@@ -105,11 +138,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      */
 
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //declare vars
         mMap = googleMap;
-        ArrayList<Location> locations = new ArrayList<Location>();
+        ArrayList<Location> userlocations = new ArrayList<Location>();
+        ArrayList<Location> friendlocations = new ArrayList<Location>();
 
         // get mode for friends or user
         int mode = getIntent().getIntExtra("MODE", 0);
@@ -118,30 +153,52 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         User user = getIntent().getParcelableExtra("USER");
 
         //get locations
-        if (mode == 0) {
-            user.getUserLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
-                @Override
-                public void onSuccess(ArrayList<Location> locations) {
-                    //append locations to map
-                    for(Location location: locations) {
-                        LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 
-                    }
+        user.getUserLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
+            @Override
+            public void onSuccess(ArrayList<Location> locations) {
+                //append locations to map
 
-                }
-
-                @Override
-                public void onFailure(@NonNull Exception e) {
+                userMarkers.clear();
+                for(Location location: locations) {
+                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
+                    userMarkers.add(mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(location.getMood())));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 
                 }
-            });
-        }
 
-//        else {
-//            locations = user.getFriendsLocations();
-//        }
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+
+//        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
+//            @Override
+//            public void onSuccess(ArrayList<Location> locations) {
+//                //append locations to map
+//                for(Location location: locations) {
+//                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
+//                    mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//            }
+//        });
+
+
 
 
 

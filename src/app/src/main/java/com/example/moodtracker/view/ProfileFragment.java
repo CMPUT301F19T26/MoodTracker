@@ -162,7 +162,6 @@ public class ProfileFragment extends AppCompatActivity {
 
                         User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid());
                         mapIntent.putExtra("USER", user);
-                        mapIntent.putExtra("MODE", 0);
                         startActivity(mapIntent);
 //                        Intent intent3 = new Intent(ProfileFragment.this, MapActivity.class);
 //                        startActivity(intent3);
