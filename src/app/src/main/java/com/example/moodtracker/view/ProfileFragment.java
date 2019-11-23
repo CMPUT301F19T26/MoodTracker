@@ -16,24 +16,19 @@ package com.example.moodtracker.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.fragment.app.Fragment;
 
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
-import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
@@ -41,12 +36,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 /**
  * @auhtor CMPUT301F19T26
@@ -61,6 +50,7 @@ public class ProfileFragment extends AppCompatActivity {
     private Button FollowersButton;
     private Button FollowingButton;
     private Button MoodEventButton;
+    private Button MoodHistoryButton;
 
 
     @Override
@@ -122,6 +112,15 @@ public class ProfileFragment extends AppCompatActivity {
             }
         });
 
+        MoodHistoryButton = findViewById(R.id.MoodHistoryButton);
+        MoodHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
+                startActivity(moodHistoryIntent);
+            }
+        });
 //        MoodEventButton = findViewById(R.id.MoodEventButton);
 //        MoodEventButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -169,9 +168,9 @@ public class ProfileFragment extends AppCompatActivity {
                         break;
 
                     case R.id.ic_Feed:
-                        Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
-                        moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
-                        startActivity(moodHistoryIntent);
+//                        Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+//                        moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
+//                        startActivity(moodHistoryIntent);
                         break;
 
                 }
