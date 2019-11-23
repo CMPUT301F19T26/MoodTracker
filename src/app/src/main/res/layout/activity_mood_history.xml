@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.mood.MoodHistoryActivity">
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
+        <androidx.appcompat.widget.Toolbar
 
-        <ListView
-            android:id="@+id/mood_history"
+            android:id="@+id/mood_history_toolbar"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="3dp" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_mood_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:src="@android:drawable/ic_input_add"/>
+            android:minHeight="@dimen/abc_action_bar_default_height_material"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            >
+            <Spinner
+                android:id="@+id/mood_history_spinner"
+                android:layout_width="wrap_content"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:layout_marginEnd="10dp"/>
+        </androidx.appcompat.widget.Toolbar>
 
-    </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/mood_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="3dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/mood_event_frag_container"

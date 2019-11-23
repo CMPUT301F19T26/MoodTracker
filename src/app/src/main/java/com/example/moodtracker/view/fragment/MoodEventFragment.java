@@ -19,7 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
@@ -40,8 +42,9 @@ public class MoodEventFragment extends Fragment {
     private static final String MOOD_EVENT = "mood_event";
     private static final String POSITION = "position";
 
-    private EditText frag_mood;
     private RelativeLayout fragment_layout;
+    private TextView frag_mood;
+    private ImageView mood_emoji;
 
     // TODO: Rename and change types of parameters
     private MoodEvent mMoodEvent;
@@ -78,14 +81,18 @@ public class MoodEventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mood_event, container, false);
-        // Gives us access to the frontend of the fragment now
-        frag_mood = view.findViewById(R.id.frag_mood);
-        frag_mood.setText(mMoodEvent.getMood());
+//        // Gives us access to the frontend of the fragment now
 
         // Setting the background based on the mood
         Mood selected_mood = constants.mood_num_to_mood_obj_mapper.get(mMoodEvent.getMood());
         fragment_layout = view.findViewById(R.id.fragment_layout);
         fragment_layout.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
+
+        frag_mood = view.findViewById(R.id.frag_mood);
+        frag_mood.setText(selected_mood.getMoodName());
+
+        mood_emoji = view.findViewById(R.id.emoji_view);
+        mood_emoji.setImageResource(selected_mood.getIcon());
 
 
 

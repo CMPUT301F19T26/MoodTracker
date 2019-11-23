@@ -40,7 +40,9 @@ public class constants {
     public static final int CROWD = 4;
     public static final int NONE = 5;
 
-    public static final String date_format = "yyyy-MM-dd'T'HH:mm:sss'Z'";
+    public static final String date_format = "yyyy-MM-dd'T'HH:mm:sss'Z'"; // This is used for DB
+    public static final String clean_format = "MM/dd/yyyy HH:mm"; // This is used for front_end
+
 
     // Front end mappers
     public static HashMap<String, String> mood_name_to_num_mapper = new HashMap<>();
@@ -59,4 +61,6 @@ public class constants {
         mood_num_to_mood_obj_mapper.put(SURPRISED, new Surprised("#ffff00", R.drawable.surprised, "Surprised", SURPRISED));
         mood_num_to_mood_obj_mapper.put(ANGRY, new Angry("#ff2929", R.drawable.angry, "Angry", ANGRY));
     }
+
+    public static String[]  mood_spinner_list = {"All", "Neutral", "Happy", "Surprised", "Angry"};
 }

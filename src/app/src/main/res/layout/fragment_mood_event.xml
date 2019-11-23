@@ -7,24 +7,72 @@
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
 <!--Todo: Background color should be set by the mood of the moodevent-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_layout"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light"
-    android:clickable="true"
-    tools:context=".view.fragment.MoodEventFragment">
+    tools:context=".view.mood.AddMoodEventActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="IN THE FRAGMENT NOW" />
-    <EditText
-        android:id="@+id/frag_mood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go back to moodevents"/>
+        android:fillViewport="true">
+        <RelativeLayout
+            android:id="@+id/fragment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            tools:context=".view.fragment.MoodEventFragment">
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/frag_mood"
+                android:layout_width="86dp"
+                android:layout_height="49dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="163dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="162dp"
+                android:autoSizeTextType="uniform"
+                android:text="Mood"
+                android:textAlignment="center"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/emoji_view"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/frag_mood"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="false"
+                android:layout_marginStart="156dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="154dp"
+                android:layout_marginBottom="398dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/angry" />
+
+            <Button
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="307dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="667dp"
+                android:background="@android:color/black"
+                android:text="Edit" />
+        </RelativeLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

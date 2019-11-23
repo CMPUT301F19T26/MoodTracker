@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 
 import com.example.moodtracker.constants;
 import com.example.moodtracker.helpers.FirebaseHelper;
+import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,6 +37,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class MoodHistory implements Serializable {
@@ -81,9 +83,39 @@ public class MoodHistory implements Serializable {
                             if (doc.exists()) {
                                 MoodEvent me  = buildMoodEventFromDoc(doc, h.user_id);
                                 h.history.add(me);
-                                adapter.notifyDataSetChanged();
                             }
                         }
+                        // Sort the moodEvents
+                        Collections.sort(h.history, new MoodHistoryHelpers());
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+    }
+
+    public static void getMoodHistoryWithFilter(ArrayAdapter adapter, MoodHistory h, String filter, String filter_val) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("moodEvents")
+                .whereEqualTo("user_id", h.user_id)
+                .whereEqualTo(filter, filter_val)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            if (doc.exists()) {
+                                MoodEvent me  = buildMoodEventFromDoc(doc, h.user_id);
+                                h.history.add(me);
+                            }
+                        }
+                        // Sort the moodEvents
+                        Collections.sort(h.history, new MoodHistoryHelpers());
+                        adapter.notifyDataSetChanged();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

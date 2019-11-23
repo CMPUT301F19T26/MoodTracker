@@ -36,6 +36,7 @@ import androidx.cardview.widget.CardView;
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
 import com.example.moodtracker.controller.MoodHistoryController;
+import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
@@ -44,8 +45,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
@@ -115,8 +118,10 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         mood.setText(mood_obj.getMoodName());
         icon.setImageResource(mood_obj.getIcon());
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        date.setText(event_item.getDate());
+        Date curr_date = MoodHistoryHelpers.convertStringtoDate(event_item.getDate());
+        DateFormat df = new SimpleDateFormat(constants.clean_format);
+        String formatted_date = df.format(curr_date);
+        date.setText(formatted_date);
     }
 
     private void handlePhotos(ImageView photoView, MoodEvent event_item) {
