@@ -13,20 +13,26 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
+import com.example.moodtracker.helpers.FirebaseHelper;
+import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,9 +48,17 @@ public class MoodEventFragment extends Fragment {
     private static final String MOOD_EVENT = "mood_event";
     private static final String POSITION = "position";
 
-    private RelativeLayout fragment_layout;
+    private LinearLayout fragment_layout;
     private TextView frag_mood;
     private ImageView mood_emoji;
+    private ImageView frag_image;
+    private Toolbar toolbar;
+    private TextView date;
+    private Button delete;
+    private Button edit;
+    private Button cancel;
+    private Button done;
+    private EditText reason;
 
     // TODO: Rename and change types of parameters
     private MoodEvent mMoodEvent;
@@ -81,29 +95,99 @@ public class MoodEventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mood_event, container, false);
-//        // Gives us access to the frontend of the fragment now
+        setUpFragmentWithMoodEvent(mMoodEvent, view);
+        // Onclick Listeners
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onDelete(mPosition);
+            }
+        });
 
-        // Setting the background based on the mood
-        Mood selected_mood = constants.mood_num_to_mood_obj_mapper.get(mMoodEvent.getMood());
-        fragment_layout = view.findViewById(R.id.fragment_layout);
-        fragment_layout.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edit.setVisibility(View.GONE);
+                cancel.setVisibility(View.VISIBLE);
+                done.setVisibility(View.VISIBLE);
+            }
+        });
 
-        frag_mood = view.findViewById(R.id.frag_mood);
-        frag_mood.setText(selected_mood.getMoodName());
-
-        mood_emoji = view.findViewById(R.id.emoji_view);
-        mood_emoji.setImageResource(selected_mood.getIcon());
-
-
-
-        // Todo: Set any onclick listeners in here as well
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancel.setVisibility(View.GONE);
+                done.setVisibility(View.GONE);
+                edit.setVisibility(View.VISIBLE);
+            }
+        });
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancel.setVisibility(View.GONE);
+                done.setVisibility(View.GONE);
+                edit.setVisibility(View.VISIBLE);
+            }
+        });
         return view;
     }
 
+    public void setUpFragmentWithMoodEvent(MoodEvent e, View v) {
+        cancel = v.findViewById(R.id.cancel_edit);
+        done = v.findViewById(R.id.done_edit);
+        edit = v.findViewById(R.id.edit);
+        if (e.getUser_id().equals(FirebaseHelper.getUid())) {
+            edit.setVisibility(View.VISIBLE);
+        }
+
+        delete = v.findViewById(R.id.delete);
+        if (e.getUser_id().equals(FirebaseHelper.getUid())){
+            delete.setVisibility(View.VISIBLE);
+        }
+
+        // Reason Handler
+        reason = v.findViewById(R.id.reason_me);
+        if (e.getReason()!= null) {
+            reason.setText(e.getReason());
+        }
+
+        // Image Handler
+        frag_image = v.findViewById(R.id.me_frag_image);
+        if (e.getPhoto_url()!= null) {
+            Picasso.get().load(e.getPhoto_url()).into(frag_image);
+        }
+        // Setting the background based on the mood
+        Mood selected_mood = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
+        fragment_layout = v.findViewById(R.id.fragment_layout);
+        fragment_layout.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
+
+        // Handle Mood Related items
+        frag_mood = v.findViewById(R.id.frag_mood);
+        frag_mood.setText(selected_mood.getMoodName());
+        mood_emoji = v.findViewById(R.id.emoji_view);
+        mood_emoji.setImageResource(selected_mood.getIcon());
+
+        // Handle the Date
+        String formatted_date = MoodHistoryHelpers.formatDate(e.getDate());
+        date = v.findViewById(R.id.date);
+        date.setText(formatted_date);
+
+        // Set up the Toolbar
+        toolbar = v.findViewById(R.id.mood_event_view_tb);
+        toolbar.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onDelete(int position) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction(position);
+            getActivity().onBackPressed();
         }
     }
 
@@ -136,6 +220,6 @@ public class MoodEventFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(int position);
     }
 }

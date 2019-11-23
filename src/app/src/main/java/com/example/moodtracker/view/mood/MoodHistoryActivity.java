@@ -1,7 +1,5 @@
 package com.example.moodtracker.view.mood;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,56 +7,32 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
-import android.widget.Toolbar;
-
 import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.MoodHistoryAdapter;
 import com.example.moodtracker.constants;
-import com.example.moodtracker.controller.MoodEventController;
 import com.example.moodtracker.controller.MoodHistoryController;
-import com.example.moodtracker.helpers.FirebaseHelper;
-import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.view.fragment.MoodEventFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 public class MoodHistoryActivity extends AppCompatActivity implements MoodEventFragment.OnFragmentInteractionListener {
     private ListView moodHistoryList;
     private ArrayAdapter<MoodEvent> HistoryAdapter;
     private MoodHistory moodHistory;
-    private ArrayList<MoodEvent> all_list;
     private String user_id;
     private androidx.appcompat.widget.Toolbar toolbar;
     private String previously_selected = "All";
     private Spinner mood_history_spinner;
     private ArrayAdapter<String> adapt;
-    private HashMap<String, String> mood_name_to_num_mapper = constants.mood_name_to_num_mapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,8 +122,8 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        System.out.println("We back");
+    public void onFragmentInteraction(int position) {
+        MoodHistoryController.deleteEventFromHistory(moodHistory.history.get(position), moodHistory, position, HistoryAdapter);
     }
 
     @Override

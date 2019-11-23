@@ -112,15 +112,21 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         TextView date = view.findViewById(R.id.event_date);
         ImageView icon = view.findViewById(R.id.icon_image);
         ImageView photo = view.findViewById(R.id.me_photo);
+        TextView reason = view.findViewById(R.id.reason);
+        TextView social = view.findViewById(R.id.social_situation);
         handlePhotos(photo, event_item);
 
+        if (event_item.getReason()!= null) {
+            reason.setText(event_item.getReason());
+        }
+        if (event_item.getSocialSituation()!= null) {
+            social.setText(event_item.getSocialSituation());
+        }
         mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
         mood.setText(mood_obj.getMoodName());
         icon.setImageResource(mood_obj.getIcon());
 
-        Date curr_date = MoodHistoryHelpers.convertStringtoDate(event_item.getDate());
-        DateFormat df = new SimpleDateFormat(constants.clean_format);
-        String formatted_date = df.format(curr_date);
+        String formatted_date = MoodHistoryHelpers.formatDate(event_item.getDate());
         date.setText(formatted_date);
     }
 

@@ -45,6 +45,12 @@ public class MoodHistoryHelpers  implements Comparator<MoodEvent>{
         return null;
     }
 
+    public static String formatDate(String date) {
+        Date curr_date = MoodHistoryHelpers.convertStringtoDate(date);
+        DateFormat df = new SimpleDateFormat(constants.clean_format);
+        return df.format(curr_date);
+    }
+
     public static Date convertStringtoDate(String date) {
         DateFormat df = new SimpleDateFormat(constants.date_format);
         Date d;

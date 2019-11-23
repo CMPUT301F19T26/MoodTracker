@@ -41,7 +41,7 @@ public class constants {
     public static final int NONE = 5;
 
     public static final String date_format = "yyyy-MM-dd'T'HH:mm:sss'Z'"; // This is used for DB
-    public static final String clean_format = "MM/dd/yyyy HH:mm"; // This is used for front_end
+    public static final String clean_format = "HH:mm • yyyy/MM/dd"; // This is used for front_end
 
 
     // Front end mappers
