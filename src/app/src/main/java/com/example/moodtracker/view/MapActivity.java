@@ -24,7 +24,9 @@ import android.view.MenuItem;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.Location;
+import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -107,7 +109,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         //declare vars
         mMap = googleMap;
-        ArrayList<Location> locations;
+        ArrayList<Location> locations = new ArrayList<Location>();
 
         // get mode for friends or user
         int mode = getIntent().getIntExtra("MODE", 0);
@@ -117,20 +119,31 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         //get locations
         if (mode == 0) {
-            locations = user.getUserLocations();
+            user.getUserLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
+                @Override
+                public void onSuccess(ArrayList<Location> locations) {
+                    //append locations to map
+                    for(Location location: locations) {
+                        LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
         }
 
-        else {
-            locations = user.getFriendsLocations();
-        }
+//        else {
+//            locations = user.getFriendsLocations();
+//        }
 
-        //append locations to map
-        for(Location location: locations) {
-            LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 
-        }
 
     }
 }

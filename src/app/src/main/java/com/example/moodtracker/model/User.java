@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -69,27 +70,34 @@ public class User implements Parcelable {
     }
 
 
-    public ArrayList<Location> getUserLocations(){
-        ArrayList<Location> locations = new ArrayList<Location>();
+    public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<Location>> cb) {
+        ArrayList<Location> locations = new ArrayList<>();
         db.collection("moodEvents")
                 .whereEqualTo("user_id", userID)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot doc: task.getResult()) {
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             if (doc.exists()) {
-                                if (doc.get("location") != null) {
-                                    LatLng coords = (LatLng)doc.get("location");
-                                    String moodName = (String)doc.get("moodName");
-                                    Location location = new Location(coords.latitude,coords.longitude,moodName);
+                                if (doc.get("lat") != null) {
+                                    Double lat = (Double)doc.get("lat");
+                                    Double lng = (Double)doc.get("lng");
+                                    String moodName = (String)doc.get("mood");
+                                    Location location = new Location(lat,lng,moodName);
                                     locations.add(location);
 
                                 }
                             }
                         }
+                        cb.onSuccess(locations);
                     }
                 });
+//                    public void onSuccess(@NonNull Task<QuerySnapshot> task) {
+//
+
+//                    }
+//                });
 
 
 //        //query DB instead
@@ -101,38 +109,36 @@ public class User implements Parcelable {
 //        locations.add(edmonton);
 //        locations.add(chicago);
 
-        return locations;
-
     }
 
-    public ArrayList<Location> getFriendsLocations(){
-
-        getUserLocations();
-
-        ArrayList<Location> locations = new ArrayList<Location>();
-
-        for (String friend_id: followingIDs) {
-            db.collection("moodEvents")
-                    .whereEqualTo("user_id", userID)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            for(QueryDocumentSnapshot doc: task.getResult()) {
-                                if (doc.exists()) {
-                                    if (doc.get("location") != null) {
-                                        LatLng coords = (LatLng)doc.get("location");
-                                        String moodName = (String)doc.get("moodName");
-                                        Location location = new Location(coords.latitude,coords.longitude,moodName);
-                                        locations.add(location);
-
-                                    }
-                                }
-                            }
-                        }
-                    });
-
-        }
+//    public ArrayList<Location> getFriendsLocations(){
+//
+//        getUserLocations();
+//
+//        ArrayList<Location> locations = new ArrayList<Location>();
+//
+//        for (String friend_id: followingIDs) {
+//            db.collection("moodEvents")
+//                    .whereEqualTo("user_id", userID)
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            for(QueryDocumentSnapshot doc: task.getResult()) {
+//                                if (doc.exists()) {
+//                                    if (doc.get("location") != null) {
+//                                        LatLng coords = (LatLng)doc.get("location");
+//                                        String moodName = (String)doc.get("moodName");
+//                                        Location location = new Location(coords.latitude,coords.longitude,moodName);
+//                                        locations.add(location);
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    });
+//
+//        }
 
 
         //query DB instead
@@ -144,9 +150,9 @@ public class User implements Parcelable {
 //        locations.add(edmonton);
 //        locations.add(chicago);
 
-        return locations;
+//        return locations;
 
-    }
+//    }
 
     //write object values to parcel for storage
 

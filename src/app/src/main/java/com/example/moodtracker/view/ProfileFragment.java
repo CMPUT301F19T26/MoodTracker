@@ -160,8 +160,8 @@ public class ProfileFragment extends AppCompatActivity {
                     case R.id.ic_Map:
                         Intent mapIntent = new Intent(ProfileFragment.this, MapActivity.class);
 
-                        User Jared = new User("21");
-                        mapIntent.putExtra("USER", Jared);
+                        User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        mapIntent.putExtra("USER", user);
                         mapIntent.putExtra("MODE", 0);
                         startActivity(mapIntent);
 //                        Intent intent3 = new Intent(ProfileFragment.this, MapActivity.class);
