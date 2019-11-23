@@ -63,34 +63,31 @@ public class FindActivity extends AppCompatActivity {
 
     ListView userListView;
     ArrayAdapter<User> userArrayAdapter;
+    ArrayList<User> userDataList;
 
     EditText searchText;
     Button searchButton;
 
+    FirebaseFirestore db;
     /**
      * On Create
      *
      * @param savedInstanceState the instance
      */
-    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
 
-
         searchText = findViewById(R.id.search_bar);
         searchButton = findViewById(R.id.search_button);
         userListView = findViewById(R.id.result_list);
-
         db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("usernames");
-
-        searchButton.setVisibility(View.INVISIBLE);
-//        final String searchInput = searchText.getText().toString();
-
-        searchButton.setVisibility(View.VISIBLE);
+        userDataList = new ArrayList<>();
+        userArrayAdapter = new CustomFindList(this, userDataList);
+        userListView.setAdapter(userArrayAdapter);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,28 +100,18 @@ public class FindActivity extends AppCompatActivity {
                                 DocumentSnapshot doc = task.getResult();
                                 if (task.isSuccessful()){
                                     if(doc.exists()){
-                                        Log.d("TAG",task.getResult().toString());
-                                        Toast.makeText(FindActivity.this,task.getResult().toString(), Toast.LENGTH_SHORT).show();
+                                        // populate ArrayList with results
+                                        
+                                        // display in the ArrayAdapter
+                                        userArrayAdapter.notifyDataSetChanged();
                                     }else{
-                                        Toast.makeText(FindActivity.this, "COULDNT FIND THAT USERNAME", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(FindActivity.this, "COULDN'T FIND THAT USERNAME", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
                         });
             }
         });
-
-
-//        final String searchInput = searchText.getText().toString();
-//        if (!searchInput.isEmpty()){
-//            searchButton.setVisibility(View.VISIBLE);
-//            searchButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(FindActivity.this,"SEARCHING" , Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
 
         Button followBtn = findViewById(R.id.af_follow_button);
         EditText followUsernameText = findViewById(R.id.af_username_follow);
@@ -135,9 +122,7 @@ public class FindActivity extends AppCompatActivity {
 
                 // get username of myself
                 String myId = FirebaseAuth.getInstance().getUid();
-
                 // get username of the person trying to follow
-
                 FirebaseFirestore.getInstance().collection("users").whereEqualTo("username", followUsernameText.getText().toString()).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -171,20 +156,16 @@ public class FindActivity extends AppCompatActivity {
                                                         }
                                                     });
                                         } else {
-
-                                            Log.d("HOME", "No such document");
+//                                            Log.d("HOME", "No such document");
+                                            Toast.makeText(FindActivity.this, "COULDN'T FIND THAT USERNAME", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 } else{
-
                                     Log.d("HOME", "get failed with ", task.getException());
                                 }
                             }
 
                         });
-
-
-
             }
         });
 
@@ -203,28 +184,19 @@ public class FindActivity extends AppCompatActivity {
                         Intent intent0 = new Intent(FindActivity.this, ProfileFragment.class);
                         startActivity(intent0);
                         break;
-
                     case R.id.ic_Search:
-
                         break;
-
                     case R.id.ic_Add:
                         Intent intent2 = new Intent(FindActivity.this, AddMoodEventActivity.class);
                         startActivity(intent2);
                         break;
-
                     case R.id.ic_Map:
 //                        Intent intent3 = new Intent(FindActivity.this, MapActivity.class);
 //                        startActivity(intent3);
                         break;
-
                     case R.id.ic_Feed:
-
                         break;
-
-
                 }
-
                 return false;
             }
         });
