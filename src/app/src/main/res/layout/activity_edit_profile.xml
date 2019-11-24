@@ -16,13 +16,13 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Edit Text"
+        app:title="Edit Profile"
         app:titleTextColor="#FFFFFF"
         app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
 
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:textColor="#FFFFFF"
-        android:background="@color/design_default_color_primary"
+        android:background="@drawable/general_buttons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -46,8 +46,7 @@
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:padding="20dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -56,9 +55,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:padding="20dp"
+        android:padding="40dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/profilePictureEdit"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@mipmap/ic_launcher_emoji"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            android:onClick="showPopup" />
 
         <TextView
             android:id="@+id/userNameTV"
@@ -66,18 +78,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:fontFamily="sans-serif"
             android:text="👤Username"
             android:textColor="#FFFFFF"
-            android:textSize="24sp"
+            android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/toolbar"
-            app:layout_constraintStart_toStartOf="@id/toolbar"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:ignore="NotSibling" />
+            app:layout_constraintEnd_toEndOf="@+id/profilePictureEdit"
+            app:layout_constraintStart_toStartOf="@+id/profilePictureEdit"
+            app:layout_constraintTop_toBottomOf="@+id/profilePictureEdit" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

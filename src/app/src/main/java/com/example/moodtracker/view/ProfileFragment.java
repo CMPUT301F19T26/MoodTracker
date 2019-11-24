@@ -44,7 +44,8 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 
 public class ProfileFragment extends AppCompatActivity {
-    private MaterialButton EditFab;
+    private FloatingActionButton EditFab;
+    private MaterialButton LogoutFab;
     private FloatingActionButton AddMoodFab;
     private FirebaseAuth fAuth;
     private Button FollowersButton;
@@ -66,15 +67,15 @@ public class ProfileFragment extends AppCompatActivity {
 
         // displays username
         TextView ProfileName = (TextView) findViewById(R.id.userNameFragmentProfile);
-        ProfileName.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
+        ProfileName.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
-        EditFab = findViewById(R.id.EditFab);
+        EditFab = findViewById(R.id.editFAB);
         EditFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent mainIntent = new Intent(ProfileFragment.this, MainActivity.class);
-                startActivity(mainIntent);
+                Intent editActivity = new Intent(ProfileFragment.this, EditProfile.class);
+                startActivity(editActivity);
 
 //
 //                Intent editActivity = new Intent(ProfileFragment.this, EditProfile.class);
@@ -84,6 +85,18 @@ public class ProfileFragment extends AppCompatActivity {
 
             }
         });
+
+        LogoutFab = findViewById(R.id.logoutFAB);
+        LogoutFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent mainIntent = new Intent(ProfileFragment.this, MainActivity.class);
+                startActivity(mainIntent);
+            }
+        });
+
+
 
 //        AddMoodFab = findViewById(R.id.AddMoodFab);
 //        AddMoodFab.setOnClickListener(new View.OnClickListener() {
