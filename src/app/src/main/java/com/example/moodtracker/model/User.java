@@ -70,8 +70,8 @@ public class User implements Parcelable {
     }
 
 
-    public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<Location>> cb) {
-        ArrayList<Location> userlocations = new ArrayList<>();
+    public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
+        ArrayList<MoodEvent> usermoods = new ArrayList<>();
         db.collection("moodEvents")
                 .whereEqualTo("user_id", userID)
                 .get()
@@ -81,16 +81,17 @@ public class User implements Parcelable {
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             if (doc.exists()) {
                                 if (doc.get("lat") != null) {
-                                    Double lat = (Double)doc.get("lat");
-                                    Double lng = (Double)doc.get("lng");
-                                    String moodName = (String)doc.get("mood");
-                                    Location location = new Location(lat,lng,moodName);
-                                    userlocations.add(location);
+                                    MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
+//                                    Double lat = (Double)doc.get("lat");
+//                                    Double lng = (Double)doc.get("lng");
+//                                    String moodName = (String)doc.get("mood");
+//                                    Location location = new Location(lat,lng,moodName);
+                                    usermoods.add(me);
 
                                 }
                             }
                         }
-                        cb.onSuccess(userlocations);
+                        cb.onSuccess(usermoods);
                     }
                 });
 

@@ -25,11 +25,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.constants;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.Location;
+import com.example.moodtracker.model.Mood;
+import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.model.User;
+import com.example.moodtracker.view.fragment.MoodEventFragment;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -110,17 +114,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         //get locations
 
-        user.getUserLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
+        user.getUserLocations(new MoodHistory.FirebaseCallback<ArrayList<MoodEvent>>() {
             @Override
-            public void onSuccess(ArrayList<Location> locations) {
+            public void onSuccess(ArrayList<MoodEvent> moodEvents) {
                 //append locations to map
 
                 userMarkers.clear();
-                for(Location location: locations) {
-                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
-                    userMarkers.add(mMap.addMarker(new MarkerOptions()
+                for(MoodEvent moodEvent: moodEvents) {
+                    LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
+                    Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
+                    Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(loc)
-                            .title(location.getMood())));
+                            .title(m.getMoodName()));
+                    marker.setTag(moodEvent);
+                    userMarkers.add(marker);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 
                 }
@@ -138,6 +145,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         hide.setOnClickListener(hideclick);
         show.setOnClickListener(showclick);
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                MoodEvent m = (MoodEvent)marker.getTag();
+
+
+
+            }
+        });
 
 
 //        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
