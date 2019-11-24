@@ -221,8 +221,8 @@ public class MoodEvent implements Parcelable {
         parcel.writeString(date);
         parcel.writeString(reason);
         parcel.writeString(photo_url);
-        parcel.writeDouble(lat);
-        parcel.writeDouble(lng);
+        parcel.writeValue(lat);
+        parcel.writeValue(lng);
         parcel.writeString(social_situation);
 
     }
