@@ -102,14 +102,14 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
 
             }
         });
-
-        toolbar = findViewById(R.id.mood_history_toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//
+//        toolbar = findViewById(R.id.mood_history_toolbar);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
 
     }
 
