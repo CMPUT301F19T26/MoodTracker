@@ -148,49 +148,10 @@ public class ProfileFragment extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(0);
+        MenuItem menuItem = menu.getItem(4);
         menuItem.setChecked(true);
+        BottomNavigationViewHelper.enableNavigation(ProfileFragment.this, bottomNavigationView);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.ic_Profile:
-
-                        break;
-
-                    case R.id.ic_Search:
-                        Intent intent1 = new Intent(ProfileFragment.this, FindActivity.class);
-                        startActivity(intent1);
-                        break;
-
-                    case R.id.ic_Add:
-                        Intent intent2 = new Intent(ProfileFragment.this, AddMoodEventActivity.class);
-                        startActivity(intent2);
-                        break;
-
-                    case R.id.ic_Map:
-                        Intent mapIntent = new Intent(ProfileFragment.this, MapActivity.class);
-
-                        User Jared = new User("21");
-                        mapIntent.putExtra("USER", Jared);
-                        mapIntent.putExtra("MODE", 0);
-                        startActivity(mapIntent);
-//                        Intent intent3 = new Intent(ProfileFragment.this, MapActivity.class);
-//                        startActivity(intent3);
-                        break;
-
-                    case R.id.ic_Feed:
-//                        Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
-//                        moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
-//                        startActivity(moodHistoryIntent);
-                        break;
-
-                }
-
-                return false;
-            }
-        });
     }
 }
 
