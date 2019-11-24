@@ -97,8 +97,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
         mood_dropdown.setAdapter(adapt);
 
         social_situation_dropdown = findViewById(R.id.social_sitation_selector);
-        final String[] social_items = new String[]{"None","Alone", "One Other", "Two Others", "Several", "Crowd"};
-        social_adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, social_items);
+        social_adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, constants.social_situations_list);
         social_situation_dropdown.setAdapter(social_adapt);
 
         // Submission handling

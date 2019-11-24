@@ -7,24 +7,249 @@
   ~ Vestibulum commodo. Ut rhoncus gravida arcu.
   -->
 <!--Todo: Background color should be set by the mood of the moodevent-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_layout"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light"
-    android:clickable="true"
-    tools:context=".view.fragment.MoodEventFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context=".view.mood.AddMoodEventActivity">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="IN THE FRAGMENT NOW" />
-    <EditText
-        android:id="@+id/frag_mood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go back to moodevents"/>
+        android:id="@+id/fragment_layout"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
 
-</RelativeLayout>
+            android:id="@+id/mood_event_view_tb"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            android:layout_width="match_parent"
+            android:minHeight="@dimen/abc_action_bar_default_height_material"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="?attr/homeAsUpIndicator">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mood_event"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+
+            android:id="@+id/edit_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:clickable="true"
+            android:fillViewport="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            tools:context=".view.fragment.MoodEventFragment">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginTop="27dp"
+                    android:text="@string/username"
+                    android:textStyle="bold|italic" />
+
+                <ImageView
+                    android:id="@+id/emoji_view"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="27dp"
+                    android:scaleType="fitXY" />
+
+                <Spinner
+                    android:id="@+id/me_mood_frag_spinner"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:autoSizeTextType="uniform"
+                    android:textAlignment="center"
+                    android:textSize="10sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/button"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/edit"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/done_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/button"
+                    android:backgroundTint="@color/color_happy"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/done"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/cancel_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/button"
+                    android:backgroundTint="@color/colorWhite"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/button"
+                    android:backgroundTint="@color/colorAccent"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/delete"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/reason_me"
+                    android:layout_width="239dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/delete"
+                    android:layout_alignStart="@+id/delete"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="0dp"
+                    android:enabled="false"
+                    android:hint="@string/reason"
+                    android:maxLength="20" />
+
+                <ImageView
+                    android:id="@+id/me_frag_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/me_frag_spinner"
+                    android:layout_alignStart="@+id/me_frag_spinner"
+                    android:adjustViewBounds="true"
+                    android:clickable="false"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:scaleType="fitXY"
+                    android:scaleY="0.9" />
+
+                <LinearLayout
+                    android:id="@+id/photo_button_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/me_frag_image"
+                    android:layout_alignStart="@+id/me_frag_image"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/upload_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Upload Pic"
+                        android:textColor="@color/colorWhite"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/remove_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/button"
+                        android:backgroundTint="@color/colorAccent"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Remove"
+                        android:textColor="@color/colorWhite"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/me_frag_spinner"
+                    android:layout_width="242dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reason_me"
+                    android:layout_alignStart="@+id/reason_me"
+                    android:layout_marginStart="-3dp"
+                    android:layout_marginTop="0dp"
+                    android:clickable="false" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                 />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

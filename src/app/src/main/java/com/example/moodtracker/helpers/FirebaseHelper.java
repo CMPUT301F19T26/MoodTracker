@@ -42,13 +42,17 @@ public class FirebaseHelper {
          */
         void onFailure(@NonNull Exception e);
     }
-    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public static String getUserName(String user_id) {
         DocumentSnapshot user = db.collection("users").document(user_id).get().getResult();
         System.out.print(user.getData());
         return "BALH";
+    }
+
+    public static String getUid() {
+        return auth.getCurrentUser().getUid();
     }
 
     public static void uploadImage(Uri photo, String mood_id, final FirebaseCallback<Uri> cb) {
