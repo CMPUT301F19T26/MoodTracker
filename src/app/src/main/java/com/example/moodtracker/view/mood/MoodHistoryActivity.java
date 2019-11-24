@@ -17,6 +17,7 @@ import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.MoodHistoryAdapter;
 import com.example.moodtracker.constants;
 import com.example.moodtracker.controller.MoodHistoryController;
+import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.view.fragment.MoodEventFragment;
@@ -113,7 +114,13 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
     }
 
     private void openFragment(MoodEvent moodEvent, int position) {
-        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position);
+        boolean location_changed = false;
+        if (moodEvent.getLat() == null) {
+            location_changed = true;
+            moodEvent.setLng(0.0);
+            moodEvent.setLat(0.0);
+        }
+        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -122,8 +129,14 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
     }
 
     @Override
-    public void onFragmentInteraction(int position) {
+    public void onDeleteFragmentInteraction(int position) {
         MoodHistoryController.deleteEventFromHistory(moodHistory.history.get(position), moodHistory, position, HistoryAdapter);
+    }
+
+    @Override
+    public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb) {
+        // Send this new MoodEvent to the db and update the fields
+        MoodHistory.externalUpdateMoodEvent(e, position, photo, moodHistory, HistoryAdapter, cb);
     }
 
     @Override

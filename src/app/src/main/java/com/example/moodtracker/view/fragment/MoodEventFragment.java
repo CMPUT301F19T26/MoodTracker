@@ -9,10 +9,13 @@
 package com.example.moodtracker.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -25,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,7 +39,12 @@ import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
+import com.example.moodtracker.model.MoodHistory;
 import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,8 +59,10 @@ public class MoodEventFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String MOOD_EVENT = "mood_event";
     private static final String POSITION = "position";
+    private static final String LOC_CHANGED = "location_changed";
 
     private LinearLayout fragment_layout;
+    private LinearLayout edit_body;
     private TextView frag_mood;
     private ImageView mood_emoji;
     private ImageView frag_image;
@@ -61,13 +72,21 @@ public class MoodEventFragment extends Fragment {
     private Button edit;
     private Button cancel;
     private Button done;
+    private Button remove_photo;
+    private Button upload_photo;
     private EditText reason;
     private Spinner social_situations;
+    private Spinner moods;
     private ArrayAdapter<String> social_adapt;
+    private ArrayAdapter<String> mood_adapt;
+    private ProgressBar pbar;
+    private Uri image = null;
 
+    private boolean removed_image_from_me;
     // TODO: Rename and change types of parameters
     private MoodEvent mMoodEvent;
     private int mPosition;
+    private boolean location_changed;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,11 +96,12 @@ public class MoodEventFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static MoodEventFragment newInstance(MoodEvent moodEvent, int position) {
+    public static MoodEventFragment newInstance(MoodEvent moodEvent, int position, boolean location_changed) {
         MoodEventFragment fragment = new MoodEventFragment();
         Bundle args = new Bundle();
         args.putParcelable(MOOD_EVENT, moodEvent);
         args.putInt(POSITION, position);
+        args.putBoolean(LOC_CHANGED, location_changed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,8 +110,10 @@ public class MoodEventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            System.out.println("getting my stuff");
             mMoodEvent = getArguments().getParcelable(MOOD_EVENT);
             mPosition = getArguments().getInt(POSITION);
+            location_changed = getArguments().getBoolean(LOC_CHANGED);
         }
     }
 
@@ -108,42 +130,132 @@ public class MoodEventFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+        // For removing photos
+        remove_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                image = null;
+                if (mMoodEvent.getPhoto_url()!= null) {
+                    removed_image_from_me = true;
+                }
+                frag_image.setImageResource(0);
+                remove_photo.setVisibility(View.GONE);
+            }
+        });
+        upload_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FileChooser();
+            }
+        });
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onDelete(mPosition);
             }
         });
-
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 edit.setVisibility(View.GONE);
                 cancel.setVisibility(View.VISIBLE);
                 done.setVisibility(View.VISIBLE);
+                upload_photo.setVisibility(View.VISIBLE);
+                if (mMoodEvent.getPhoto_url()!= null) {
+                    remove_photo.setVisibility(View.VISIBLE);
+                }
                 //Enable the views
                 enableViews();
             }
         });
-
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                cancel.setVisibility(View.GONE);
-                done.setVisibility(View.GONE);
-                edit.setVisibility(View.VISIBLE);
+            public void onClick(View v) {
                 //Disable the views again
+                cancelAndEditVisibilities();
+                setUpFragmentWithMoodEvent(mMoodEvent, view);
                 disableViews();
             }
         });
         done.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                cancel.setVisibility(View.GONE);
-                done.setVisibility(View.GONE);
-                edit.setVisibility(View.VISIBLE);
-                // disable views
-                disableViews();
+            public void onClick(View v) {
+                boolean difference = false;
+                if (location_changed) {
+                    mMoodEvent.setLng(null);
+                    mMoodEvent.setLat(null);
+                }
+                cancelAndEditVisibilities(); // Handles visibilities for Front end
+                if (image != null) {
+                    difference = true;
+                }else if (image == null && removed_image_from_me) {
+                    difference = true;
+                    mMoodEvent.setPhoto_url(null);
+                }
+                // Reasons
+                if (mMoodEvent.getReason() == null) {
+                    if (!reason.getText().toString().equals("")) {
+                        difference = true;
+                        mMoodEvent.setReason(reason.getText().toString());
+                    }
+                }
+                else if ((!mMoodEvent.getReason().equals(reason.getText().toString()))) {
+                    difference = true;
+                    if (reason.getText().toString().equals("")) {
+                        mMoodEvent.setReason(null);
+                    } else {
+                        mMoodEvent.setReason(reason.getText().toString());
+                    }
+                }
+
+                //Social Situation
+                if (mMoodEvent.getSocialSituation() == null) {
+                    if (!social_situations.getSelectedItem().toString().equals("None")) {
+                        difference = true;
+                        mMoodEvent.setSocial_situation(social_situations.getSelectedItem().toString());
+                    }
+                }
+                else if (!mMoodEvent.getSocialSituation().equals(social_situations.getSelectedItem().toString())){
+                    difference = true;
+                    if (social_situations.getSelectedItem().toString().equals("None")) {
+                        mMoodEvent.setSocial_situation(null);
+                    } else {
+                        mMoodEvent.setSocial_situation(social_situations.getSelectedItem().toString());
+                    }
+                }
+
+                // Check if the mood is different
+                Mood selected_mood = constants.mood_num_to_mood_obj_mapper.get(mMoodEvent.getMood());
+                if (!selected_mood.getMoodName().equals(moods.getSelectedItem().toString())) {
+                    difference = true;
+                    mMoodEvent.setMood(constants.mood_name_to_num_mapper.get(moods.getSelectedItem().toString()));
+                }
+                // Now send it to the db and update the HistoryActivity
+                if (difference) {
+                    edit_body.setVisibility(View.GONE);
+                    pbar.setVisibility(View.VISIBLE);
+                    onUpdate(mMoodEvent, mPosition, image, new MoodHistory.FirebaseCallback() {
+                        @Override
+                        public void onSuccess(Object document) {
+                            image = null;
+                            edit_body.setVisibility(View.VISIBLE);
+                            pbar.setVisibility(View.GONE);
+                            setUpFragmentWithMoodEvent(mMoodEvent, view);
+                            disableViews();
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            edit_body.setVisibility(View.VISIBLE);
+                            pbar.setVisibility(View.GONE);
+                            System.out.println("Failed to edit");
+                        }
+                    });
+                } else {
+                    setUpFragmentWithMoodEvent(mMoodEvent, view);
+                    disableViews();
+                }
+
             }
         });
         return view;
@@ -153,17 +265,37 @@ public class MoodEventFragment extends Fragment {
         // Enable the views
         reason.setEnabled(true);
         social_situations.setEnabled(true);
+        moods.setEnabled(true);
     }
 
     private void disableViews() {
         reason.setEnabled(false);
         social_situations.setEnabled(false);
+        moods.setEnabled(false);
+    }
+
+    private void layoutEnableOrDisable(LinearLayout myLayout, boolean choice) {
+        for ( int i = 0; i < myLayout.getChildCount();  i++ ){
+            View view = myLayout.getChildAt(i);
+            view.setEnabled(choice); // Or whatever you want to do with the view.
+        }
+    }
+
+    private void cancelAndEditVisibilities() {
+        cancel.setVisibility(View.GONE);
+        done.setVisibility(View.GONE);
+        edit.setVisibility(View.VISIBLE);
+        upload_photo.setVisibility(View.GONE);
+        remove_photo.setVisibility(View.GONE);
     }
 
     private void setUpFragmentWithMoodEvent(MoodEvent e, View v) {
         cancel = v.findViewById(R.id.cancel_edit);
         done = v.findViewById(R.id.done_edit);
         edit = v.findViewById(R.id.edit);
+        upload_photo = v.findViewById(R.id.upload_photo);
+        remove_photo = v.findViewById(R.id.remove_photo);
+        // Show things based on permissions
         if (e.getUser_id().equals(FirebaseHelper.getUid())) {
             edit.setVisibility(View.VISIBLE);
         }
@@ -191,14 +323,21 @@ public class MoodEventFragment extends Fragment {
             social_situations.setSelection(constants.SS_name_to_index_mapper.get(e.getSocialSituation()));
         }
         social_situations.setEnabled(false);
+
+        // Set up the mood as a spinner
+        moods = v.findViewById(R.id.me_mood_frag_spinner);
+        mood_adapt = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, constants.mood_list);
+        moods.setAdapter(mood_adapt);
+        moods.setSelection(constants.mood_num_to_index_mapper.get(e.getMood()));
+        moods.setEnabled(false);
+
+
         // Setting the background based on the mood
         Mood selected_mood = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
         fragment_layout = v.findViewById(R.id.fragment_layout);
         fragment_layout.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
 
         // Handle Mood Related items
-        frag_mood = v.findViewById(R.id.frag_mood);
-        frag_mood.setText(selected_mood.getMoodName());
         mood_emoji = v.findViewById(R.id.emoji_view);
         mood_emoji.setImageResource(selected_mood.getIcon());
 
@@ -210,13 +349,40 @@ public class MoodEventFragment extends Fragment {
         // Set up the Toolbar
         toolbar = v.findViewById(R.id.mood_event_view_tb);
         toolbar.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
+
+        pbar = v.findViewById(R.id.progress_bar);
+        edit_body = v.findViewById(R.id.edit_body);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onDelete(int position) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(position);
+            mListener.onDeleteFragmentInteraction(position);
             getActivity().onBackPressed();
+        }
+    }
+
+    public void onUpdate(MoodEvent e, int position, Uri photo, MoodHistory.FirebaseCallback cb){
+        if (mListener != null) {
+            mListener.onUpdateFragmentInteraction(e, position, photo, cb);
+        }
+    }
+
+    private void FileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode==RESULT_OK && data != null && data.getData()!= null) {
+            image = data.getData();
+            frag_image.setImageURI(image);
+            removed_image_from_me = false;
         }
     }
 
@@ -249,6 +415,7 @@ public class MoodEventFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int position);
+        void onDeleteFragmentInteraction(int position);
+        void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb);
     }
 }

@@ -53,6 +53,15 @@ public class constants {
             mood_name_to_num_mapper.put("Angry", ANGRY);
     }
 
+    public static HashMap<String, Integer> mood_num_to_index_mapper = new HashMap<>();
+    static {
+        mood_num_to_index_mapper.put(NEUTRAL, 0);
+        mood_num_to_index_mapper.put(HAPPY, 1);
+        mood_num_to_index_mapper.put(SURPRISED, 2);
+        mood_num_to_index_mapper.put(ANGRY, 3);
+    }
+
+
     // Given a mood event object, we can map the mood num to an object that will be used to clean up the UI
     public static HashMap<String, Mood> mood_num_to_mood_obj_mapper = new HashMap<>();
     static {
@@ -71,7 +80,7 @@ public class constants {
         SS_name_to_index_mapper.put("With Several", 4);
         SS_name_to_index_mapper.put("With a Crowd", 5);
     }
-
+    public static String[] mood_list = {"Neutral", "Happy", "Surprised", "Angry"};
     public static String[] mood_spinner_list = {"All", "Neutral", "Happy", "Surprised", "Angry"};
     public static String[] social_situations_list = {"None","Alone", "With One Other", "With Two Others", "With Several", "With a Crowd"};
 }

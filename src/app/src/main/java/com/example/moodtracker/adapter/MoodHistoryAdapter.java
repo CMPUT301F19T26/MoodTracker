@@ -118,9 +118,13 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 
         if (event_item.getReason()!= null) {
             reason.setText(event_item.getReason());
+        } else {
+            reason.setText(null);
         }
         if (event_item.getSocialSituation()!= null) {
             social.setText(event_item.getSocialSituation());
+        } else {
+            social.setText(null);
         }
         mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
         mood.setText(mood_obj.getMoodName());

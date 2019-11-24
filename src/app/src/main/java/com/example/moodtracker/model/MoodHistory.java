@@ -30,12 +30,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 import com.google.type.LatLng;
 
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -148,25 +150,46 @@ public class MoodHistory implements Serializable {
         return me;
     }
 
-    /**
-     * add the mood event
-     *
-     * @param e the mood event
-     * @param cb the call back to the firebase db
-     */
-    public void addMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
-        db.collection("moodEvents").document(e.getMood_id())
-                .set(e)
-                .addOnSuccessListener(cb::onSuccess)
-                .addOnFailureListener(cb::onFailure);
-    }
+    public static void externalUpdateMoodEvent(MoodEvent e, int position, Uri photo,MoodHistory h, ArrayAdapter adapter, final MoodHistory.FirebaseCallback cb){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        if (photo != null) {
+            // Upload first then do the the thing
+            FirebaseHelper.uploadImage(photo, e.getMood_id(), new FirebaseHelper.FirebaseCallback<Uri>() {
+                @Override
+                public void onSuccess(Uri document) {
+                    e.setPhoto_url(document.toString());
+                    db.collection("moodEvents").document(e.getMood_id())
+                            .set(e)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    h.history.set(position, e);
+                                    adapter.notifyDataSetChanged();
+                                    cb.onSuccess(document);
+                                }
+                            });
+                }
 
-    /**
-     * Delete a mood event
-     *
-     * @param e the mood event
-     * @param cb the call back to the firebase db
-     */
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    System.out.println("Failed to upload image");
+                }
+            });
+
+        } else {
+            // Overwrite the document
+            db.collection("moodEvents").document(e.getMood_id())
+                    .set(e, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            h.history.set(position, e);
+                            adapter.notifyDataSetChanged();
+                            cb.onSuccess(null);
+                        }
+                    });
+        }
+   }
 
     public static void externalAddMoodEvent(MoodEvent e, Uri photo, final FirebaseCallback<Void> cb) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
