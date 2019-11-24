@@ -8,7 +8,9 @@
 
 package com.example.moodtracker.view;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,7 @@ public class CustomFindList extends ArrayAdapter<User> {
         }
         User user = users.get(position);
         TextView username = view.findViewById(R.id.username_text);
-        username.setText(user.getUserID());
+        username.setText(user.getFriendIDs().toString());
         return view;
     }
 }

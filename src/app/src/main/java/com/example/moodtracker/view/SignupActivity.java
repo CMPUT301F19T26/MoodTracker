@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
 import com.example.moodtracker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,9 +40,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
@@ -94,13 +100,16 @@ public class SignupActivity extends AppCompatActivity {
                                                       FirebaseUser user = mAuth.getCurrentUser();
                                                       String uid = user.getUid();
 
+                                                      Client client = new Client("GZMZW0XPIB", "258da6df8585aac2755616b472826982");
+                                                      Index index = client.getIndex("dev_USERNAMES");
+//                                                      List<JSONObject> userList = new ArrayList<>();
                                                       db.collection("usernames").document(usernameText.getText().toString())
                                                               .set(userMap)
                                                               .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                   @Override
                                                                   public void onSuccess(Void aVoid) {
                                                                       Log.d(TAG, "DocumentSnapshot successfully written!");
-
+                                                                      index.addObjectAsync(new JSONObject(userMap), null);
                                                                   }
                                                               })
                                                               .addOnFailureListener(new OnFailureListener() {
