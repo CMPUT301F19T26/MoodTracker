@@ -103,13 +103,13 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
             }
         });
 //
-//        toolbar = findViewById(R.id.mood_history_toolbar);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+        toolbar = findViewById(R.id.mood_history_toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -142,8 +142,10 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
     @Override
     public void onBackPressed() {
         final MoodEventFragment fragment = (MoodEventFragment) getSupportFragmentManager().findFragmentByTag("MOOD_EVENT_FRAGMENT");
-        if (fragment.allowBackPress()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+        if (fragment!= null && fragment.allowBackPress()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
             super.onBackPressed();
+        } else {
+            finish();
         }
     }
 
