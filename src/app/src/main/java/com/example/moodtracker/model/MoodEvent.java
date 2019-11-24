@@ -21,7 +21,13 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.moodtracker.constants;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.UUID;
 
 
@@ -215,8 +221,8 @@ public class MoodEvent implements Parcelable {
         parcel.writeString(date);
         parcel.writeString(reason);
         parcel.writeString(photo_url);
-        parcel.writeDouble(lat);
-        parcel.writeDouble(lng);
+        parcel.writeValue(lat);
+        parcel.writeValue(lng);
         parcel.writeString(social_situation);
 
     }

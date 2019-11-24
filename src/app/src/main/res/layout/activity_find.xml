@@ -61,17 +61,16 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavView_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_grey_border_top"
+            app:menu="@menu/bottom_navigation_menu" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavView_Bar"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:background="@drawable/white_grey_border_top"
-        app:layout_anchor="@+id/linearLayout"
-        app:layout_anchorGravity="bottom|center"
-        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

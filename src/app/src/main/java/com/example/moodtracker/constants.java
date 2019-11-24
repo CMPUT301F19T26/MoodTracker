@@ -40,7 +40,9 @@ public class constants {
     public static final int CROWD = 4;
     public static final int NONE = 5;
 
-    public static final String date_format = "yyyy-MM-dd'T'HH:mm:sss'Z'";
+    public static final String date_format = "yyyy-MM-dd'T'HH:mm:sss'Z'"; // This is used for DB
+    public static final String clean_format = "HH:mm • yyyy/MM/dd"; // This is used for front_end
+
 
     // Front end mappers
     public static HashMap<String, String> mood_name_to_num_mapper = new HashMap<>();
@@ -51,6 +53,15 @@ public class constants {
             mood_name_to_num_mapper.put("Angry", ANGRY);
     }
 
+    public static HashMap<String, Integer> mood_num_to_index_mapper = new HashMap<>();
+    static {
+        mood_num_to_index_mapper.put(NEUTRAL, 0);
+        mood_num_to_index_mapper.put(HAPPY, 1);
+        mood_num_to_index_mapper.put(SURPRISED, 2);
+        mood_num_to_index_mapper.put(ANGRY, 3);
+    }
+
+
     // Given a mood event object, we can map the mood num to an object that will be used to clean up the UI
     public static HashMap<String, Mood> mood_num_to_mood_obj_mapper = new HashMap<>();
     static {
@@ -59,4 +70,17 @@ public class constants {
         mood_num_to_mood_obj_mapper.put(SURPRISED, new Surprised("#ffff00", R.drawable.surprised, "Surprised", SURPRISED));
         mood_num_to_mood_obj_mapper.put(ANGRY, new Angry("#ff2929", R.drawable.angry, "Angry", ANGRY));
     }
+
+    public static HashMap<String, Integer> SS_name_to_index_mapper = new HashMap<>();
+    static {
+        SS_name_to_index_mapper.put("None", 0);
+        SS_name_to_index_mapper.put("Alone", 1);
+        SS_name_to_index_mapper.put("With One Other", 2);
+        SS_name_to_index_mapper.put("With Two Others", 3);
+        SS_name_to_index_mapper.put("With Several", 4);
+        SS_name_to_index_mapper.put("With a Crowd", 5);
+    }
+    public static String[] mood_list = {"Neutral", "Happy", "Surprised", "Angry"};
+    public static String[] mood_spinner_list = {"All", "Neutral", "Happy", "Surprised", "Angry"};
+    public static String[] social_situations_list = {"None","Alone", "With One Other", "With Two Others", "With Several", "With a Crowd"};
 }

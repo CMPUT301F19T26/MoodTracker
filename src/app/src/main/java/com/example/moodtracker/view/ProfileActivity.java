@@ -14,11 +14,11 @@
 
 package com.example.moodtracker.view;
 
-import androidx.appcompat.app.AppCompatActivity;
+        import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
+        import android.os.Bundle;
 
-import com.example.moodtracker.R;
+        import com.example.moodtracker.R;
 
 public class ProfileActivity extends AppCompatActivity {
 

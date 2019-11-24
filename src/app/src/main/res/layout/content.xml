@@ -43,8 +43,9 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Fox News ."
+                    android:text="The Mood"
                     android:textSize="14dp"
+                    android:textStyle="bold|italic"
                     android:layout_gravity="center"
                     />
 
@@ -86,25 +87,20 @@
                     >
 
                     <TextView
-                        android:id="@+id/news"
+                        android:id="@+id/reason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Trump’s Plan for AmericanMade iPhonew Wold Be Disastrous. Trump’s Plan for AmericanMade iPhonew Wold Be Disastrous"
                         android:textStyle="bold"
-                        android:lines="3"
                         android:textSize="17dp"
                         android:lineSpacingExtra="3dp"
-                        android:maxLines="3"
                         />
 
                     <TextView
-                        android:id="@+id/newssub"
+                        android:id="@+id/social_situation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Why even a President Trump couldn’t make Apple manufacture iPhone in the state."
-                        android:layout_marginTop="13dp"
+                        android:layout_marginTop="5dp"
                         android:textSize="13dp"
-                        android:lineSpacingExtra="3dp"
                         />
 
 
@@ -114,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/colorAccent"
+                        android:backgroundTint="@color/fui_bgTwitter"
                         android:text="Delete" />
 
 
