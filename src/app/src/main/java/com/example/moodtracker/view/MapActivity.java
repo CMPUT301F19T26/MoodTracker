@@ -46,29 +46,28 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     private ArrayList<Marker> userMarkers = new ArrayList<Marker>();
-    Button hide = findViewById(R.id.hide_button);
-    Button show = findViewById(R.id.show_button);
 
-//
-//    private View.OnClickListener hideclick = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v){
-//            for (Marker m : userMarkers) {
-//                m.setVisible(false);
-//            }
-//
-//        }
-//    };
-//
-//    private View.OnClickListener showclick = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v){
-//            for (Marker m : userMarkers) {
-//                m.setVisible(true);
-//            }
-//
-//        }
-//    };
+
+
+    private View.OnClickListener hideclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            for (Marker m : userMarkers) {
+                m.setVisible(false);
+            }
+
+        }
+    };
+
+    private View.OnClickListener showclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            for (Marker m : userMarkers) {
+                m.setVisible(true);
+            }
+
+        }
+    };
 
 
     @Override
@@ -81,49 +80,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
 
 
-
-//        hide.setOnClickListener(hideclick);
-//        show.setOnClickListener(showclick);
-
-//
-//        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
-//        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-//        Menu menu = bottomNavigationView.getMenu();
-//        MenuItem menuItem = menu.getItem(1);
-//        menuItem.setChecked(true);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                switch (menuItem.getItemId()){
-//                    case R.id.ic_Profile:
-//                        Intent intent0 = new Intent(MapActivity.this, ProfileFragment.class);
-//                        startActivity(intent0);
-//                        break;
-//
-//                    case R.id.ic_Search:
-//                        Intent intent1 = new Intent(MapActivity.this, MapActivity.class);
-//                        startActivity(intent1);
-//                        break;
-//
-//                    case R.id.ic_Add:
-//                        Intent intent2 = new Intent(MapActivity.this, AddMoodEventActivity.class);
-//                        startActivity(intent2);
-//                        break;
-//
-//                    case R.id.ic_Map:
-//
-//                        break;
-//
-//                    case R.id.ic_Feed:
-//
-//                        break;
-//
-//                }
-//
-//                return false;
-//            }
-//        });
     }
 
 
@@ -177,6 +133,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
+        Button hide = findViewById(R.id.hide_button);
+        Button show = findViewById(R.id.show_button);
+
+        hide.setOnClickListener(hideclick);
+        show.setOnClickListener(showclick);
 
 
 //        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
