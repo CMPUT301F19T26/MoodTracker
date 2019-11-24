@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.fragment.MoodEventFragment;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
+import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,7 +48,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, MoodEventFragment.OnFragmentInteractionListener {
 
     private GoogleMap mMap;
     private ArrayList<Marker> userMarkers = new ArrayList<Marker>();
@@ -82,6 +84,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
 
     }
@@ -150,8 +153,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onInfoWindowClick(Marker marker) {
                 MoodEvent m = (MoodEvent)marker.getTag();
-
-
+                MoodHistoryActivity.openFragment(m, 5);
 
             }
         });
@@ -181,4 +183,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
 
     }
+
+    @Override
+    public void onDeleteFragmentInteraction(int position) {
+
+    }
+
+    @Override
+    public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, MoodHistory.FirebaseCallback cb) {
+////        markers.get(position);
+//        marker.setTag(e);
+//        Mood m = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
+//        market.title(m.getMoodName())
+
+    }
+
+
 }

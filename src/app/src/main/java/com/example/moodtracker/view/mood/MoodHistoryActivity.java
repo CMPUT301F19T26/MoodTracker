@@ -113,7 +113,7 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
 
     }
 
-    private void openFragment(MoodEvent moodEvent, int position) {
+    public void openFragment(MoodEvent moodEvent, int position) {
         boolean location_changed = false;
         if (moodEvent.getLat() == null) {
             location_changed = true;
