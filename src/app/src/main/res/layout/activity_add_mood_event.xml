@@ -67,12 +67,15 @@
                     android:background="@android:drawable/btn_dropdown"
                     android:spinnerMode="dropdown"/>
 
+
                 <Button
                     android:id="@+id/upload_choose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upload Image"
-                    android:backgroundTint="@color/colorPrimaryDark"/>
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/fui_bgTwitter"
+                    android:text="Upload Image" />
+
                 <Button
                     android:id="@+id/upload_cancel"
                     android:layout_width="wrap_content"
@@ -83,16 +86,20 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <Button
-                        android:id="@+id/add_mood_event_submit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Submit" />
+
                     <ImageView
                         android:id="@+id/me_image"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </RelativeLayout>
+
+                <Button
+                    android:id="@+id/add_mood_event_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="320dp"
+                    android:backgroundTint="@color/fui_bgTwitter"
+                    android:text="Submit" />
             </LinearLayout>
         </ScrollView>
 
