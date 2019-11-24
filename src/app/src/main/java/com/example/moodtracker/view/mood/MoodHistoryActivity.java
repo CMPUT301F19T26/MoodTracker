@@ -140,6 +140,14 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
     }
 
     @Override
+    public void onBackPressed() {
+        final MoodEventFragment fragment = (MoodEventFragment) getSupportFragmentManager().findFragmentByTag("MOOD_EVENT_FRAGMENT");
+        if (fragment.allowBackPress()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Check which request we're responding to

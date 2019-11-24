@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
@@ -87,6 +88,7 @@ public class MoodEventFragment extends Fragment {
     private MoodEvent mMoodEvent;
     private int mPosition;
     private boolean location_changed;
+    private boolean loading = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -130,6 +132,7 @@ public class MoodEventFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+
         // For removing photos
         remove_photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,11 +235,13 @@ public class MoodEventFragment extends Fragment {
                 }
                 // Now send it to the db and update the HistoryActivity
                 if (difference) {
+                    loading = true;
                     edit_body.setVisibility(View.GONE);
                     pbar.setVisibility(View.VISIBLE);
                     onUpdate(mMoodEvent, mPosition, image, new MoodHistory.FirebaseCallback() {
                         @Override
                         public void onSuccess(Object document) {
+                            loading = false;
                             image = null;
                             edit_body.setVisibility(View.VISIBLE);
                             pbar.setVisibility(View.GONE);
@@ -246,6 +251,7 @@ public class MoodEventFragment extends Fragment {
 
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            loading = false;
                             edit_body.setVisibility(View.VISIBLE);
                             pbar.setVisibility(View.GONE);
                             System.out.println("Failed to edit");
@@ -260,6 +266,15 @@ public class MoodEventFragment extends Fragment {
         });
         return view;
     }
+    // Logic to allow user to go back or not
+    public boolean allowBackPress(){
+        if (loading) {
+            Toast.makeText(getActivity(), "Cannot go back while loading.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
 
     private void enableViews() {
         // Enable the views
