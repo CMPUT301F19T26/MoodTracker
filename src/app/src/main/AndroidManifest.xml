@@ -43,7 +43,6 @@
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.SignupActivity" />
         <activity android:name=".view.ProfileFragment" />
-        <activity android:name=".view.UserProfileActivty" />
         <activity android:name=".view.EditProfile" />
         <activity android:name=".view.MainActivity">
             <intent-filter>
