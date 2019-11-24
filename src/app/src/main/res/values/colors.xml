@@ -9,4 +9,7 @@
     <color name="colorWhite">#fff</color>
     <color name="colorGrey">#c3c3c3 </color>
     <color name="colorAction">#70B7FF</color>
+    <color name="colorAccentGrey">#ADACB5</color>
+    <color name="colorAccentLight">#EAE8FF</color>
+
 </resources>

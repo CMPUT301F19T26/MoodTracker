@@ -22,16 +22,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
-import com.example.moodtracker.model.User;
-import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -40,11 +37,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * @auhtor CMPUT301F19T26
- * ProfileFragment extends AppCompactActivity
+ * ProfileViewActivity extends AppCompactActivity
  * it overwrites onCreateView
  */
 
-public class ProfileFragment extends AppCompatActivity {
+public class ProfileViewActivity extends AppCompatActivity {
     private FloatingActionButton EditFab;
     private MaterialButton LogoutFab;
     private FloatingActionButton AddMoodFab;
@@ -58,12 +55,20 @@ public class ProfileFragment extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_profile);
+        setContentView(R.layout.activity_profile_view);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain); //here toolbar is your id in xml
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("MoodTracker"); //string is custom name you want
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
 //        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         //Gets Current User
         fAuth = FirebaseAuth.getInstance();
-//        final View view = inflater.inflate(R.layout.fragment_profile, container, false);
+//        final View view = inflater.inflate(R.layout.activity_profile_view, container, false);
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         // displays username
@@ -75,11 +80,11 @@ public class ProfileFragment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent editActivity = new Intent(ProfileFragment.this, EditProfile.class);
+                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
                 startActivity(editActivity);
 
 //
-//                Intent editActivity = new Intent(ProfileFragment.this, EditProfile.class);
+//                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
 //                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
 //                editActivity.putExtra("username", ProfileName.getText());
 //                startActivity(editActivity);
@@ -92,7 +97,7 @@ public class ProfileFragment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent mainIntent = new Intent(ProfileFragment.this, MainActivity.class);
+                Intent mainIntent = new Intent(ProfileViewActivity.this, MainActivity.class);
                 startActivity(mainIntent);
             }
         });
@@ -103,7 +108,7 @@ public class ProfileFragment extends AppCompatActivity {
 //        AddMoodFab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Intent addActivity = new Intent(ProfileFragment.this, AddMoodEvent.class);
+//                Intent addActivity = new Intent(ProfileViewActivity.this, AddMoodEvent.class);
 //                startActivity(addActivity);
 //            }
 //        });
@@ -130,7 +135,7 @@ public class ProfileFragment extends AppCompatActivity {
         MoodHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+                Intent moodHistoryIntent = new Intent(ProfileViewActivity.this, MoodHistoryActivity.class);
                 moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
                 startActivity(moodHistoryIntent);
             }
@@ -139,7 +144,7 @@ public class ProfileFragment extends AppCompatActivity {
 //        MoodEventButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+//                Intent moodHistoryIntent = new Intent(ProfileViewActivity.this, MoodHistoryActivity.class);
 //                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
 //                startActivity(moodHistoryIntent);
 //            }
@@ -151,7 +156,8 @@ public class ProfileFragment extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(4);
         menuItem.setChecked(true);
-        BottomNavigationViewHelper.enableNavigation(ProfileFragment.this, bottomNavigationView);
+        BottomNavigationViewHelper.enableNavigation(ProfileViewActivity.this, bottomNavigationView);
+
 
     }
 }
