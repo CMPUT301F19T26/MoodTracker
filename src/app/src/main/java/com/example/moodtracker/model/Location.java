@@ -21,15 +21,7 @@ public class Location {
     String mood;
 
     //constructor
-
-    /**
-     * Initialize the location of the mood event
-     *
-     * @param lat latitude of location
-     * @param lon longitude of location
-     * @param mood_event the mood event
-     */
-    Location (double lat, double lon, String mood_event) {
+    public Location (double lat, double lon, String mood_event) {
         latitude = lat;
         longitude = lon;
         mood = mood_event;

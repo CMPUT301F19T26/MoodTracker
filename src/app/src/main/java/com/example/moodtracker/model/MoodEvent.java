@@ -34,7 +34,6 @@ import java.util.UUID;
 // Todo: Implement Parcelable
 public class MoodEvent implements Parcelable {
     // Need access to the db
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String mood_id = UUID.randomUUID().toString();
     private String mood;
     private String user_name;
