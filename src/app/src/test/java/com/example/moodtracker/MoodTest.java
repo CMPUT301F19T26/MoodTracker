@@ -1,55 +1,38 @@
 package com.example.moodtracker;
 
 import com.example.moodtracker.model.Mood;
-import com.example.moodtracker.model.MoodEvent;
 
 import org.junit.*;
-
-import java.util.Date;
-
 import static org.junit.Assert.*;
 
 public class MoodTest {
     private static Mood TestMood;
-    //private static MoodEvent TestMoodEvent;
-    //private static Date MEdate;
-
-
-    /*
-    private String color;
-    private int icon;
-    private String moodName;
-    private String moodNum;
-
 
     @BeforeClass
     public static void setUp() throws Exception {
-        TestMood = new Mood("1");
+        TestMood = new Mood("1",1,"1","1");
     }
 
-    /*
-
     @Test
-    public void correctMoodNum(){
+    public void MoodNumTest(){
         assertEquals("1",TestMood.getMoodNum());
     }
 
     @Test
-    public void correctColor(){
-        assertEquals(R.color.color_happy,TestMood.getColor());
+    public void ColorTest(){
+        assertEquals("1",TestMood.getColor());
     }
 
     @Test
-    public void correctIcon(){
-        assertEquals(R.drawable.happy_icon,TestMood.getIcon());
+    public void IconTest(){
+        assertEquals(1,TestMood.getIcon());
     }
 
     @Test
-    public void correctName(){
+    public void NameTest(){
         //Ask
-        assertEquals("Happy",TestMood.getMoodName());
+        assertEquals("1",TestMood.getMoodName());
     }
 
-     */
 
 }
