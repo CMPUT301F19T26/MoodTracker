@@ -126,8 +126,8 @@ public class ProfileViewActivity extends AppCompatActivity {
         FollowingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent followersActivity = new Intent(getActivity(), Following.class);
-//                getActivity().startActivity(followersActivity);
+                Intent followersActivity = new Intent(ProfileViewActivity.this, FollowingActivity.class);
+                startActivity(followersActivity);
             }
         });
 

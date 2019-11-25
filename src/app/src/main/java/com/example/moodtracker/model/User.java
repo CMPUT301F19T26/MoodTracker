@@ -40,7 +40,17 @@ public class User implements Parcelable {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public User(String id) {
-        userID = id;
+        this.userID = id;
+    }
+
+    public String getUid()
+    {
+        return this.userID;
+    }
+
+    public String getUsername()
+    {
+        return "ankush";
     }
 
 
