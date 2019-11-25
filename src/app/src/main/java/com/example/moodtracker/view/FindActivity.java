@@ -91,6 +91,16 @@ public class FindActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
 
+
+        //add Navigation bar functionality
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
+        BottomNavigationViewHelper.enableNavigation(FindActivity.this, bottomNavigationView);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Search");
@@ -101,15 +111,6 @@ public class FindActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        //add Navigation bar functionality
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
-        menuItem.setChecked(true);
-        BottomNavigationViewHelper.enableNavigation(FindActivity.this, bottomNavigationView);
-
 
 
         searchText = findViewById(R.id.search_bar);

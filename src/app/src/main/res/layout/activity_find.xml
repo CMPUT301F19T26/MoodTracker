@@ -33,13 +33,15 @@
             android:hint="Username Search"
             android:inputType="textPersonName">
         </EditText>
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/search_button_text">
-        </Button>
+            android:background="@drawable/sign_in_button"
+            android:textColor="@color/colorWhite"
+            android:text="@string/search_button_text" />
+        
     </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ListView
@@ -59,6 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            app:labelVisibilityMode="labeled"
             android:id="@+id/bottomNavView_Bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
