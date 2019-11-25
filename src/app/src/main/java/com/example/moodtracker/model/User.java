@@ -95,15 +95,20 @@ public class User implements Parcelable {
 
     public void getFriendLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
         ArrayList<MoodEvent> friendmoods = new ArrayList<>();
+        System.out.println("inside");
         db.collection("follower")
                 .whereEqualTo("follower_id", userID)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        System.out.println("inside2");
                         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            System.out.println("inside3");
                             if (doc.exists()) {
+                                System.out.println("inside4");
                                 if (doc.get("following_id") != null) {
+                                    System.out.println("inside5");
                                     String id = (String)doc.get("following_id");
                                     db.collection("moodEvents")
                                             .whereEqualTo("user_id", id)
@@ -111,9 +116,13 @@ public class User implements Parcelable {
                                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    System.out.println("inside6");
                                                     for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                                        System.out.println("inside7");
                                                         if (doc.exists()) {
+                                                            System.out.println("inside8");
                                                             if (doc.get("lat") != null) {
+                                                                System.out.println("inside9");
                                                                 MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
                                                                 friendmoods.add(me);
 

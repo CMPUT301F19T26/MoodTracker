@@ -198,6 +198,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onSuccess(ArrayList<MoodEvent> moodEvents) {
                 //append locations to map
                 friendMarkers.clear();
+                System.out.println("HERE " + moodEvents.size());
                 for(MoodEvent moodEvent: moodEvents) {
                     LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
                     Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
