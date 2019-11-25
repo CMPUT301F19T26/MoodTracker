@@ -9,6 +9,7 @@
 package com.example.moodtracker.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,8 +19,17 @@ import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.view.EditProfile;
+import com.example.moodtracker.view.FollowingActivity;
+import com.example.moodtracker.view.ProfileViewActivity;
+import com.example.moodtracker.view.mood.MoodHistoryActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,19 +40,32 @@ import com.example.moodtracker.R;
  * create an instance of this fragment.
  */
 public class ProfileViewFragment extends Fragment {
+    // Front end params
+    private FloatingActionButton EditFab;private
+    FloatingActionButton AddMoodFab;
+    private FirebaseAuth fAuth;
+    private Button FollowersButton;
+    private Button FollowingButton;
+    private Button MoodEventButton;
+    private Button MoodHistoryButton;
+
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String USER_ID = "param1";
+    private static final String USER_NAME = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String mUid;
+    private String mUsername;
 
     private OnFragmentInteractionListener mListener;
 
-    public ProfileViewFragment() {
+    public ProfileViewFragment(String uid, String username) {
         // Required empty public constructor
+        mUid = uid;
+        mUsername = username;
     }
 
     /**
@@ -54,11 +77,11 @@ public class ProfileViewFragment extends Fragment {
      * @return A new instance of fragment ProfileViewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileViewFragment newInstance(String param1, String param2) {
-        ProfileViewFragment fragment = new ProfileViewFragment();
+    public static ProfileViewFragment newInstance(String mUid, String mUsername) {
+        ProfileViewFragment fragment = new ProfileViewFragment(mUid, mUsername);
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(USER_ID, mUid );
+        args.putString(USER_NAME, mUsername);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,16 +90,69 @@ public class ProfileViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mUid = getArguments().getString(USER_ID);
+            mUsername = getArguments().getString(USER_NAME);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        fAuth = FirebaseAuth.getInstance();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_view, container, false);;
+        TextView ProfileName = view.findViewById(R.id.userNameFragmentProfile);
+        ProfileName.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+        EditFab = view.findViewById(R.id.editFAB);
+        EditFab.hide();
+        if (fAuth.getCurrentUser().getUid().equals(mUid)) {
+            EditFab.show();
+            EditFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent editActivity = new Intent(getActivity(), EditProfile.class);
+                    startActivity(editActivity);
+//                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
+//                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
+//                editActivity.putExtra("username", ProfileName.getText());
+//                startActivity(editActivity);
+
+                }
+            });
+            //Todo: Add follow and unfollow logic rn
+        }
+
+
+        FollowersButton = view.findViewById(R.id.FollowersButton);
+        FollowersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent followersActivity = new Intent(getActivity(), Followers.class);
+//                getActivity().startActivity(followersActivity);
+            }
+        });
+
+        FollowingButton = view.findViewById(R.id.FollowingButton);
+        FollowingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent followersActivity = new Intent(getActivity(), FollowingActivity.class);
+                startActivity(followersActivity);
+            }
+        });
+
+        MoodHistoryButton = view.findViewById(R.id.MoodHistoryButton);
+        MoodHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moodHistoryIntent = new Intent(getActivity(), MoodHistoryActivity.class);
+                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
+                startActivity(moodHistoryIntent);
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
