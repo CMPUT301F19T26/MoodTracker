@@ -40,6 +40,7 @@ import androidx.annotation.NonNull;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.model.User;
+import com.example.moodtracker.view.FeedActivity;
 import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.MapActivity;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
@@ -82,6 +83,11 @@ public class BottomNavigationViewHelper {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
+                    case R.id.ic_Feed:
+                        Intent feedIntent = new Intent(context, FeedActivity.class);
+                        context.startActivity(feedIntent);
+                        break;
+
                     case R.id.ic_Profile:
 
                         break;
@@ -107,11 +113,7 @@ public class BottomNavigationViewHelper {
 //                        startActivity(intent3);
                         break;
 
-                    case R.id.ic_Feed:
-//                        Intent moodHistoryIntent = new Intent(ProfileViewActivity.this, MoodHistoryActivity.class);
-//                        moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
-//                        startActivity(moodHistoryIntent);
-                        break;
+
 
                 }
 
