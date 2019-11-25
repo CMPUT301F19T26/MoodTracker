@@ -74,7 +74,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent mainIntent = new Intent(ProfileViewActivity.this, MainActivity.class);
+                Intent mainIntent = new Intent(ProfileViewActivity.this, LoginActivity.class);
                 startActivity(mainIntent);
             }
         });

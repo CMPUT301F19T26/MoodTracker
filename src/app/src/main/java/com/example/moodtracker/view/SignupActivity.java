@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.algolia.search.saas.Client;
@@ -59,6 +60,7 @@ public class SignupActivity extends AppCompatActivity {
     FirebaseFirestore db;
     String email;
     String username;
+    TextView loginText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,17 @@ public class SignupActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.text_username);
         emailText = findViewById(R.id.text_email);
         passwordText = findViewById(R.id.text_password);
+
+        loginText = findViewById(R.id.loginText);
+
+        loginText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View  v) {
+                Intent loginIntent = new Intent(SignupActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+            }
+        });
+
 
         db = FirebaseFirestore.getInstance();
 

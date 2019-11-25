@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.moodtracker.R;
@@ -38,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailText;
     EditText passwordText;
 
+    TextView signupText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,17 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.button_login);
         emailText = findViewById(R.id.text_email);
         passwordText = findViewById(R.id.text_password);
+
+        signupText = findViewById(R.id.signupText);
+
+        signupText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View  v) {
+                Intent signupIntent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(signupIntent);
+            }
+        });
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +89,14 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Intent homeIntent = new Intent(LoginActivity.this, ProfileViewActivity.class);
+            startActivity(homeIntent);
+        }
     }
 }
