@@ -87,7 +87,12 @@
                 android:backgroundTint="@color/colorAccent"
                 android:text="Cancel Upload"
                 android:visibility="gone" />
-
+            <Button
+                android:id="@+id/add_mood_event_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/fui_bgTwitter"
+                android:text="Submit" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -97,14 +102,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-
-            <Button
-                android:id="@+id/add_mood_event_submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:backgroundTint="@color/fui_bgTwitter"
-                android:text="Submit" />
         </LinearLayout>
     </ScrollView>
 
