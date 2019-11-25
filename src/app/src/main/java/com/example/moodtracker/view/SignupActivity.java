@@ -96,19 +96,18 @@ public class SignupActivity extends AppCompatActivity {
                                                       Map<String, Object> userMap = new HashMap<>();
                                                       userMap.put("email", emailText.getText().toString());
                                                       userMap.put("username", usernameText.getText().toString());
-
                                                       FirebaseUser user = mAuth.getCurrentUser();
                                                       String uid = user.getUid();
-
+                                                      // back end apiKey
                                                       Client client = new Client("GZMZW0XPIB", "258da6df8585aac2755616b472826982");
                                                       Index index = client.getIndex("dev_USERNAMES");
-//                                                      List<JSONObject> userList = new ArrayList<>();
                                                       db.collection("usernames").document(usernameText.getText().toString())
                                                               .set(userMap)
                                                               .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                   @Override
                                                                   public void onSuccess(Void aVoid) {
                                                                       Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                                      // log the user profile map as a JSONObject
                                                                       index.addObjectAsync(new JSONObject(userMap), null);
                                                                   }
                                                               })

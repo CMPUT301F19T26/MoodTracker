@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,37 +84,34 @@ public class FindActivity extends AppCompatActivity {
 
     EditText searchText;
     Button searchButton;
-//    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
 
-//        db = FirebaseFirestore.getInstance();
-//        final CollectionReference collectionReference = db.collection("usernames");
-
         searchText = findViewById(R.id.search_bar);
         searchButton = findViewById(R.id.search_button);
         userListView = findViewById(R.id.result_list);
+        // front end apiKey for searching
         Client client = new Client("GZMZW0XPIB", "c1b5e252ea14c337a01be1f3d9d1085e");
         Index index = client.getIndex("dev_USERNAMES");
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        searchText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                searchText.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
+                    public void onClick(View v) {
                         Query query = new Query(s.toString())
                                 .setAttributesToRetrieve("username")
                                 .setHitsPerPage(50);
@@ -123,13 +121,21 @@ public class FindActivity extends AppCompatActivity {
                                 try {
                                     JSONArray hits = jsonObject.getJSONArray("hits");
                                     List<String> list = new ArrayList<>();
-                                    for(int i = 0; i <hits.length();i++){
+                                    for(int i = 0; i < hits.length(); i++){
                                         JSONObject jsonObject1 = hits.getJSONObject(i);
                                         String username = jsonObject1.getString("username");
                                         list.add(username);
                                     }
                                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(FindActivity.this, android.R.layout.simple_list_item_1,list);
                                     userListView.setAdapter(arrayAdapter);
+                                    userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            // returns the user that the item is clicked on
+                                            // this will later be passed on to a profile view activity
+                                            Toast.makeText(FindActivity.this,list.get(position), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }catch (JSONException e1){
                                     e.printStackTrace();
                                 }
@@ -137,6 +143,7 @@ public class FindActivity extends AppCompatActivity {
                         });
                     }
                 });
+
             }
         });
 
