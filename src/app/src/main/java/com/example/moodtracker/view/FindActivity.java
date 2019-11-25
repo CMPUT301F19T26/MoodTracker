@@ -157,26 +157,34 @@ public class FindActivity extends AppCompatActivity {
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
-                                                            Log.d("Home", "DocumentSnapshot successfully written!");
+                                                            Toast.makeText(FindActivity.this, "Followed " + followUsernameText.getText().toString(), Toast.LENGTH_LONG).show();
+                                                            Log.d("HOME", "DocumentSnapshot successfully written!");
 
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
                                                         @Override
                                                         public void onFailure(@NonNull Exception e) {
-                                                            Log.w("Home", "Error writing document", e);
+
+
+                                                            Log.d("HOME", "Error writing document", e);
                                                         }
                                                     });
                                         } else {
+
                                             Log.d("HOME", "No such document");
                                         }
                                     }
                                 } else{
+
                                     Log.d("HOME", "get failed with ", task.getException());
                                 }
                             }
+
                         });
-                
+
+
+
             }
         });
 
@@ -187,39 +195,8 @@ public class FindActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.ic_Profile:
-                        Intent intent0 = new Intent(FindActivity.this, ProfileFragment.class);
-                        startActivity(intent0);
-                        break;
+        BottomNavigationViewHelper.enableNavigation(FindActivity.this, bottomNavigationView);
 
-                    case R.id.ic_Search:
-
-                        break;
-
-                    case R.id.ic_Add:
-                        Intent intent2 = new Intent(FindActivity.this, AddMoodEventActivity.class);
-                        startActivity(intent2);
-                        break;
-
-                    case R.id.ic_Map:
-//                        Intent intent3 = new Intent(FindActivity.this, MapActivity.class);
-//                        startActivity(intent3);
-                        break;
-
-                    case R.id.ic_Feed:
-
-                        break;
-
-
-                }
-
-                return false;
-            }
-        });
 
     }
 }

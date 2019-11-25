@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,10 +63,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         fb_auth = FirebaseAuth.getInstance();
         if (fb_auth.getCurrentUser() != null) {
-            Intent homeIntent = new Intent(MainActivity.this, ProfileFragment.class);
+            Intent homeIntent = new Intent(MainActivity.this, ProfileViewActivity.class);
             startActivity(homeIntent);
-        } else {
-            Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
         }
     }
 }

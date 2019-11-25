@@ -7,10 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".view.mood.AddMoodEventActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="-29dp">
+
         <LinearLayout
             android:layout_width="fill_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <!--Put form controls here-->
             <TextView
@@ -18,23 +25,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mood"
-                android:textSize="10pt">
-            </TextView>
+                android:textSize="10pt"></TextView>
 
             <Spinner
                 android:id="@+id/mood_type_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
 
             <TextView
                 android:id="@+id/reason_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reason"
-                android:textSize="10pt">
-            </TextView>
+                android:textSize="10pt"></TextView>
+
             <EditText
                 android:id="@+id/reason_edit"
                 android:layout_width="match_parent"
@@ -42,46 +48,65 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                android:maxLength="20"/>
-            <TextView
-                android:id="@+id/location_title"
-                android:layout_width="wrap_content"
+                android:maxLength="20" />
+
+            <Switch
+                android:id="@+id/location_switch"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Location"
-                android:textSize="10pt">
-            </TextView>
-            <EditText
-                android:id="@+id/latitude"
-                android:layout_width="match_parent"
-                android:hint="Lat"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/longitude"
-                android:hint="Lng"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textSize="10pt" />
 
             <TextView
                 android:id="@+id/social_sitation_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Social Situation"
-                android:textSize="10pt">
-            </TextView>
+                android:textSize="10pt"></TextView>
+
             <Spinner
                 android:id="@+id/social_sitation_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
+
+
+            <Button
+                android:id="@+id/upload_choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/fui_bgTwitter"
+                android:text="Upload Image" />
+
+            <Button
+                android:id="@+id/upload_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:text="Cancel Upload"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/me_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/add_mood_event_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:backgroundTint="@color/fui_bgTwitter"
                 android:text="Submit" />
-
         </LinearLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomBar"

@@ -48,6 +48,7 @@ public class EditProfile extends AppCompatActivity implements PopupMenu.OnMenuIt
 
     /**
      * On Create
+     *
      * @param savedInstanceState the instance
      */
     @Override
@@ -87,11 +88,28 @@ public class EditProfile extends AppCompatActivity implements PopupMenu.OnMenuIt
 
     /**
      * return false on menu item click
+     *
      * @param item the item
      * @return false
      */
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
+    }
+
+
+    /**
+     * @param v Initializes new PopupMenu.
+     *          This popup menu pops out when the user clicks on the image icon to edit their profile picture.
+     *          The menu displays 2 options: 1.Take Photo(using camera) 2.Choose from Gallery
+     * @see PopupMenu
+     */
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.photo_menu);
+        popup.show();
+
     }
 }
