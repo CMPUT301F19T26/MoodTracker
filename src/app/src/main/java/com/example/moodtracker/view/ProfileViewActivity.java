@@ -26,6 +26,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
@@ -44,14 +46,9 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 
 public class ProfileViewActivity extends AppCompatActivity implements ProfileViewFragment.OnFragmentInteractionListener {
-    private FloatingActionButton EditFab;
+
     private MaterialButton LogoutFab;
-    private FloatingActionButton AddMoodFab;
     private FirebaseAuth fAuth;
-    private Button FollowersButton;
-    private Button FollowingButton;
-    private Button MoodEventButton;
-    private Button MoodHistoryButton;
 
 
     @Override
@@ -59,13 +56,10 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain); //here toolbar is your id in xml
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("MoodTracker"); //string is custom name you want
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
 //        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         //Gets Current User
@@ -74,26 +68,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         // displays username
-        TextView ProfileName = (TextView) findViewById(R.id.userNameFragmentProfile);
-        ProfileName.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
-        EditFab = findViewById(R.id.editFAB);
-        EditFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
-                startActivity(editActivity);
-
-//
-//                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
-//                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
-//                editActivity.putExtra("username", ProfileName.getText());
-//                startActivity(editActivity);
-
-            }
-        });
-
+        // Logout Handler
         LogoutFab = findViewById(R.id.logoutFAB);
         LogoutFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,52 +80,10 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         });
 
 
-
-//        AddMoodFab = findViewById(R.id.AddMoodFab);
-//        AddMoodFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent addActivity = new Intent(ProfileViewActivity.this, AddMoodEvent.class);
-//                startActivity(addActivity);
-//            }
-//        });
-
-        FollowersButton = findViewById(R.id.FollowersButton);
-        FollowersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent followersActivity = new Intent(getActivity(), Followers.class);
-//                getActivity().startActivity(followersActivity);
-            }
-        });
-
-        FollowingButton = findViewById(R.id.FollowingButton);
-        FollowingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent followersActivity = new Intent(ProfileViewActivity.this, FollowingActivity.class);
-                startActivity(followersActivity);
-            }
-        });
-
-        MoodHistoryButton = findViewById(R.id.MoodHistoryButton);
-        MoodHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent moodHistoryIntent = new Intent(ProfileViewActivity.this, MoodHistoryActivity.class);
-                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
-                startActivity(moodHistoryIntent);
-            }
-        });
-//        MoodEventButton = findViewById(R.id.MoodEventButton);
-//        MoodEventButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent moodHistoryIntent = new Intent(ProfileViewActivity.this, MoodHistoryActivity.class);
-//                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
-//                startActivity(moodHistoryIntent);
-//            }
-//        });
+        // Displays all parts of the fragment in the view
+        Intent intent = getIntent();
+        String user_id = intent.getStringExtra("user_id");
+        displayFragments(user_id, "Ankush");
 
         //add Navigation bar functionality
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
@@ -161,6 +94,17 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         BottomNavigationViewHelper.enableNavigation(ProfileViewActivity.this, bottomNavigationView);
 
 
+    }
+
+    private void displayFragments(String user_id, String user_name) {
+        ProfileViewFragment profile_frag = new ProfileViewFragment(user_id, user_name);
+        FragmentManager manager=getSupportFragmentManager();//create an instance of fragment manager
+
+        FragmentTransaction transaction=manager.beginTransaction();//create an instance of Fragment-transaction
+
+        transaction.add(R.id.profile_container, profile_frag, "PROFILE_FRAG");
+
+        transaction.commit();
     }
 
     @Override
