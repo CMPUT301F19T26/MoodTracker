@@ -1,4 +1,4 @@
-/**
+/*
  * UserController
  *
  * Version 1.0

@@ -1,4 +1,4 @@
-/**
+/*
  * MoodHistory
  *
  * Version 1.0
