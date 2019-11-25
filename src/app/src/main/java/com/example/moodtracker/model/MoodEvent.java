@@ -18,7 +18,6 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
 
 public class MoodEvent implements Serializable {
     // Need access to the db
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String mood_id = UUID.randomUUID().toString();
     private Mood mood;
     private String user_id;
