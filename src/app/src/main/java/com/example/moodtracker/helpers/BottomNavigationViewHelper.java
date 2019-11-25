@@ -17,7 +17,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 
+/**
+ * Handles navigation using the bottom bar
+ */
 public class BottomNavigationViewHelper {
+
+    /**
+     * @param view the view on the navigation bar
+     */
     @SuppressLint("RestrictedApi")
     public static void disableShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
@@ -33,6 +40,11 @@ public class BottomNavigationViewHelper {
         }
     }
 
+    /**
+     * Determines where to navigate to based on what button has been selected
+     * @param context the context of the button
+     * @param bnv the view for the bottom navigation
+     */
     public static void enableNavigation(final Context context, BottomNavigationView bnv) {
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

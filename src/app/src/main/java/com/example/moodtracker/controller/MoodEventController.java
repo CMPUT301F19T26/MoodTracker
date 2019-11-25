@@ -40,6 +40,9 @@ import com.google.type.LatLng;
 
 import java.util.Date;
 
+/**
+ * Modifies, Creates and Deletes mood events
+ */
 public class MoodEventController {
 
     public MoodEventController() {
@@ -54,9 +57,8 @@ public class MoodEventController {
      * @param photo_url the url of picture
      * @param location the location input
      * @param social_situation the social situation input
-     * @return the mood event
+     * @return the newly created mood event
      */
-
     public static MoodEvent createMoodEvent(@NonNull String mood, @NonNull String user_id, @NonNull String date,
                                             @Nullable String reason, @Nullable String photo_url, @Nullable LatLng location,
                                             @Nullable SocialSituation social_situation) {

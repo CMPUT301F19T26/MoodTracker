@@ -29,15 +29,13 @@ import androidx.annotation.NonNull;
 public class FirebaseHelper {
     public interface FirebaseCallback<T> {
         /**
-         * callback handler for handling success cases, returned the value is stored in `document` variable
-         *
+         * callback handler for handling success cases, returned value is stored in `document` variable
          * @param document depending on the operation, this variable can hold different type of values
          */
         void onSuccess(T document);
 
         /**
          * callback handler for handling failure cases
-         *
          * @param e Exception thrown by the Firebase library
          */
         void onFailure(@NonNull Exception e);

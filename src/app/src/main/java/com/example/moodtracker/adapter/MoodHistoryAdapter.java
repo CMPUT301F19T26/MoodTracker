@@ -67,6 +67,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * The Adapter class for user Mood History
+ */
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
     private ArrayList<MoodEvent> history;
     private MoodHistory h;
@@ -75,7 +78,7 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
     private HashMap<String, Mood> mood_num_to_mood_obj_map = constants.mood_num_to_mood_obj_mapper;
 
     /**
-     * Create adapter for Mood History
+     * Constructor for Mood History Adapter
      * @param context the context of mood history
      * @param h the mood history
      */
@@ -88,11 +91,12 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
     }
 
     /**
-     * Obtain the view of Mood History
+     * Gets the View for the mood event
      * @param position position in array
      * @param convertView converted view
      * @param parent parent of view
-     * @return view
+     * @return The view of the mood event
+     * @see #setUpMoodEvent(MoodEvent, View)
      */
     @NonNull
     @Override
@@ -119,6 +123,12 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 
     }
 
+    /**
+     * Initializes view for Mood events
+     * @param event_item the Mood event to be displayed
+     * @param view the view to display the event in
+     * @see com.example.moodtracker.model.MoodEvent#MoodEvent(String, String, String, String, String, Double, Double, String)
+     */
     private void setUpMoodEvent(MoodEvent event_item, View view) {
         Mood mood_obj = mood_num_to_mood_obj_map.get(event_item.getMood()); // The Mood Object this event refers to
 
@@ -150,6 +160,12 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         date.setText(formatted_date);
     }
 
+    /**
+     * Determines if mood image is to be displayed
+     * @param photoView the view of the photo
+     * @param event_item the mood event
+     * @see
+     */
     private void handlePhotos(ImageView photoView, MoodEvent event_item) {
         photoView.setImageResource(0);
         photoView.setVisibility(View.GONE);
