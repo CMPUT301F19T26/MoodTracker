@@ -45,29 +45,29 @@ public class User implements Parcelable {
     }
 
 
-    public ArrayList<String> getFriendIDs() {
-
-        db.collection("follow")
-                .whereEqualTo("follower_id", userID)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot doc: task.getResult()) {
-                            if (doc.exists()) {
-                                if (doc.get("following_id") != null) {
-                                    String following_id = doc.get("following_id").toString();
-                                    followingIDs.add(following_id);
-
-                                }
-                            }
-                        }
-                    }
-
-                });
-
-        return followingIDs;
-    }
+//    public ArrayList<String> getFriendIDs() {
+//
+//        db.collection("follow")
+//                .whereEqualTo("follower_id", userID)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        for(QueryDocumentSnapshot doc: task.getResult()) {
+//                            if (doc.exists()) {
+//                                if (doc.get("following_id") != null) {
+//                                    String following_id = doc.get("following_id").toString();
+//                                    followingIDs.add(following_id);
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                });
+//
+//        return followingIDs;
+//    }
 
 
     public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
@@ -82,10 +82,6 @@ public class User implements Parcelable {
                             if (doc.exists()) {
                                 if (doc.get("lat") != null) {
                                     MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
-//                                    Double lat = (Double)doc.get("lat");
-//                                    Double lng = (Double)doc.get("lng");
-//                                    String moodName = (String)doc.get("mood");
-//                                    Location location = new Location(lat,lng,moodName);
                                     usermoods.add(me);
 
                                 }
@@ -97,37 +93,45 @@ public class User implements Parcelable {
 
     }
 
-//    public void getFriendLocations(final MoodHistory.FirebaseCallback<ArrayList<Location>> cb) {
-//        ArrayList<Location> friendlocations = new ArrayList<>();
-//        db.collection("follower")
-//                .whereEqualTo("follower_id", userID)
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-//                            if (doc.exists()) {
-//                                if (doc.get("following_id") != null) {
-//                                    String id = (String)doc.get("following_id");
-//                                    //db calli
-//                                    // in cb on success ( do your shit)
-//                                    cont
-//
-//
-//                                    Double lat = (Double)doc.get("lat");
-//                                    Double lng = (Double)doc.get("lng");
-//                                    String moodName = (String)doc.get("mood");
-//                                    Location location = new Location(lat,lng,moodName);
-//                                    friendlocations.add(location);
-//
-//                                }
-//                            }
-//                        }
-//                        cb.onSuccess(friendlocations);
-//                    }
-//                });
-//
-//    }
+    public void getFriendLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
+        ArrayList<MoodEvent> friendmoods = new ArrayList<>();
+        db.collection("follower")
+                .whereEqualTo("follower_id", userID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            if (doc.exists()) {
+                                if (doc.get("following_id") != null) {
+                                    String id = (String)doc.get("following_id");
+                                    db.collection("moodEvents")
+                                            .whereEqualTo("user_id", id)
+                                            .get()
+                                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                                        if (doc.exists()) {
+                                                            if (doc.get("lat") != null) {
+                                                                MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
+                                                                friendmoods.add(me);
+
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                            });
+                                }
+
+                            }
+                        }
+                        cb.onSuccess(friendmoods);
+                    }
+                });
+
+    }
 
 //    public ArrayList<Location> getFriendsLocations(){
 //

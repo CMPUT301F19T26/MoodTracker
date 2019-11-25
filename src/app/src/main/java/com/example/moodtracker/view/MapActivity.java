@@ -43,6 +43,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,24 +53,19 @@ import java.util.ArrayList;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, MoodEventFragment.OnFragmentInteractionListener {
 
+    //declare stuff
     private GoogleMap mMap;
     private ArrayList<Marker> userMarkers = new ArrayList<Marker>();
+    private ArrayList<Marker> friendMarkers = new ArrayList<Marker>();
 
-
-
-    private View.OnClickListener hideclick = new View.OnClickListener() {
+    //create listener
+    private View.OnClickListener userclick = new View.OnClickListener() {
         @Override
         public void onClick(View v){
-            for (Marker m : userMarkers) {
+            for (Marker m : friendMarkers) {
                 m.setVisible(false);
             }
 
-        }
-    };
-
-    private View.OnClickListener showclick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v){
             for (Marker m : userMarkers) {
                 m.setVisible(true);
             }
@@ -77,19 +73,57 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     };
 
-    public void openFragment(MoodEvent moodEvent, int position) {
-        boolean location_changed = false;
-        if (moodEvent.getLat() == null) {
-            location_changed = true;
-            moodEvent.setLng(0.0);
-            moodEvent.setLat(0.0);
+    private View.OnClickListener friendclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            for (Marker m : userMarkers) {
+                m.setVisible(false);
+            }
+
+            for (Marker m : friendMarkers) {
+                m.setVisible(true);
+            }
+
         }
-        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
+    };
+
+    private View.OnClickListener allclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            for (Marker m : userMarkers) {
+                m.setVisible(true);
+            }
+
+            for (Marker m : friendMarkers) {
+                m.setVisible(true);
+            }
+
+        }
+    };
+
+    public void openFragment(MoodEvent moodEvent, int position) {
+
+        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, false);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction =  fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.addToBackStack(null);
         transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
+
+
+
+//        boolean location_changed = false;
+//        if (moodEvent.getLat() == null) {
+//            location_changed = true;
+//            moodEvent.setLng(0.0);
+//            moodEvent.setLat(0.0);
+//        }
+//        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+//        transaction.addToBackStack(null);
+//        transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
     }
 
 
@@ -102,11 +136,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-
     }
-
-
 
 
     /**
@@ -162,11 +192,53 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
-        Button hide = findViewById(R.id.hide_button);
-        Button show = findViewById(R.id.show_button);
 
-        hide.setOnClickListener(hideclick);
-        show.setOnClickListener(showclick);
+        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<MoodEvent>>() {
+            @Override
+            public void onSuccess(ArrayList<MoodEvent> moodEvents) {
+                //append locations to map
+                friendMarkers.clear();
+                for(MoodEvent moodEvent: moodEvents) {
+                    LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
+                    Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(m.getMoodName())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    );
+                    marker.setTag(moodEvent);
+                    friendMarkers.add(marker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+//                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
+//                    mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+        Button USER = findViewById(R.id.user_button);
+        Button FRIENDS = findViewById(R.id.friends_button);
+        Button ALL = findViewById(R.id.all_button);
+
+        USER.setOnClickListener(userclick);
+        FRIENDS.setOnClickListener(friendclick);
+        ALL.setOnClickListener(allclick);
+
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                MoodEvent m = (MoodEvent)marker.getTag();
+//                openFragment(m, 5);
+//                return false;
+//            }
+//        });
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -176,29 +248,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
             }
         });
-
-
-//        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<Location>>() {
-//            @Override
-//            public void onSuccess(ArrayList<Location> locations) {
-//                //append locations to map
-//                for(Location location: locations) {
-//                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
-//                    mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//
-//            }
-//        });
-
-
-
 
 
     }

@@ -9,24 +9,42 @@
     android:layout_height="match_parent"
     tools:context=".view.MapActivity">
 
+    <FrameLayout
+        android:id="@+id/mood_event_frag_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
     <Button
-        android:id="@+id/show_button"
+        android:id="@+id/user_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
-        android:text="Show"
+        android:text="Personal"
         android:padding="10dp"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"
+        android:stateListAnimator="@null"/>
 
     <Button
-        android:id="@+id/hide_button"
+        android:id="@+id/friends_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
-        android:text="Hide"
+        android:text="Friends"
         android:padding="10dp"
         android:layout_marginTop="40dp"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"
+        android:stateListAnimator="@null"/>
+
+    <Button
+        android:id="@+id/all_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:text="All"
+        android:padding="10dp"
+        android:layout_marginTop="80dp"
+        android:paddingRight="10dp"
+        android:stateListAnimator="@null"/>
 
 </fragment>
