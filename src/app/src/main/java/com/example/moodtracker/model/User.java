@@ -89,6 +89,7 @@ public class User implements Parcelable {
         return this.userID;
     }
 
+
     public void getUsername(UsernameListener listener)
     {
         db.collection("users").document(this.userID).get()
@@ -141,10 +142,7 @@ public class User implements Parcelable {
            });
         }
 
-
-
     }
-
 
 
     public ArrayList<String> getFriendIDs() {
