@@ -11,22 +11,23 @@ import static org.junit.Assert.*;
 
 public class MoodTest {
     private static Mood TestMood;
-    private static MoodEvent TestMoodEvent;
-    private static Date MEdate;
+    //private static MoodEvent TestMoodEvent;
+    //private static Date MEdate;
+
 
     /*
-    private int color;
+    private String color;
     private int icon;
-    private int moodName;
+    private String moodName;
     private String moodNum;
-     */
+
 
     @BeforeClass
     public static void setUp() throws Exception {
         TestMood = new Mood("1");
-        MEdate = new Date();
-        TestMoodEvent = new MoodEvent(TestMood,"bob",MEdate);
     }
+
+    /*
 
     @Test
     public void correctMoodNum(){
@@ -49,11 +50,6 @@ public class MoodTest {
         assertEquals("Happy",TestMood.getMoodName());
     }
 
-    //test get mood
-    //@Test
-    //public void MeMood(){
-        //assertEquals(TestMood,TestMoodEvent.getMood());
-    //}
-    //test set mood
+     */
 
 }
