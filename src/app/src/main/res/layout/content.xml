@@ -110,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/fui_bgTwitter"
+                        android:backgroundTint="@color/colorAction"
                         android:text="Delete" />
 
 
