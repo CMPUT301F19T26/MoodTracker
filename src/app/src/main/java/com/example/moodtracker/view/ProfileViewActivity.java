@@ -60,7 +60,6 @@ import com.google.firebase.auth.FirebaseAuth;
  * ProfileViewActivity extends AppCompactActivity
  * it overwrites onCreateView
  */
-
 public class ProfileViewActivity extends AppCompatActivity implements ProfileViewFragment.OnFragmentInteractionListener {
 
     private MaterialButton LogoutFab;

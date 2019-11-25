@@ -44,7 +44,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-
 import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.FollowAdapter;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
@@ -75,6 +74,7 @@ public class FollowersActivity extends AppCompatActivity {
     EditText addCityEditText;
     EditText addProvinceEditText;
     FirebaseFirestore db;
+
     /**
      * On create of Followers activity
      * @param savedInstanceState the instance
