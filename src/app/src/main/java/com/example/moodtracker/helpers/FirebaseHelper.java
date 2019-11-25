@@ -48,6 +48,9 @@ import com.google.firebase.storage.UploadTask;
 
 import androidx.annotation.NonNull;
 
+/**
+ *
+ */
 public class FirebaseHelper {
     public interface FirebaseCallback<T> {
         /**
@@ -65,16 +68,31 @@ public class FirebaseHelper {
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /**
+     * Getter for user name
+     * @param user_id the users id
+     * @return user name
+     */
     public static String getUserName(String user_id) {
         DocumentSnapshot user = db.collection("users").document(user_id).get().getResult();
         System.out.print(user.getData());
         return "BALH";
     }
 
+    /**
+     * Getter for user id
+     * @return user id
+     */
     public static String getUid() {
         return auth.getCurrentUser().getUid();
     }
 
+    /**
+     * Upload images to firebase
+     * @param photo the uri of the photo
+     * @param mood_id the id of the mood
+     * @param cb the firebase callback
+     */
     public static void uploadImage(Uri photo, String mood_id, final FirebaseCallback<Uri> cb) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storeRef = storage.getReference().child(String.format("moodEvents/%s.jpg", mood_id));

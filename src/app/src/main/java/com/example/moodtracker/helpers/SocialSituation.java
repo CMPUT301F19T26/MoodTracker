@@ -1,5 +1,5 @@
 /*
- * BottomNavigationViewHelper
+ * SocialSituation
  *
  * Version 1.0
  *
@@ -26,20 +26,22 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
 package com.example.moodtracker.helpers;
 
 import com.example.moodtracker.constants;
 
+/**
+ * sets users social situation based on the type of social situation selected
+ */
 public class SocialSituation {
     private String social_type;
 
     /**
-     * The social
-     *
-     * @param type type to determine social situation
+     * Determines social situation using switch and the hashMap constants
+     * @param type integer type to determine social situation
+     * @see com.example.moodtracker.constants
      */
     public SocialSituation(int type) {
         switch (type) {
@@ -67,8 +69,7 @@ public class SocialSituation {
     }
 
     /**
-     * Get the social situation type
-     *
+     * Getter for social situation type
      * @return social situation type
      */
     public String getSocialType() {

@@ -1,5 +1,5 @@
 /*
- * BottomNavigationViewHelper
+ * MoodHistoryHelper
  *
  * Version 1.0
  *
