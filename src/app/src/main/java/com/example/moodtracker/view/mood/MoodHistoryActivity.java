@@ -131,7 +131,7 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
     @Override
     public void onDeleteFragmentInteraction(int position) {
         MoodHistoryController.deleteEventFromHistory(moodHistory.history.get(position), moodHistory, position, HistoryAdapter);
-    }
+}
 
     @Override
     public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb) {

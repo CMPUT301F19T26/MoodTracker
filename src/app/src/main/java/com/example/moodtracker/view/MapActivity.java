@@ -50,6 +50,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, MoodEventFragment.OnFragmentInteractionListener {
 
@@ -57,6 +58,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private ArrayList<Marker> userMarkers = new ArrayList<Marker>();
     private ArrayList<Marker> friendMarkers = new ArrayList<Marker>();
+    private HashMap<Integer, Marker> posmarker = new HashMap<>();
+    private HashMap<Marker, Integer> markerpos = new HashMap<>();
 
     //create listener
     private View.OnClickListener userclick = new View.OnClickListener() {
@@ -110,20 +113,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         transaction.addToBackStack(null);
         transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
 
-
-
-//        boolean location_changed = false;
-//        if (moodEvent.getLat() == null) {
-//            location_changed = true;
-//            moodEvent.setLng(0.0);
-//            moodEvent.setLat(0.0);
-//        }
-//        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-//        transaction.addToBackStack(null);
-//        transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
     }
 
 
@@ -170,6 +159,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(ArrayList<MoodEvent> moodEvents) {
                 //append locations to map
+                int count = 0;
 
                 userMarkers.clear();
                 for(MoodEvent moodEvent: moodEvents) {
@@ -179,8 +169,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .position(loc)
                             .title(m.getMoodName()));
                     marker.setTag(moodEvent);
+                    posmarker.put(count,marker);
+                    markerpos.put(marker,count);
                     userMarkers.add(marker);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                    count++;
 
                 }
 
@@ -245,7 +238,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onInfoWindowClick(Marker marker) {
                 MoodEvent m = (MoodEvent)marker.getTag();
-                openFragment(m, 5);
+                openFragment(m, markerpos.get(marker));
 
             }
         });
@@ -255,15 +248,29 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onDeleteFragmentInteraction(int position) {
+        Marker marker = posmarker.get(position);
+        MoodEvent e = (MoodEvent) marker.getTag();
+        MoodHistory.deleteMoodEventForMarker(e, new MoodHistory.FirebaseCallback<Void>() {
+            @Override
+            public void onSuccess(Void document) {
+                System.out.println("Successfully deleted Mood Event");
+                marker.remove();
+            }
 
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("Failed to deleted Mood Event");
+            }
+        });
     }
 
     @Override
     public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, MoodHistory.FirebaseCallback cb) {
-////        markers.get(position);
-//        marker.setTag(e);
-//        Mood m = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
-//        market.title(m.getMoodName())
+        Marker marker = posmarker.get(position);
+        marker.setTag(e);
+        Mood m = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
+        marker.setTitle(m.getMoodName());
+        MoodHistory.externalUpdateMarkerMoodEvent(e, position, photo, cb);
 
     }
 
