@@ -112,7 +112,6 @@ public class ProfileViewFragment extends Fragment {
             EditFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FirebaseAuth.getInstance().signOut();
                     Intent editActivity = new Intent(getActivity(), EditProfile.class);
                     startActivity(editActivity);
 //                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
