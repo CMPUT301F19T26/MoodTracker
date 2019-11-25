@@ -3,7 +3,6 @@ package com.example.moodtracker.helpers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -12,14 +11,11 @@ import com.example.moodtracker.R;
 import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.MapActivity;
-import com.example.moodtracker.view.ProfileFragment;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
-
-import java.lang.reflect.Field;
 
 public class BottomNavigationViewHelper {
     @SuppressLint("RestrictedApi")
@@ -63,12 +59,12 @@ public class BottomNavigationViewHelper {
                         mapIntent.putExtra("USER", Jared);
                         mapIntent.putExtra("MODE", 0);
                         context.startActivity(mapIntent);
-//                        Intent intent3 = new Intent(ProfileFragment.this, MapActivity.class);
+//                        Intent intent3 = new Intent(ProfileViewActivity.this, MapActivity.class);
 //                        startActivity(intent3);
                         break;
 
                     case R.id.ic_Feed:
-//                        Intent moodHistoryIntent = new Intent(ProfileFragment.this, MoodHistoryActivity.class);
+//                        Intent moodHistoryIntent = new Intent(ProfileViewActivity.this, MoodHistoryActivity.class);
 //                        moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
 //                        startActivity(moodHistoryIntent);
                         break;

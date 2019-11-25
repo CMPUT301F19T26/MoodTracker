@@ -33,12 +33,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-
-import org.w3c.dom.Document;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -116,7 +112,7 @@ public class SignupActivity extends AppCompatActivity {
                                                                   @Override
                                                                   public void onSuccess(Void aVoid) {
                                                                       Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                                      Intent homeIntent = new Intent(SignupActivity.this, ProfileFragment.class);
+                                                                      Intent homeIntent = new Intent(SignupActivity.this, ProfileViewActivity.class);
                                                                       startActivity(homeIntent);
                                                                   }
                                                               })
