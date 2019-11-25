@@ -43,7 +43,6 @@ public class User implements Parcelable {
         userID = id;
     }
 
-
     public ArrayList<String> getFriendIDs() {
 
         db.collection("follow")
