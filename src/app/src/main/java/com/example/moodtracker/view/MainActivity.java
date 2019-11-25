@@ -1,3 +1,17 @@
+/**
+ * MainActivity
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.example.moodtracker.view;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         fb_auth = FirebaseAuth.getInstance();
         if (fb_auth.getCurrentUser() != null) {
-            Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+            Intent homeIntent = new Intent(MainActivity.this, ProfileFragment.class);
             startActivity(homeIntent);
         } else {
             Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
