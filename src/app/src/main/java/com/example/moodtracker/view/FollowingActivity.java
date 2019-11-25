@@ -84,7 +84,6 @@ public class FollowingActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String followingId = document.get("following_id").toString();
                                 followingDataList.add(new User(followingId));
-//                                Log.d("FUCKU", document.get("following_id").toString());
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
 

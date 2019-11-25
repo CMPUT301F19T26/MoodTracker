@@ -16,24 +16,37 @@ package com.example.moodtracker.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.moodtracker.view.SignupActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class User implements Parcelable {
+
+    public interface UsernameListener {
+        void onRetrieve(String username);
+        void onError();
+    }
 
     public String userID;
     public ArrayList<String> followingIDs = new ArrayList<String>();
@@ -48,10 +61,22 @@ public class User implements Parcelable {
         return this.userID;
     }
 
-    public String getUsername()
+    public void getUsername(UsernameListener listener)
     {
-        return "ankush";
+        db.collection("users").document(this.userID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            listener.onRetrieve(documentSnapshot.get("username").toString());
+                        } else {
+                            listener.onError();
+                        }
+                    }
+                });
     }
+
+
 
     public ArrayList<String> getFriendIDs() {
 
