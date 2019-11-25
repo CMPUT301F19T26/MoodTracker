@@ -53,7 +53,6 @@ public class User implements Parcelable {
         return "ankush";
     }
 
-
     public ArrayList<String> getFriendIDs() {
 
         db.collection("follow")
