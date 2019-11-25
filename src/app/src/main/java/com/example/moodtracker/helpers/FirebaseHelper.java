@@ -49,7 +49,7 @@ import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
 
 /**
- *
+ * Class for Handling Firebase accesses
  */
 public class FirebaseHelper {
     public interface FirebaseCallback<T> {

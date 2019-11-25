@@ -25,16 +25,31 @@ import com.example.moodtracker.model.User;
 
 import java.util.ArrayList;
 
+/**
+ * Custom array adapter
+ */
 public class CustomFindList extends ArrayAdapter<User> {
     private ArrayList<User> users;
     private Context context;
 
+    /**
+     * Constructor
+     * @param context Context
+     * @param users users list
+     */
     public CustomFindList(Context context, ArrayList<User> users){
         super(context, 0, users);
         this.context = context;
         this.users = users;
     }
 
+    /**
+     * Get view of find list
+     * @param position position of view
+     * @param convertView convert view
+     * @param parent parent
+     * @return view of find list
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

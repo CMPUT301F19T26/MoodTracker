@@ -77,15 +77,13 @@ public class FindActivity extends AppCompatActivity {
 //    ArrayList<User> userDataList;
 
 
-    /**
-     * On Create
-     *
-     * @param savedInstanceState the instance
-     */
-
     EditText searchText;
     Button searchButton;
 
+    /**
+     * On Create
+     * @param savedInstanceState the instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

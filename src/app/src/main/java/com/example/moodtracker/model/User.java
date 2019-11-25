@@ -26,7 +26,6 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
 package com.example.moodtracker.model;
@@ -58,6 +57,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class User implements Parcelable {
 
     public interface UsernameListener {
@@ -79,15 +81,27 @@ public class User implements Parcelable {
     public ArrayList<String> followingIDs = new ArrayList<String>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /**
+     * set user id
+     * @param id user id to set
+     */
     public User(String id) {
         this.userID = id;
     }
 
+    /**
+     * gets user id
+     * @return user id
+     */
     public String getUid()
     {
         return this.userID;
     }
 
+    /**
+     * Gets username
+     * @param listener listener for button
+     */
     public void getUsername(UsernameListener listener)
     {
         db.collection("users").document(this.userID).get()
@@ -103,6 +117,10 @@ public class User implements Parcelable {
                 });
     }
 
+    /**
+     * get following username
+     * @param listener listener for button click
+     */
     public void getFollowingUsernames(UsernamesListener listener) {
         db.collection("follow")
                 .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
@@ -123,6 +141,10 @@ public class User implements Parcelable {
                 });
     }
 
+    /**
+     * Get Feed of followers
+     * @param fIds Following ids
+     */
     public void getFollowingFeed(ArrayList<String> fIds) {
 
         ArrayList<String> followingFeed = new ArrayList<String>();
@@ -144,8 +166,10 @@ public class User implements Parcelable {
 
     }
 
-
-
+    /**
+     * Get Friends ids
+     * @return friend ids of user
+     */
     public ArrayList<String> getFriendIDs() {
 
         db.collection("follow")
@@ -170,7 +194,9 @@ public class User implements Parcelable {
         return followingIDs;
     }
 
-
+    /**
+     * Get user locations
+     */
     public ArrayList<Location> getUserLocations(){
         ArrayList<Location> locations = new ArrayList<Location>();
         db.collection("moodEvents")
@@ -204,9 +230,11 @@ public class User implements Parcelable {
 //        locations.add(chicago);
 
         return locations;
-
     }
 
+    /**
+     * Get locations of friends mood events
+     */
     public ArrayList<Location> getFriendsLocations(){
 
         getUserLocations();
@@ -254,7 +282,6 @@ public class User implements Parcelable {
 
     /**
      * write the object value to parcel for storage
-     *
      * @param dest the destination
      * @param flags the flags
      */
@@ -267,7 +294,6 @@ public class User implements Parcelable {
 
     /**
      * Constructor used for parcel
-     *
      * @param parcel the parcel
      */
     public User(Parcel parcel) {
@@ -283,7 +309,6 @@ public class User implements Parcelable {
 
         /**
          * Create user object from parcel
-         *
          * @param parcel the parcel
          * @return user object with parcel argument
          */
@@ -294,7 +319,6 @@ public class User implements Parcelable {
 
         /**
          * User array
-         *
          * @param size size of user array
          * @return user array
          */
@@ -308,7 +332,6 @@ public class User implements Parcelable {
 
     /**
      * describe the contents
-     *
      * @return the hash code
      */
     public int describeContents() {

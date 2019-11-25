@@ -61,7 +61,6 @@ public class FollowersActivity extends AppCompatActivity {
     FirebaseFirestore db;
     /**
      * On create of Followers activity
-     *
      * @param savedInstanceState the instance
      */
     @Override
