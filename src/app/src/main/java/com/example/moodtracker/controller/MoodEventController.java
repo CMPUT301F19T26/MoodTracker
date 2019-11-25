@@ -1,4 +1,4 @@
-/**
+/*
  * MoodEventController
  *
  * Version 1.0

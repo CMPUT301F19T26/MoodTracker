@@ -1,4 +1,4 @@
-/**
+/*
  * Constants
  *
  * Version 1.0

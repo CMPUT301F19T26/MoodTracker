@@ -1,4 +1,4 @@
-/**
+/*
  * MoodController
  *
  * Version 1.0

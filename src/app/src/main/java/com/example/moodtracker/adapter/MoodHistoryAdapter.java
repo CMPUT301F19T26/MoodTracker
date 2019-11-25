@@ -1,4 +1,4 @@
-/**
+/*
  * MoodHistoryAdapter
  *
  * Version 1.0

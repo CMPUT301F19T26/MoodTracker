@@ -1,4 +1,4 @@
-/**
+/*
  * MoodEvent
  *
  * Version 1.0
