@@ -58,6 +58,7 @@ public class FollowAdapter extends ArrayAdapter<User> {
 
             @Override
             public void onError() {
+                usernameText.setText("");
             }
         });
 
