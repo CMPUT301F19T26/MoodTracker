@@ -34,6 +34,7 @@ package com.example.moodtracker.helpers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.FeedActivity;
 import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.MapActivity;
+import com.example.moodtracker.view.ProfileViewActivity;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -89,6 +91,8 @@ public class BottomNavigationViewHelper {
                         break;
 
                     case R.id.ic_Profile:
+                        Intent profileIntent = new Intent(context, ProfileViewActivity.class);
+                        context.startActivity(profileIntent);
 
                         break;
 
@@ -112,7 +116,6 @@ public class BottomNavigationViewHelper {
 //                        Intent intent3 = new Intent(ProfileViewActivity.this, MapActivity.class);
 //                        startActivity(intent3);
                         break;
-
 
 
                 }
