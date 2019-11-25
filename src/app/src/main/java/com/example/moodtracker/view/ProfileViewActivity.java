@@ -39,6 +39,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -48,12 +49,21 @@ import androidx.fragment.app.FragmentTransaction;
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.fragment.ProfileViewFragment;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 /**
  * @auhtor CMPUT301F19T26
@@ -97,8 +107,33 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 
         // Displays all parts of the fragment in the view
         Intent intent = getIntent();
-        String user_id = intent.getStringExtra("user_id");
-        displayFragments(user_id, "Ankush");
+        String username = intent.getStringExtra("username");
+        if(username != null) {
+            FirebaseFirestore.getInstance().collection("users").whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    for(DocumentSnapshot doc : task.getResult()) {
+                        displayFragments(doc.getId(), username);
+                    }
+                }
+            });
+        } else {
+
+            String uid = fAuth.getUid();
+            User displayUser = new User(uid);
+
+            displayUser.getUsername(new User.UsernameListener() {
+                @Override
+                public void onRetrieve(String username) {
+                    displayFragments(uid, username);
+                }
+
+                @Override
+                public void onError() {
+                }
+            });
+
+        }
 
         //add Navigation bar functionality
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
@@ -111,11 +146,11 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 
     }
 
-    private void displayFragments(String user_id, String user_name) {
-        ProfileViewFragment profile_frag = new ProfileViewFragment(user_id, user_name);
-        FragmentManager manager=getSupportFragmentManager();//create an instance of fragment manager
+    private void displayFragments(String user_id, String username) {
+        ProfileViewFragment profile_frag = new ProfileViewFragment(user_id, username);
+        FragmentManager manager = getSupportFragmentManager();//create an instance of fragment manager
 
-        FragmentTransaction transaction=manager.beginTransaction();//create an instance of Fragment-transaction
+        FragmentTransaction transaction = manager.beginTransaction();//create an instance of Fragment-transaction
 
         transaction.add(R.id.profile_container, profile_frag, "PROFILE_FRAG");
 

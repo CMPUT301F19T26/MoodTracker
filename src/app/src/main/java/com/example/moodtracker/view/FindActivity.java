@@ -37,6 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -170,6 +171,11 @@ public class FindActivity extends AppCompatActivity {
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                             // returns the user that the item is clicked on
                                             // this will later be passed on to a profile view activity
+
+                                            Intent feedIntent = new Intent(FindActivity.this, ProfileViewActivity.class);
+                                            feedIntent.putExtra("username", list.get(position));
+                                            startActivity(feedIntent);
+
                                             Toast.makeText(FindActivity.this,list.get(position), Toast.LENGTH_SHORT).show();
                                         }
                                     });
