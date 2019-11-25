@@ -1,28 +1,47 @@
-/**
+/*
  * SocialSituation
  *
  * Version 1.0
  *
  * 11/8/2019
  *
- * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
+ * MIT License
+ *
+ * Copyright (c) 2019 CMPUT301F19T26
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 package com.example.moodtracker.helpers;
 
 import com.example.moodtracker.constants;
 
+/**
+ * sets users social situation based on the type of social situation selected
+ */
 public class SocialSituation {
     private String social_type;
 
     /**
-     * The social
-     *
-     * @param type type to determine social situation
+     * Determines social situation using switch and the hashMap constants
+     * @param type integer type to determine social situation
+     * @see com.example.moodtracker.constants
      */
     public SocialSituation(int type) {
         switch (type) {
@@ -50,8 +69,7 @@ public class SocialSituation {
     }
 
     /**
-     * Get the social situation type
-     *
+     * Getter for social situation type
      * @return social situation type
      */
     public String getSocialType() {

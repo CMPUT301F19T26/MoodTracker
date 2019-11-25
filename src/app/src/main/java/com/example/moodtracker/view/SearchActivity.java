@@ -47,6 +47,15 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //add Navigation bar functionality
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
+        BottomNavigationViewHelper.enableNavigation(SearchActivity.this, bottomNavigationView);
+
+
         searchText = findViewById(R.id.search_bar);
         searchButton = findViewById(R.id.search_button);
         userListView = findViewById(R.id.result_list);

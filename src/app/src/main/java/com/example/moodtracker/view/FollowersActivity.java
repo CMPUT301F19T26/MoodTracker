@@ -21,6 +21,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,9 +31,11 @@ import android.widget.ListView;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.FollowAdapter;
+import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -69,6 +73,15 @@ public class FollowersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Followers");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //add Navigation bar functionality
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(4);
+        menuItem.setChecked(true);
+        BottomNavigationViewHelper.enableNavigation(FollowersActivity.this, bottomNavigationView);
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

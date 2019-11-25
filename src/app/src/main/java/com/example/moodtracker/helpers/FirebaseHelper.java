@@ -1,11 +1,33 @@
 /*
- * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
+ * FireBaseHelper
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * MIT License
+ *
+ * Copyright (c) 2019 CMPUT301F19T26
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
  */
-
 package com.example.moodtracker.helpers;
 
 import android.content.Context;
@@ -26,18 +48,19 @@ import com.google.firebase.storage.UploadTask;
 
 import androidx.annotation.NonNull;
 
+/**
+ *
+ */
 public class FirebaseHelper {
     public interface FirebaseCallback<T> {
         /**
-         * callback handler for handling success cases, returned the value is stored in `document` variable
-         *
+         * callback handler for handling success cases, returned value is stored in `document` variable
          * @param document depending on the operation, this variable can hold different type of values
          */
         void onSuccess(T document);
 
         /**
          * callback handler for handling failure cases
-         *
          * @param e Exception thrown by the Firebase library
          */
         void onFailure(@NonNull Exception e);
@@ -45,16 +68,31 @@ public class FirebaseHelper {
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /**
+     * Getter for user name
+     * @param user_id the users id
+     * @return user name
+     */
     public static String getUserName(String user_id) {
         DocumentSnapshot user = db.collection("users").document(user_id).get().getResult();
         System.out.print(user.getData());
         return "BALH";
     }
 
+    /**
+     * Getter for user id
+     * @return user id
+     */
     public static String getUid() {
         return auth.getCurrentUser().getUid();
     }
 
+    /**
+     * Upload images to firebase
+     * @param photo the uri of the photo
+     * @param mood_id the id of the mood
+     * @param cb the firebase callback
+     */
     public static void uploadImage(Uri photo, String mood_id, final FirebaseCallback<Uri> cb) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storeRef = storage.getReference().child(String.format("moodEvents/%s.jpg", mood_id));

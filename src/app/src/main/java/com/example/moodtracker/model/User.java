@@ -1,4 +1,4 @@
-/**
+/*
  * User
  *
  * Version 1.0
@@ -66,6 +66,16 @@ public class User implements Parcelable {
         void onError();
     }
 
+    public interface UsernamesListener {
+        void onRetrieve(ArrayList<String> usernames);
+        void onError();
+    }
+
+    public interface FeedListener {
+        void onRetrieve(ArrayList<String> usernames);
+        void onError();
+    }
+
     public String userID;
     public ArrayList<String> followingIDs = new ArrayList<String>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -92,6 +102,47 @@ public class User implements Parcelable {
                         }
                     }
                 });
+    }
+
+    public void getFollowingUsernames(UsernamesListener listener) {
+        db.collection("follow")
+                .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String followingId = document.get("following_id").toString();
+                                followingIDs.add(followingId);
+                            }
+                            listener.onRetrieve(followingIDs);
+                        } else {
+                            listener.onError();
+                        }
+                    }
+                });
+    }
+
+    public void getFollowingFeed(ArrayList<String> fIds) {
+
+        ArrayList<String> followingFeed = new ArrayList<String>();
+        for (String uid : fIds) {
+           db.collection("users").document(uid).collection("moodEvents").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+               @Override
+               public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                   if (task.isSuccessful()) {
+                       for (QueryDocumentSnapshot document : task.getResult()) {
+                           String followingId = document.get("mood_id").toString();
+                           Log.d("FOLLOWLOOP", followingId);
+                       }
+                   }
+               }
+           });
+        }
+
+
+
     }
 
 

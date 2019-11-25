@@ -36,7 +36,7 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:textColor="#FFFFFF"
-        android:background="@drawable/general_buttons"
+        android:backgroundTint="@color/colorAction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
