@@ -15,6 +15,7 @@
 package com.example.moodtracker.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import androidx.appcompat.widget.Toolbar;
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.view.fragment.ProfileViewFragment;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -41,7 +43,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * it overwrites onCreateView
  */
 
-public class ProfileViewActivity extends AppCompatActivity {
+public class ProfileViewActivity extends AppCompatActivity implements ProfileViewFragment.OnFragmentInteractionListener {
     private FloatingActionButton EditFab;
     private MaterialButton LogoutFab;
     private FloatingActionButton AddMoodFab;
@@ -158,6 +160,16 @@ public class ProfileViewActivity extends AppCompatActivity {
         menuItem.setChecked(true);
         BottomNavigationViewHelper.enableNavigation(ProfileViewActivity.this, bottomNavigationView);
 
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
