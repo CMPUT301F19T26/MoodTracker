@@ -16,6 +16,8 @@ package com.example.moodtracker.view;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -75,6 +77,21 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     };
 
+    public void openFragment(MoodEvent moodEvent, int position) {
+        boolean location_changed = false;
+        if (moodEvent.getLat() == null) {
+            location_changed = true;
+            moodEvent.setLng(0.0);
+            moodEvent.setLat(0.0);
+        }
+        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +105,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
 
     }
+
+
 
 
     /**
@@ -153,7 +172,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onInfoWindowClick(Marker marker) {
                 MoodEvent m = (MoodEvent)marker.getTag();
-                MoodHistoryActivity.openFragment(m, 5);
+                openFragment(m, 5);
 
             }
         });
