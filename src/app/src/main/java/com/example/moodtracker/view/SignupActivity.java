@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
 import com.example.moodtracker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,8 +37,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
@@ -86,17 +95,19 @@ public class SignupActivity extends AppCompatActivity {
                                                       Map<String, Object> userMap = new HashMap<>();
                                                       userMap.put("email", emailText.getText().toString());
                                                       userMap.put("username", usernameText.getText().toString());
-
                                                       FirebaseUser user = mAuth.getCurrentUser();
                                                       String uid = user.getUid();
-
+                                                      // back end apiKey
+                                                      Client client = new Client("GZMZW0XPIB", "258da6df8585aac2755616b472826982");
+                                                      Index index = client.getIndex("dev_USERNAMES");
                                                       db.collection("usernames").document(usernameText.getText().toString())
                                                               .set(userMap)
                                                               .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                   @Override
                                                                   public void onSuccess(Void aVoid) {
                                                                       Log.d(TAG, "DocumentSnapshot successfully written!");
-
+                                                                      // log the user profile map as a JSONObject
+                                                                      index.addObjectAsync(new JSONObject(userMap), null);
                                                                   }
                                                               })
                                                               .addOnFailureListener(new OnFailureListener() {

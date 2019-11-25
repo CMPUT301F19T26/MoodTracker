@@ -144,7 +144,7 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
         final MoodEventFragment fragment = (MoodEventFragment) getSupportFragmentManager().findFragmentByTag("MOOD_EVENT_FRAGMENT");
         if (fragment!= null && fragment.allowBackPress()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
             super.onBackPressed();
-        } else {
+        } else if (fragment == null) {
             finish();
         }
     }

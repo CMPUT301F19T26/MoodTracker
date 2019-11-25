@@ -1,7 +1,8 @@
 package com.example.moodtracker;
 
-import org.junit.Test;
+import com.example.moodtracker.model.Location;
 
+import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
@@ -15,3 +16,4 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
 }
+

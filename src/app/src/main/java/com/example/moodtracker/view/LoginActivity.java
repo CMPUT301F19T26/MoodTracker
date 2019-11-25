@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                    Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Intent homeIntent = new Intent(LoginActivity.this, ProfileViewActivity.class);
+                                    homeIntent.putExtra("user_id",mAuth.getCurrentUser().getUid());
                                     startActivity(homeIntent);
                                 } else {
                                     // If sign in fails, display a message to the user.

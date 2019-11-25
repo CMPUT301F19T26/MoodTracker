@@ -231,6 +231,16 @@ public class AddMoodEventActivity extends AppCompatActivity {
 
     }
 
+
+
+    @Override
+    public void onBackPressed() {
+        if (processing) {
+            Toast.makeText(this, "Adding mood event...", Toast.LENGTH_SHORT).show();
+        } else {
+            finish();
+        }
+    }
     private static  MoodEvent buildMoodEventfromUserInput(String mood, String user_id, String now, String reason, String social_situation) {
         // TODO fix this logic, needs reason rn
         MoodEvent new_item = new MoodEvent(mood, user_id, now);
