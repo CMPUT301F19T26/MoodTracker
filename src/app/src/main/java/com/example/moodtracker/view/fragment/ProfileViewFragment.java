@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.EditProfile;
 import com.example.moodtracker.view.FollowersActivity;
 import com.example.moodtracker.view.FollowingActivity;
@@ -49,6 +50,7 @@ public class ProfileViewFragment extends Fragment {
     private Button FollowingButton;
     private Button MoodEventButton;
     private Button MoodHistoryButton;
+    private User displayUser;
 
 
 
@@ -65,6 +67,7 @@ public class ProfileViewFragment extends Fragment {
 
     public ProfileViewFragment(String uid, String username) {
         // Required empty public constructor
+        displayUser = new User(uid);
         mUid = uid;
         mUsername = username;
     }
@@ -81,7 +84,7 @@ public class ProfileViewFragment extends Fragment {
     public static ProfileViewFragment newInstance(String mUid, String mUsername) {
         ProfileViewFragment fragment = new ProfileViewFragment(mUid, mUsername);
         Bundle args = new Bundle();
-        args.putString(USER_ID, mUid );
+        args.putString(USER_ID, mUid);
         args.putString(USER_NAME, mUsername);
         fragment.setArguments(args);
         return fragment;
@@ -103,7 +106,7 @@ public class ProfileViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_view, container, false);;
         TextView ProfileName = view.findViewById(R.id.userNameFragmentProfile);
-        ProfileName.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        ProfileName.setText(mUid);//FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         EditFab = view.findViewById(R.id.editFAB);
         EditFab.hide();
