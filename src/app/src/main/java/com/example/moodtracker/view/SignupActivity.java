@@ -136,7 +136,7 @@ public class SignupActivity extends AppCompatActivity {
                                                                   @Override
                                                                   public void onSuccess(Void aVoid) {
                                                                       Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                                      Intent homeIntent = new Intent(SignupActivity.this, ProfileViewActivity.class);
+                                                                      Intent homeIntent = new Intent(SignupActivity.this, FeedActivity.class);
                                                                       startActivity(homeIntent);
                                                                   }
                                                               })
