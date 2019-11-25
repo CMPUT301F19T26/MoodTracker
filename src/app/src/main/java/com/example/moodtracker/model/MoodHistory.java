@@ -92,8 +92,8 @@ public class MoodHistory implements Serializable {
 
     public static void getMoodHistory(ArrayAdapter adapter, MoodHistory h) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("moodEvents")
-                .whereEqualTo("user_id", h.user_id)
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        db.collection("users").document(h.user_id).collection("moodEvents")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -119,8 +119,8 @@ public class MoodHistory implements Serializable {
 
     public static void getMoodHistoryWithFilter(ArrayAdapter adapter, MoodHistory h, String filter, String filter_val) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("moodEvents")
-                .whereEqualTo("user_id", h.user_id)
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        db.collection("users").document(h.user_id).collection("moodEvents")
                 .whereEqualTo(filter, filter_val)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -145,7 +145,7 @@ public class MoodHistory implements Serializable {
 
     }
 
-    private static MoodEvent buildMoodEventFromDoc(QueryDocumentSnapshot doc, String user_id) {
+    public static MoodEvent buildMoodEventFromDoc(QueryDocumentSnapshot doc, String user_id) {
         String date = doc.get("date").toString();
         String mood = doc.get("mood").toString();
         String mood_id = doc.get("mood_id").toString();
@@ -169,13 +169,14 @@ public class MoodHistory implements Serializable {
 
     public static void externalUpdateMoodEvent(MoodEvent e, int position, Uri photo,MoodHistory h, ArrayAdapter adapter, final MoodHistory.FirebaseCallback cb){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         if (photo != null) {
             // Upload first then do the the thing
             FirebaseHelper.uploadImage(photo, e.getMood_id(), new FirebaseHelper.FirebaseCallback<Uri>() {
                 @Override
                 public void onSuccess(Uri document) {
                     e.setPhoto_url(document.toString());
-                    db.collection("moodEvents").document(e.getMood_id())
+                    db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
                             .set(e)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -195,7 +196,7 @@ public class MoodHistory implements Serializable {
 
         } else {
             // Overwrite the document
-            db.collection("moodEvents").document(e.getMood_id())
+            db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
                     .set(e, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -210,6 +211,7 @@ public class MoodHistory implements Serializable {
 
     public static void externalAddMoodEvent(MoodEvent e, Uri photo, final FirebaseCallback<Void> cb) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         if (photo != null) {
             // Upload the image
             // Perform moodevent upload in the callback
@@ -218,7 +220,7 @@ public class MoodHistory implements Serializable {
                 public void onSuccess(Uri document) {
                     e.setPhoto_url(document.toString());
                     // Check if a location is needed to be added
-                    db.collection("moodEvents").document(e.getMood_id())
+                    db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
                             .set(e)
                             .addOnSuccessListener(cb::onSuccess)
                             .addOnFailureListener(cb::onFailure);
@@ -231,7 +233,7 @@ public class MoodHistory implements Serializable {
             });
         } else {
             // Check if a location must be added
-            db.collection("moodEvents").document(e.getMood_id())
+            db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
                     .set(e)
                     .addOnSuccessListener(cb::onSuccess)
                     .addOnFailureListener(cb::onFailure);
@@ -239,8 +241,9 @@ public class MoodHistory implements Serializable {
     }
 
     public void deleteMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         // Deleting a mood event
-        db.collection("moodEvents").document(e.getMood_id())
+        db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
                 .delete()
                 .addOnSuccessListener(cb::onSuccess)
                 .addOnFailureListener(cb::onFailure);

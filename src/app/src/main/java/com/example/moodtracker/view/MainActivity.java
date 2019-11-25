@@ -58,13 +58,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        fb_auth = FirebaseAuth.getInstance();
-        if (fb_auth.getCurrentUser() != null) {
-            Intent homeIntent = new Intent(MainActivity.this, ProfileViewActivity.class);
-            startActivity(homeIntent);
-        }
-    }
+
 }

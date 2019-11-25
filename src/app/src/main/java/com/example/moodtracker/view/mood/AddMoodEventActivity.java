@@ -195,39 +195,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.ic_Profile:
-                        Intent intent0 = new Intent(AddMoodEventActivity.this, ProfileViewActivity.class);
-                        startActivity(intent0);
-                        break;
-
-                    case R.id.ic_Search:
-                        Intent intent1 = new Intent(AddMoodEventActivity.this, FindActivity.class);
-                        startActivity(intent1);
-                        break;
-
-                    case R.id.ic_Add:
-
-                        break;
-
-                    case R.id.ic_Map:
-//                        Intent intent3 = new Intent(AddMoodEventActivity.this, MapActivity.class);
-//                        startActivity(intent3);
-//                        break;
-
-                    case R.id.ic_Feed:
-
-                        break;
-
-                }
-
-                return false;
-            }
-        });
+        BottomNavigationViewHelper.enableNavigation(AddMoodEventActivity.this, bottomNavigationView);
 
     }
 
