@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class BottomNavigationViewHelper {
     @SuppressLint("RestrictedApi")
@@ -55,11 +56,10 @@ public class BottomNavigationViewHelper {
                     case R.id.ic_Map:
                         Intent mapIntent = new Intent(context, MapActivity.class);
 
-                        User Jared = new User("21");
-                        mapIntent.putExtra("USER", Jared);
-                        mapIntent.putExtra("MODE", 0);
+                        User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        mapIntent.putExtra("USER", user);
                         context.startActivity(mapIntent);
-//                        Intent intent3 = new Intent(ProfileViewActivity.this, MapActivity.class);
+//                        Intent intent3 = new Intent(ProfileFragment.this, MapActivity.class);
 //                        startActivity(intent3);
                         break;
 
