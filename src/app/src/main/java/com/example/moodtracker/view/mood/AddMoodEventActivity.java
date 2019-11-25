@@ -12,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebChromeClient;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +20,6 @@ import android.widget.Spinner;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
-import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 
@@ -36,12 +34,9 @@ import android.view.MenuItem;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.example.moodtracker.R;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.view.FindActivity;
-import com.example.moodtracker.view.MapActivity;
-import com.example.moodtracker.view.ProfileFragment;
-import com.example.moodtracker.view.SearchActivity;
+import com.example.moodtracker.view.ProfileViewActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -97,8 +92,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
         mood_dropdown.setAdapter(adapt);
 
         social_situation_dropdown = findViewById(R.id.social_sitation_selector);
-        final String[] social_items = new String[]{"None","Alone", "One Other", "Two Others", "Several", "Crowd"};
-        social_adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, social_items);
+        social_adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, constants.social_situations_list);
         social_situation_dropdown.setAdapter(social_adapt);
 
         // Submission handling
@@ -207,7 +201,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.ic_Profile:
-                        Intent intent0 = new Intent(AddMoodEventActivity.this, ProfileFragment.class);
+                        Intent intent0 = new Intent(AddMoodEventActivity.this, ProfileViewActivity.class);
                         startActivity(intent0);
                         break;
 

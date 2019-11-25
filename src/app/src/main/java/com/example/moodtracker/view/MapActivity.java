@@ -62,7 +62,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 //            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 //                switch (menuItem.getItemId()){
 //                    case R.id.ic_Profile:
-//                        Intent intent0 = new Intent(MapActivity.this, ProfileFragment.class);
+//                        Intent intent0 = new Intent(MapActivity.this, ProfileViewActivity.class);
 //                        startActivity(intent0);
 //                        break;
 //

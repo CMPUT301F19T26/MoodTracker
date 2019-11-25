@@ -36,6 +36,7 @@ import androidx.cardview.widget.CardView;
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
 import com.example.moodtracker.controller.MoodHistoryController;
+import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
@@ -44,8 +45,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
@@ -109,14 +112,26 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         TextView date = view.findViewById(R.id.event_date);
         ImageView icon = view.findViewById(R.id.icon_image);
         ImageView photo = view.findViewById(R.id.me_photo);
+        TextView reason = view.findViewById(R.id.reason);
+        TextView social = view.findViewById(R.id.social_situation);
         handlePhotos(photo, event_item);
 
+        if (event_item.getReason()!= null) {
+            reason.setText(event_item.getReason());
+        } else {
+            reason.setText(null);
+        }
+        if (event_item.getSocialSituation()!= null) {
+            social.setText(event_item.getSocialSituation());
+        } else {
+            social.setText(null);
+        }
         mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
         mood.setText(mood_obj.getMoodName());
         icon.setImageResource(mood_obj.getIcon());
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        date.setText(event_item.getDate());
+        String formatted_date = MoodHistoryHelpers.formatDate(event_item.getDate());
+        date.setText(formatted_date);
     }
 
     private void handlePhotos(ImageView photoView, MoodEvent event_item) {

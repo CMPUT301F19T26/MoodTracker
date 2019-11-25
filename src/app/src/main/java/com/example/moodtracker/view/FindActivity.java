@@ -210,29 +210,7 @@ public class FindActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.ic_Profile:
-                        Intent intent0 = new Intent(FindActivity.this, ProfileFragment.class);
-                        startActivity(intent0);
-                        break;
-                    case R.id.ic_Search:
-                        break;
-                    case R.id.ic_Add:
-                        Intent intent2 = new Intent(FindActivity.this, AddMoodEventActivity.class);
-                        startActivity(intent2);
-                        break;
-                    case R.id.ic_Map:
-//                        Intent intent3 = new Intent(FindActivity.this, MapActivity.class);
-//                        startActivity(intent3);
-                        break;
-                    case R.id.ic_Feed:
-                        break;
-                }
-                return false;
-            }
-        });
+        BottomNavigationViewHelper.enableNavigation(FindActivity.this, bottomNavigationView);
+
     }
 }
