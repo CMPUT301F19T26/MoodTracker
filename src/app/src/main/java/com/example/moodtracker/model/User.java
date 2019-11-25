@@ -121,10 +121,33 @@ public class User implements Parcelable {
     }
 
 
+//    public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
+//        ArrayList<MoodEvent> usermoods = new ArrayList<>();
+//        db.collection("moodEvents")
+//                .whereEqualTo("user_id", userID)
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+//                            if (doc.exists()) {
+//                                if (doc.get("lat") != null) {
+//                                    MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
+//                                    usermoods.add(me);
+//
+//                                }
+//                            }
+//                        }
+//                        cb.onSuccess(usermoods);
+//                    }
+//                });
+//
+//    }
+
+
     public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
         ArrayList<MoodEvent> usermoods = new ArrayList<>();
-        db.collection("moodEvents")
-                .whereEqualTo("user_id", userID)
+        db.collection("users").document(userID).collection("moodEvents")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -144,10 +167,14 @@ public class User implements Parcelable {
 
     }
 
+
+
+
+
     public void getFriendLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
         ArrayList<MoodEvent> friendmoods = new ArrayList<>();
         System.out.println("inside");
-        db.collection("follower")
+        db.collection("follow")
                 .whereEqualTo("follower_id", userID)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -160,9 +187,8 @@ public class User implements Parcelable {
                                 System.out.println("inside4");
                                 if (doc.get("following_id") != null) {
                                     System.out.println("inside5");
-                                    String id = (String)doc.get("following_id");
-                                    db.collection("moodEvents")
-                                            .whereEqualTo("user_id", id)
+                                    String ID = (String)doc.get("following_id");
+                                    db.collection("users").document(ID).collection("moodEvents")
                                             .get()
                                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                                 @Override
@@ -174,7 +200,7 @@ public class User implements Parcelable {
                                                             System.out.println("inside8");
                                                             if (doc.get("lat") != null) {
                                                                 System.out.println("inside9");
-                                                                MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
+                                                                MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, ID);
                                                                 friendmoods.add(me);
 
                                                             }
@@ -187,6 +213,7 @@ public class User implements Parcelable {
 
                             }
                         }
+                        System.out.println("LENGTHER " + friendmoods.size());
                         cb.onSuccess(friendmoods);
                     }
                 });

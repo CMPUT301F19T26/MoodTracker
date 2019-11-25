@@ -205,7 +205,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(loc)
                             .title(m.getMoodName())
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+//                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                     );
                     marker.setTag(moodEvent);
                     friendMarkers.add(marker);
