@@ -17,6 +17,7 @@ package com.example.moodtracker.view;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -64,6 +65,11 @@ public class FollowingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_following);
 
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Following");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         followingListView = findViewById(R.id.list_user_following);
         followingDataList = new ArrayList<>();
         followingAdapter = new FollowAdapter(this, followingDataList);
@@ -94,21 +100,6 @@ public class FollowingActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
-
-//        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                followingDataList.clear();
-//                for(QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-//                    String city = doc.getId();
-//                    followingDataList.add(new User(uid));
-//                }
-//                followingAdapter.notifyDataSetChanged();
-//            }
-//        });
 
     }
 

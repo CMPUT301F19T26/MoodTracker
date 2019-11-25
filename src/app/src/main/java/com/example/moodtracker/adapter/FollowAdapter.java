@@ -63,7 +63,6 @@ public class FollowAdapter extends ArrayAdapter<User> {
 
         uidText.setText(user.getUid());
 
-
         return view;
 
     }
