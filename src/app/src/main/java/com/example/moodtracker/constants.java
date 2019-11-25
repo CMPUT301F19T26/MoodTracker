@@ -41,6 +41,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * Creates Hash maps associating social situations and moods to values
+ */
 public class constants {
 
     // Moods
@@ -62,6 +65,9 @@ public class constants {
 
 
     // Front end mappers
+    /**
+     * Mood names and num association via hash map
+     */
     public static HashMap<String, String> mood_name_to_num_mapper = new HashMap<>();
     static{
             mood_name_to_num_mapper.put("Neutral", NEUTRAL);
@@ -70,6 +76,9 @@ public class constants {
             mood_name_to_num_mapper.put("Angry", ANGRY);
     }
 
+    /**
+     * Mood num and index association via hash map
+     */
     public static HashMap<String, Integer> mood_num_to_index_mapper = new HashMap<>();
     static {
         mood_num_to_index_mapper.put(NEUTRAL, 0);
@@ -78,8 +87,9 @@ public class constants {
         mood_num_to_index_mapper.put(ANGRY, 3);
     }
 
-
-    // Given a mood event object, we can map the mood num to an object that will be used to clean up the UI
+    /**
+     * Given a mood event object, we can map the mood num to an object that will be used to clean up the UI
+     */
     public static HashMap<String, Mood> mood_num_to_mood_obj_mapper = new HashMap<>();
     static {
         mood_num_to_mood_obj_mapper.put(NEUTRAL, new Neutral("#f498ad", R.drawable.neutral, "Neutral", NEUTRAL));
@@ -88,6 +98,9 @@ public class constants {
         mood_num_to_mood_obj_mapper.put(ANGRY, new Angry("#ff2929", R.drawable.angry, "Angry", ANGRY));
     }
 
+    /**
+     * Social situation and index hash map
+     */
     public static HashMap<String, Integer> SS_name_to_index_mapper = new HashMap<>();
     static {
         SS_name_to_index_mapper.put("None", 0);

@@ -41,6 +41,9 @@ import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Modify mood history
+ */
 public class MoodHistoryController {
 
     public MoodHistoryController() {

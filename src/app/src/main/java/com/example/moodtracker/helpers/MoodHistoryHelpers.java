@@ -26,7 +26,6 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
 package com.example.moodtracker.helpers;
@@ -46,8 +45,17 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Compares, formats and converts dates for mood history sorting
+ */
 public class MoodHistoryHelpers  implements Comparator<MoodEvent>{
 
+    /**
+     * compares mood event dates
+     * @param m1 first mood event to compare
+     * @param m2 second mood event to compare
+     * @return returns value based on which date precedes which
+     */
     @Override
     public int compare(MoodEvent m1, MoodEvent m2) {
         Date d1 = convertStringtoDate(m1.getDate());
@@ -63,17 +71,30 @@ public class MoodHistoryHelpers  implements Comparator<MoodEvent>{
         return value;
     }
 
+    /**
+     * @return NULL
+     */
     @Override
     public Comparator<MoodEvent> reversed() {
         return null;
     }
 
+    /**
+     * Format date
+     * @param date date to format
+     * @return formatted date
+     */
     public static String formatDate(String date) {
         Date curr_date = MoodHistoryHelpers.convertStringtoDate(date);
         DateFormat df = new SimpleDateFormat(constants.clean_format);
         return df.format(curr_date);
     }
 
+    /**
+     * Convert String to date
+     * @param date date convert
+     * @return converted date or current date
+     */
     public static Date convertStringtoDate(String date) {
         DateFormat df = new SimpleDateFormat(constants.date_format);
         Date d;
