@@ -129,8 +129,8 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
      * @param view the view to display the event in
      * @see com.example.moodtracker.model.MoodEvent#MoodEvent(String, String, String, String, String, Double, Double, String)
      */
-    private void setUpMoodEvent(MoodEvent event_item, View view) {
-        Mood mood_obj = mood_num_to_mood_obj_map.get(event_item.getMood()); // The Mood Object this event refers to
+    public static void setUpMoodEvent(MoodEvent event_item, View view) {
+        Mood mood_obj = constants.mood_num_to_mood_obj_mapper.get(event_item.getMood()); // The Mood Object this event refers to
 
         // MoodEvent Views
         CardView mood_event_item = view.findViewById(R.id.mood_event_item);
@@ -166,7 +166,7 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
      * @param event_item the mood event
      * @see
      */
-    private void handlePhotos(ImageView photoView, MoodEvent event_item) {
+    private static void handlePhotos(ImageView photoView, MoodEvent event_item) {
         photoView.setImageResource(0);
         photoView.setVisibility(View.GONE);
         if (event_item.getPhoto_url()!= null) {

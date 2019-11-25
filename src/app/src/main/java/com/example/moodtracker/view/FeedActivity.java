@@ -18,18 +18,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.adapter.FeedAdapter;
 import com.example.moodtracker.adapter.FollowAdapter;
+import com.example.moodtracker.model.MoodEvent;
+import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.model.User;
+import com.example.moodtracker.view.fragment.MoodEventFragment;
+import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,12 +51,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements MoodEventFragment.OnFragmentInteractionListener {
 
     // Declare the variables so that you will be able to reference it later.
-    ListView followingListView;
-    ArrayAdapter<User> followingAdapter;
-    ArrayList<User> followingDataList;
+    ListView feedListView;
+    FeedAdapter feedAdapter;
+    ArrayList<MoodEvent> feedDataList;
 
     // new class vars
     String TAG = "Sample";
@@ -78,10 +87,10 @@ public class FeedActivity extends AppCompatActivity {
         });
 
 
-        followingListView = findViewById(R.id.list_user_following2);
-        followingDataList = new ArrayList<>();
-        followingAdapter = new FollowAdapter(this, followingDataList);
-        followingListView.setAdapter(followingAdapter);
+        feedListView = findViewById(R.id.list_user_following2);
+        feedDataList = new ArrayList<>();
+        feedAdapter = new FeedAdapter(this, feedDataList);
+        feedListView.setAdapter(feedAdapter);
 
         db = FirebaseFirestore.getInstance();
 
@@ -94,23 +103,23 @@ public class FeedActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            followingDataList.clear();
+                            feedDataList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 db.collection("users").document(document.get("following_id").toString()).collection("moodEvents").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                String followingId = document.get("mood_id").toString();
-                                                followingDataList.add(new User(followingId));
+                                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                                MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, document.get("following_id").toString());
+                                                feedDataList.add(me);
                                             }
-                                            followingAdapter.notifyDataSetChanged();
+                                            feedAdapter.notifyDataSetChanged();
                                         }
                                     }
                                 });
                             }
 
-                            followingAdapter.notifyDataSetChanged();
+                            feedAdapter.notifyDataSetChanged();
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -118,7 +127,36 @@ public class FeedActivity extends AppCompatActivity {
                     }
                 });
 
+        feedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                System.out.println("CLICK ON ME:" + position);
+                MoodEvent clicked_user = feedDataList.get(position);
+                openFragment(clicked_user, position);
+            }
+        });
+
 
     }
 
+    private void openFragment(MoodEvent moodEvent, int position) {
+        boolean location_changed = false;
+        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
+    }
+
+
+    @Override
+    public void onDeleteFragmentInteraction(int position) {
+
+    }
+
+    @Override
+    public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, MoodHistory.FirebaseCallback cb) {
+
+    }
 }

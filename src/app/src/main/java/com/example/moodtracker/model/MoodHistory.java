@@ -145,7 +145,7 @@ public class MoodHistory implements Serializable {
 
     }
 
-    private static MoodEvent buildMoodEventFromDoc(QueryDocumentSnapshot doc, String user_id) {
+    public static MoodEvent buildMoodEventFromDoc(QueryDocumentSnapshot doc, String user_id) {
         String date = doc.get("date").toString();
         String mood = doc.get("mood").toString();
         String mood_id = doc.get("mood_id").toString();
