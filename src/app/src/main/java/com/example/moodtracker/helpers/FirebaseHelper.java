@@ -1,5 +1,5 @@
 /*
- * BottomNavigationViewHelper
+ * FireBaseHelper
  *
  * Version 1.0
  *

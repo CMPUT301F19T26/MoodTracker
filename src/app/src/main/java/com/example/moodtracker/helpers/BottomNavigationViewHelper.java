@@ -54,6 +54,7 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 public class BottomNavigationViewHelper {
 
     /**
+     * Disables Shift mode
      * @param view the view on the navigation bar
      */
     @SuppressLint("RestrictedApi")
