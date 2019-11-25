@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.view.EditProfile;
+import com.example.moodtracker.view.FollowersActivity;
 import com.example.moodtracker.view.FollowingActivity;
 import com.example.moodtracker.view.ProfileViewActivity;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
@@ -129,8 +130,8 @@ public class ProfileViewFragment extends Fragment {
         FollowersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent followersActivity = new Intent(getActivity(), Followers.class);
-//                getActivity().startActivity(followersActivity);
+                Intent followersActivity = new Intent(getActivity(), FollowersActivity.class);
+                startActivity(followersActivity);
             }
         });
 
@@ -138,8 +139,8 @@ public class ProfileViewFragment extends Fragment {
         FollowingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent followersActivity = new Intent(getActivity(), FollowingActivity.class);
-                startActivity(followersActivity);
+                Intent followingActivity = new Intent(getActivity(), FollowingActivity.class);
+                startActivity(followingActivity);
             }
         });
 

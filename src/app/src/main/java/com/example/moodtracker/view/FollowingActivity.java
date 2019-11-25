@@ -17,9 +17,11 @@ package com.example.moodtracker.view;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +65,17 @@ public class FollowingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Following");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         followingListView = findViewById(R.id.list_user_following);
         followingDataList = new ArrayList<>();
@@ -84,7 +97,6 @@ public class FollowingActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String followingId = document.get("following_id").toString();
                                 followingDataList.add(new User(followingId));
-//                                Log.d("FUCKU", document.get("following_id").toString());
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
 
@@ -96,22 +108,6 @@ public class FollowingActivity extends AppCompatActivity {
                     }
                 });
 
-
-
-
-//        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                followingDataList.clear();
-//                for(QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-//                    String city = doc.getId();
-//                    followingDataList.add(new User(uid));
-//                }
-//                followingAdapter.notifyDataSetChanged();
-//            }
-//        });
-
     }
-
 
 }

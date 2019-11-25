@@ -50,9 +50,18 @@ public class FollowAdapter extends ArrayAdapter<User> {
         final TextView usernameText = view.findViewById(R.id.list_username_text);
         TextView uidText = view.findViewById(R.id.list_uid_text);
 
-        usernameText.setText(user.getUsername());
-        uidText.setText(user.getUid());
+        user.getUsername(new User.UsernameListener() {
+            @Override
+            public void onRetrieve(String username) {
+                usernameText.setText(username);
+            }
 
+            @Override
+            public void onError() {
+            }
+        });
+
+        uidText.setText(user.getUid());
 
         return view;
 
