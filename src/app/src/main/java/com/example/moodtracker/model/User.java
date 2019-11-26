@@ -251,6 +251,7 @@ public class User implements Parcelable {
                                                                 System.out.println("inside9");
                                                                 MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, ID);
                                                                 friendmoods.add(me);
+                                                                System.out.println("INSIDE LENGTH" + friendmoods.size());
 
                                                             }
                                                         }
@@ -261,9 +262,12 @@ public class User implements Parcelable {
                                 }
 
                             }
+                            System.out.println("LENGTHER " + friendmoods.size());
+                            cb.onSuccess(friendmoods);
+
                         }
-                        System.out.println("LENGTHER " + friendmoods.size());
-                        cb.onSuccess(friendmoods);
+
+
                     }
                 });
 
