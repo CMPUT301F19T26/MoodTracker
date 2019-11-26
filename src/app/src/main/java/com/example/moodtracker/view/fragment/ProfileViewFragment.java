@@ -62,9 +62,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -220,6 +223,27 @@ public class ProfileViewFragment extends Fragment {
                 }
             });
         }
+
+        UnfollowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore.getInstance().collection("follow")
+                        .whereEqualTo("follower_id", fAuth.getUid())
+                        .whereEqualTo("following_id", mUid)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                for(DocumentSnapshot doc : task.getResult()) {
+                                    FirebaseFirestore.getInstance().collection("follow").document(doc.getId()).delete();
+                                }
+                                UnfollowButton.setVisibility(View.INVISIBLE);
+                                FollowButton.setVisibility(View.VISIBLE);
+
+                            }
+                        });
+            }
+        });
 
         FollowButton.setOnClickListener(new View.OnClickListener() {
             @Override

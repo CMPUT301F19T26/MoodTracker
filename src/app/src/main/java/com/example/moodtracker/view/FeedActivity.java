@@ -53,6 +53,7 @@ import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.FeedAdapter;
 import com.example.moodtracker.adapter.FollowAdapter;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.model.User;
@@ -70,6 +71,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class FeedActivity extends AppCompatActivity implements MoodEventFragment.OnFragmentInteractionListener {
 
@@ -140,13 +143,14 @@ public class FeedActivity extends AppCompatActivity implements MoodEventFragment
                                                 MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, document.get("following_id").toString());
                                                 feedDataList.add(me);
                                             }
+                                            Collections.sort(feedDataList, new MoodHistoryHelpers());
                                             feedAdapter.notifyDataSetChanged();
                                         }
                                     }
                                 });
                             }
-
-                            feedAdapter.notifyDataSetChanged();
+//                            Collections.sort(feedDataList, new MoodHistoryHelpers());
+//                            feedAdapter.notifyDataSetChanged();
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
