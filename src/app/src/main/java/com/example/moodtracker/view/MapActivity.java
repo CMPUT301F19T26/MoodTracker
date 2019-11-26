@@ -32,30 +32,105 @@ package com.example.moodtracker.view;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.constants;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.model.Location;
+import com.example.moodtracker.model.Mood;
+import com.example.moodtracker.model.MoodEvent;
+import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.model.User;
+import com.example.moodtracker.view.fragment.MoodEventFragment;
 import com.example.moodtracker.view.mood.AddMoodEventActivity;
+import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, MoodEventFragment.OnFragmentInteractionListener {
 
+    //declare stuff
     private GoogleMap mMap;
+    private ArrayList<Marker> userMarkers = new ArrayList<Marker>();
+    private ArrayList<Marker> friendMarkers = new ArrayList<Marker>();
+    private HashMap<Integer, Marker> posmarker = new HashMap<>();
+    private HashMap<Marker, Integer> markerpos = new HashMap<>();
+
+    //create listener
+    private View.OnClickListener userclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            for (Marker m : friendMarkers) {
+                m.setVisible(false);
+            }
+
+            for (Marker m : userMarkers) {
+                m.setVisible(true);
+            }
+
+        }
+    };
+
+    private View.OnClickListener friendclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            for (Marker m : userMarkers) {
+                m.setVisible(false);
+            }
+
+            for (Marker m : friendMarkers) {
+                m.setVisible(true);
+            }
+
+        }
+    };
+
+    private View.OnClickListener allclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            for (Marker m : userMarkers) {
+                m.setVisible(true);
+            }
+
+            for (Marker m : friendMarkers) {
+                m.setVisible(true);
+            }
+
+        }
+    };
+
+    public void openFragment(MoodEvent moodEvent, int position) {
+
+        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, false);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction =  fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,45 +141,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//
-//        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
-//        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-//        Menu menu = bottomNavigationView.getMenu();
-//        MenuItem menuItem = menu.getItem(1);
-//        menuItem.setChecked(true);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                switch (menuItem.getItemId()){
-//                    case R.id.ic_Profile:
-//                        Intent intent0 = new Intent(MapActivity.this, ProfileViewActivity.class);
-//                        startActivity(intent0);
-//                        break;
-//
-//                    case R.id.ic_Search:
-//                        Intent intent1 = new Intent(MapActivity.this, MapActivity.class);
-//                        startActivity(intent1);
-//                        break;
-//
-//                    case R.id.ic_Add:
-//                        Intent intent2 = new Intent(MapActivity.this, AddMoodEventActivity.class);
-//                        startActivity(intent2);
-//                        break;
-//
-//                    case R.id.ic_Map:
-//
-//                        break;
-//
-//                    case R.id.ic_Feed:
-//
-//                        break;
-//
-//                }
-//
-//                return false;
-//            }
-//        });
     }
 
 
@@ -121,7 +157,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         //declare vars
         mMap = googleMap;
-        ArrayList<Location> locations;
+        ArrayList<Location> userlocations = new ArrayList<Location>();
+        ArrayList<Location> friendlocations = new ArrayList<Location>();
 
         // get mode for friends or user
         int mode = getIntent().getIntExtra("MODE", 0);
@@ -130,21 +167,125 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         User user = getIntent().getParcelableExtra("USER");
 
         //get locations
-        if (mode == 0) {
-            locations = user.getUserLocations();
-        }
 
-        else {
-            locations = user.getFriendsLocations();
-        }
+        user.getUserLocations(new MoodHistory.FirebaseCallback<ArrayList<MoodEvent>>() {
+            @Override
+            public void onSuccess(ArrayList<MoodEvent> moodEvents) {
+                //append locations to map
+                int count = 0;
 
-        //append locations to map
-        for(Location location: locations) {
-            LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                userMarkers.clear();
+                for(MoodEvent moodEvent: moodEvents) {
+                    LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
+                    Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(m.getMoodName()));
+                    marker.setTag(moodEvent);
+                    posmarker.put(count,marker);
+                    markerpos.put(marker,count);
+                    userMarkers.add(marker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                    count++;
 
-        }
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<MoodEvent>>() {
+            @Override
+            public void onSuccess(ArrayList<MoodEvent> moodEvents) {
+                //append locations to map
+                friendMarkers.clear();
+                System.out.println("HERE " + moodEvents.size());
+                for(MoodEvent moodEvent: moodEvents) {
+                    LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
+                    Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(m.getMoodName())
+//                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    );
+                    marker.setTag(moodEvent);
+                    friendMarkers.add(marker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+//                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
+//                    mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+        Button USER = findViewById(R.id.user_button);
+        Button FRIENDS = findViewById(R.id.friends_button);
+        Button ALL = findViewById(R.id.all_button);
+
+        USER.setOnClickListener(userclick);
+        FRIENDS.setOnClickListener(friendclick);
+        ALL.setOnClickListener(allclick);
+
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                MoodEvent m = (MoodEvent)marker.getTag();
+//                openFragment(m, 5);
+//                return false;
+//            }
+//        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                MoodEvent m = (MoodEvent)marker.getTag();
+                openFragment(m, markerpos.get(marker));
+
+            }
+        });
+
 
     }
+
+    @Override
+    public void onDeleteFragmentInteraction(int position) {
+        Marker marker = posmarker.get(position);
+        MoodEvent e = (MoodEvent) marker.getTag();
+        MoodHistory.deleteMoodEventForMarker(e, new MoodHistory.FirebaseCallback<Void>() {
+            @Override
+            public void onSuccess(Void document) {
+                System.out.println("Successfully deleted Mood Event");
+                marker.remove();
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("Failed to deleted Mood Event");
+            }
+        });
+    }
+
+    @Override
+    public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, MoodHistory.FirebaseCallback cb) {
+        Marker marker = posmarker.get(position);
+        marker.setTag(e);
+        Mood m = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
+        marker.setTitle(m.getMoodName());
+        MoodHistory.externalUpdateMarkerMoodEvent(e, position, photo, cb);
+
+    }
+
+
 }

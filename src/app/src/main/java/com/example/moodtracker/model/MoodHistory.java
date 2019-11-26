@@ -237,6 +237,45 @@ public class MoodHistory implements Serializable {
         }
    }
 
+    public static void externalUpdateMarkerMoodEvent(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (photo != null) {
+            // Upload first then do the the thing
+            FirebaseHelper.uploadImage(photo, e.getMood_id(), new FirebaseHelper.FirebaseCallback<Uri>() {
+                @Override
+                public void onSuccess(Uri document) {
+                    e.setPhoto_url(document.toString());
+                    db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
+                            .set(e)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    cb.onSuccess(document);
+                                }
+                            });
+                }
+
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    System.out.println("Failed to upload image");
+                }
+            });
+
+        } else {
+            // Overwrite the document
+            db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
+                    .set(e, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            cb.onSuccess(null);
+                        }
+                    });
+        }
+    }
+
+
     /**
      * Adding to the mood event
      * @param e the mood event
@@ -287,6 +326,16 @@ public class MoodHistory implements Serializable {
                 .addOnSuccessListener(cb::onSuccess)
                 .addOnFailureListener(cb::onFailure);
 
+    }
+
+    public static void deleteMoodEventForMarker(MoodEvent e, final FirebaseCallback<Void> cb) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        // Deleting a mood event
+        db.collection("users").document(auth.getCurrentUser().getUid()).collection("moodEvents").document(e.getMood_id())
+                .delete()
+                .addOnSuccessListener(cb::onSuccess)
+                .addOnFailureListener(cb::onFailure);
     }
 
 }

@@ -26,6 +26,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
 package com.example.moodtracker.model;
@@ -40,6 +41,7 @@ import androidx.annotation.NonNull;
 import com.example.moodtracker.view.SignupActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -57,9 +59,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- *
- */
 public class User implements Parcelable {
 
     public interface UsernameListener {
@@ -81,22 +80,15 @@ public class User implements Parcelable {
     public ArrayList<String> followingIDs = new ArrayList<String>();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    /**
-     * set user id
-     * @param id user id to set
-     */
     public User(String id) {
         this.userID = id;
     }
 
-    /**
-     * gets user id
-     * @return user id
-     */
     public String getUid()
     {
         return this.userID;
     }
+
 
     public void getUsername(UsernameListener listener)
     {
@@ -113,10 +105,6 @@ public class User implements Parcelable {
                 });
     }
 
-    /**
-     * get following username
-     * @param listener listener for button click
-     */
     public void getFollowingUsernames(UsernamesListener listener) {
         db.collection("follow")
                 .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
@@ -137,10 +125,6 @@ public class User implements Parcelable {
                 });
     }
 
-    /**
-     * Get Feed of followers
-     * @param fIds Following ids
-     */
     public void getFollowingFeed(ArrayList<String> fIds) {
 
         ArrayList<String> followingFeed = new ArrayList<String>();
@@ -185,75 +169,138 @@ public class User implements Parcelable {
         return followingIDs;
     }
 
-    /**
-     * Get user locations
-     */
-    public ArrayList<Location> getUserLocations(){
-        ArrayList<Location> locations = new ArrayList<Location>();
-        db.collection("moodEvents")
-                .whereEqualTo("user_id", userID)
+
+//    public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
+//        ArrayList<MoodEvent> usermoods = new ArrayList<>();
+//        db.collection("moodEvents")
+//                .whereEqualTo("user_id", userID)
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+//                            if (doc.exists()) {
+//                                if (doc.get("lat") != null) {
+//                                    MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
+//                                    usermoods.add(me);
+//
+//                                }
+//                            }
+//                        }
+//                        cb.onSuccess(usermoods);
+//                    }
+//                });
+//
+//    }
+
+
+    public void getUserLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
+        ArrayList<MoodEvent> usermoods = new ArrayList<>();
+        db.collection("users").document(userID).collection("moodEvents")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot doc: task.getResult()) {
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                             if (doc.exists()) {
-                                if (doc.get("location") != null) {
-                                    LatLng coords = (LatLng)doc.get("location");
-                                    String moodName = (String)doc.get("moodName");
-                                    Location location = new Location(coords.latitude,coords.longitude,moodName);
-                                    locations.add(location);
+                                if (doc.get("lat") != null) {
+                                    MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, userID);
+                                    usermoods.add(me);
 
                                 }
                             }
                         }
+                        cb.onSuccess(usermoods);
                     }
                 });
 
-
-//        //query DB instead
-//        Location sydney = new Location(-34, 51, "Happy");
-//        Location edmonton = new Location(53, 113, "Sad");
-//        Location chicago = new Location(41, 87, "Cheeky");
-//        ArrayList<Location> locations = new ArrayList<Location>();
-//        locations.add(sydney);
-//        locations.add(edmonton);
-//        locations.add(chicago);
-
-        return locations;
     }
 
-    /**
-     * Get locations of friends mood events
-     */
-    public ArrayList<Location> getFriendsLocations(){
 
-        getUserLocations();
 
-        ArrayList<Location> locations = new ArrayList<Location>();
 
-        for (String friend_id: followingIDs) {
-            db.collection("moodEvents")
-                    .whereEqualTo("user_id", userID)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            for(QueryDocumentSnapshot doc: task.getResult()) {
-                                if (doc.exists()) {
-                                    if (doc.get("location") != null) {
-                                        LatLng coords = (LatLng)doc.get("location");
-                                        String moodName = (String)doc.get("moodName");
-                                        Location location = new Location(coords.latitude,coords.longitude,moodName);
-                                        locations.add(location);
 
-                                    }
+    public void getFriendLocations(final MoodHistory.FirebaseCallback<ArrayList<MoodEvent>> cb) {
+        ArrayList<MoodEvent> friendmoods = new ArrayList<>();
+        System.out.println("inside");
+        db.collection("follow")
+                .whereEqualTo("follower_id", userID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        System.out.println("inside2");
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                            System.out.println("inside3");
+                            if (doc.exists()) {
+                                System.out.println("inside4");
+                                if (doc.get("following_id") != null) {
+                                    System.out.println("inside5");
+                                    String ID = (String)doc.get("following_id");
+                                    db.collection("users").document(ID).collection("moodEvents")
+                                            .get()
+                                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    System.out.println("inside6");
+                                                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                                                        System.out.println("inside7");
+                                                        if (doc.exists()) {
+                                                            System.out.println("inside8");
+                                                            if (doc.get("lat") != null) {
+                                                                System.out.println("inside9");
+                                                                MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, ID);
+                                                                friendmoods.add(me);
+                                                                System.out.println("INSIDE LENGTH" + friendmoods.size());
+
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                            });
                                 }
-                            }
-                        }
-                    });
 
-        }
+                            }
+                            System.out.println("LENGTHER " + friendmoods.size());
+                            cb.onSuccess(friendmoods);
+
+                        }
+
+
+                    }
+                });
+
+    }
+
+//    public ArrayList<Location> getFriendsLocations(){
+//
+//        getUserLocations();
+//
+//        ArrayList<Location> locations = new ArrayList<Location>();
+//
+//        for (String friend_id: followingIDs) {
+//            db.collection("moodEvents")
+//                    .whereEqualTo("user_id", userID)
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            for(QueryDocumentSnapshot doc: task.getResult()) {
+//                                if (doc.exists()) {
+//                                    if (doc.get("location") != null) {
+//                                        LatLng coords = (LatLng)doc.get("location");
+//                                        String moodName = (String)doc.get("moodName");
+//                                        Location location = new Location(coords.latitude,coords.longitude,moodName);
+//                                        locations.add(location);
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    });
+//
+//        }
 
 
         //query DB instead
@@ -265,14 +312,15 @@ public class User implements Parcelable {
 //        locations.add(edmonton);
 //        locations.add(chicago);
 
-        return locations;
+//        return locations;
 
-    }
+//    }
 
     //write object values to parcel for storage
 
     /**
      * write the object value to parcel for storage
+     *
      * @param dest the destination
      * @param flags the flags
      */
@@ -285,6 +333,7 @@ public class User implements Parcelable {
 
     /**
      * Constructor used for parcel
+     *
      * @param parcel the parcel
      */
     public User(Parcel parcel) {
@@ -300,6 +349,7 @@ public class User implements Parcelable {
 
         /**
          * Create user object from parcel
+         *
          * @param parcel the parcel
          * @return user object with parcel argument
          */
@@ -310,6 +360,7 @@ public class User implements Parcelable {
 
         /**
          * User array
+         *
          * @param size size of user array
          * @return user array
          */
@@ -323,6 +374,7 @@ public class User implements Parcelable {
 
     /**
      * describe the contents
+     *
      * @return the hash code
      */
     public int describeContents() {
