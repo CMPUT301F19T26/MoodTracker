@@ -147,9 +147,9 @@ public class FindActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                searchButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+//                searchButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
                         Query query = new Query(s.toString())
                                 .setAttributesToRetrieve("username")
                                 .setHitsPerPage(50);
@@ -183,8 +183,8 @@ public class FindActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-                        });
-                    }
+//                        });
+//                    }
                 });
 
             }
