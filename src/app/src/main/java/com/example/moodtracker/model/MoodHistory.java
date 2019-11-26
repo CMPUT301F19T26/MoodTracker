@@ -59,18 +59,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+/**
+ * Creates and edits users mood history.
+ */
 public class MoodHistory implements Serializable {
     public interface FirebaseCallback<T> {
         /**
          * callback handler for handling success cases, returned the value is stored in `document` variable
-         *
          * @param document depending on the operation, this variable can hold different type of values
          */
         void onSuccess(T document);
 
         /**
          * callback handler for handling failure cases
-         *
          * @param e Exception thrown by the Firebase library
          */
         void onFailure(@NonNull Exception e);
@@ -90,6 +91,11 @@ public class MoodHistory implements Serializable {
         this.user_id = user_id;
     }
 
+    /**
+     * Gets Mood history
+     * @param adapter the adapter for the mood history
+     * @param h the mood history
+     */
     public static void getMoodHistory(ArrayAdapter adapter, MoodHistory h) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -117,6 +123,13 @@ public class MoodHistory implements Serializable {
 
     }
 
+    /**
+     * Get the mood history with the specified filter
+     * @param adapter the adapter for the mood history
+     * @param h the mood history
+     * @param filter the filter
+     * @param filter_val the value for the filter
+     */
     public static void getMoodHistoryWithFilter(ArrayAdapter adapter, MoodHistory h, String filter, String filter_val) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -145,6 +158,12 @@ public class MoodHistory implements Serializable {
 
     }
 
+    /**
+     * Build mood event from document
+     * @param doc the Document
+     * @param user_id user id of current user
+     * @return the mood event
+     */
     public static MoodEvent buildMoodEventFromDoc(QueryDocumentSnapshot doc, String user_id) {
         String date = doc.get("date").toString();
         String mood = doc.get("mood").toString();
@@ -167,6 +186,15 @@ public class MoodHistory implements Serializable {
         return me;
     }
 
+    /**
+     * Updates mood event
+     * @param e the mood event
+     * @param position the position in mood history
+     * @param photo the photo provided
+     * @param h the mood history
+     * @param adapter adapter for mood history
+     * @param cb firebase callback
+     */
     public static void externalUpdateMoodEvent(MoodEvent e, int position, Uri photo,MoodHistory h, ArrayAdapter adapter, final MoodHistory.FirebaseCallback cb){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -247,6 +275,13 @@ public class MoodHistory implements Serializable {
         }
     }
 
+
+    /**
+     * Adding to the mood event
+     * @param e the mood event
+     * @param photo the photo provided
+     * @param cb firebase callback
+     */
     public static void externalAddMoodEvent(MoodEvent e, Uri photo, final FirebaseCallback<Void> cb) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -278,6 +313,11 @@ public class MoodHistory implements Serializable {
         }
     }
 
+    /**
+     * Delete a mood event from mood history
+     * @param e the mood event
+     * @param cb firebase callback
+     */
     public void deleteMoodEvent(MoodEvent e, final FirebaseCallback<Void> cb) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         // Deleting a mood event

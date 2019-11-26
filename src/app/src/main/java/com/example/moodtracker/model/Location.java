@@ -30,13 +30,21 @@
 
 package com.example.moodtracker.model;
 
+/**
+ * Constructor, getters and setters for location
+ */
 public class Location {
     //declare attributes
     double latitude;
     double longitude;
     String mood;
 
-    //constructor
+    /**
+     * Constructor
+     * @param lat latitude of location
+     * @param lon longitude of location
+     * @param mood_event the mood event tied to the location
+     */
     public Location (double lat, double lon, String mood_event) {
         latitude = lat;
         longitude = lon;
@@ -45,14 +53,27 @@ public class Location {
     }
 
     //implement getters
+
+    /**
+     * Gets Latitude
+     * @return latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Gets longitude
+     * @return longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * gets mood event
+     * @return mood event
+     */
     public String getMood() {
         return mood;
     }

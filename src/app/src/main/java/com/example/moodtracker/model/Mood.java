@@ -33,6 +33,9 @@ package com.example.moodtracker.model;
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
 
+/**
+ * Constructor, and getters for mood object
+ */
 public class Mood {
     // Should not need db logic in mood
     private String color;
@@ -40,6 +43,13 @@ public class Mood {
     private String moodName;
     private String moodNum;
 
+    /**
+     * Constructor
+     * @param color color of mood
+     * @param icon icon for mood
+     * @param moodName name of mood
+     * @param moodNum number associated with name of mood
+     */
     public Mood(String color, int icon, String moodName, String moodNum) {
         this.color = color;
         this.icon = icon;
@@ -47,18 +57,34 @@ public class Mood {
         this.moodNum = moodNum;
     }
 
+    /**
+     * Gets color
+     * @return color of mood object
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * Gets icon
+     * @return Icon of mood object
+     */
     public int getIcon() {
         return icon;
     }
 
+    /**
+     * Get mood name
+     * @return name of mood object
+     */
     public String getMoodName() {
         return moodName;
     }
 
+    /**
+     * Gets mood number
+     * @return mood number of mood object
+     */
     public String getMoodNum() {
         return moodNum;
     }

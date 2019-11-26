@@ -1,3 +1,33 @@
+/*
+ * FeedAdapter
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * MIT License
+ *
+ * Copyright (c) 2019 CMPUT301F19T26
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.example.moodtracker.adapter;
 
 import android.content.Context;
@@ -28,18 +58,32 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for Feed
+ */
 public class FeedAdapter extends ArrayAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> events;
     private Context context;
 
+    /**
+     * Constructor
+     * @param context context for feed
+     * @param events Array of mood events for feed
+     */
     public FeedAdapter(Context context, ArrayList<MoodEvent> events){
         super(context,0, events);
         this.events = events;
         this.context = context;
     }
 
-
+    /**
+     * Gets view
+     * @param position in view
+     * @param convertView convert view
+     * @param parent parent
+     * @return the view
+     */
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
