@@ -1,3 +1,33 @@
+/*
+ * FollowAdapter
+ *
+ * Version 1.0
+ *
+ * 11/8/2019
+ *
+ * MIT License
+ *
+ * Copyright (c) 2019 CMPUT301F19T26
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.example.moodtracker.adapter;
 
 import android.content.Context;
@@ -23,11 +53,19 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for follows list
+ */
 public class FollowAdapter extends ArrayAdapter<User> {
 
     private ArrayList<User> users;
     private Context context;
 
+    /**
+     * Constructor
+     * @param context Context for Adapter
+     * @param users users followed
+     */
     public FollowAdapter(Context context, ArrayList<User> users){
         super(context,0, users);
         this.users = users;
@@ -35,6 +73,13 @@ public class FollowAdapter extends ArrayAdapter<User> {
     }
 
 
+    /**
+     * Gets view
+     * @param position position in view
+     * @param convertView convert view
+     * @param parent parent
+     * @return view
+     */
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -51,11 +96,18 @@ public class FollowAdapter extends ArrayAdapter<User> {
         TextView uidText = view.findViewById(R.id.list_uid_text);
 
         user.getUsername(new User.UsernameListener() {
+            /**
+             * set username text
+             * @param username username to set
+             */
             @Override
             public void onRetrieve(String username) {
                 usernameText.setText(username);
             }
 
+            /**
+             * on error set empty
+             */
             @Override
             public void onError() {
                 usernameText.setText("");

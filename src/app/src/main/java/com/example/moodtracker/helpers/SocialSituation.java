@@ -33,7 +33,7 @@ package com.example.moodtracker.helpers;
 import com.example.moodtracker.constants;
 
 /**
- * sets users social situation based on the type of social situation selected
+ * Sets users social situation based on the type of social situation selected
  */
 public class SocialSituation {
     private String social_type;

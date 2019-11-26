@@ -3,5 +3,7 @@ com.example.moodtracker.adapter
 com.example.moodtracker.controller
 com.example.moodtracker.helpers
 com.example.moodtracker.model
+com.example.moodtracker.model.mood
 com.example.moodtracker.view
+com.example.moodtracker.view.fragment
 com.example.moodtracker.view.mood
