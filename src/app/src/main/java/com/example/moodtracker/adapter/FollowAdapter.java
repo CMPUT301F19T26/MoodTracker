@@ -92,7 +92,7 @@ public class FollowAdapter extends ArrayAdapter<User> {
 
         User user = users.get(position);
 
-        final TextView usernameText = view.findViewById(R.id.list_username_text);
+        TextView usernameText = view.findViewById(R.id.list_username_text);
         TextView uidText = view.findViewById(R.id.list_uid_text);
 
         user.getUsername(new User.UsernameListener() {

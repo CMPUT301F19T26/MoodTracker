@@ -15,7 +15,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:padding="2dp"
-        android:text="Medium Text"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#4d4d4d"
         android:textStyle="bold"
@@ -26,7 +26,7 @@
         android:id="@+id/list_uid_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/list_username_text"
         app:layout_constraintTop_toBottomOf="@+id/list_username_text" />
 
