@@ -81,11 +81,6 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain); //here toolbar is your id in xml
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("MoodTracker"); //string is custom name you want
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 //        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         //Gets Current User
         fAuth = FirebaseAuth.getInstance();
@@ -108,11 +103,26 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         // Displays all parts of the fragment in the view
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain); //here toolbar is your id in xml
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("MoodTracker"); //string is custom name you want
+
         if(username != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+
+        if (username != null) {
             FirebaseFirestore.getInstance().collection("users").whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    for(DocumentSnapshot doc : task.getResult()) {
+                    for (DocumentSnapshot doc : task.getResult()) {
                         displayFragments(doc.getId(), username);
                     }
                 }
@@ -142,7 +152,6 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         MenuItem menuItem = menu.getItem(4);
         menuItem.setChecked(true);
         BottomNavigationViewHelper.enableNavigation(ProfileViewActivity.this, bottomNavigationView);
-
 
     }
 
