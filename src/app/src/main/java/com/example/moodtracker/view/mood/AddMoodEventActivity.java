@@ -35,6 +35,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.ProfileViewActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -118,21 +119,32 @@ public class AddMoodEventActivity extends AppCompatActivity {
                                 .addOnSuccessListener(AddMoodEventActivity.this, new OnSuccessListener<Location>() {
                                     @Override
                                     public void onSuccess(Location location) {
-                                        if (location != null) {
-                                            new_item.setLng(location.getLongitude());
-                                            new_item.setLat(location.getLatitude());
-                                            MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
-                                                @Override
-                                                public void onSuccess(Void document) {
-                                                    finish();
-                                                }
+                                        User.getUsernameExternal(new_item.getUser_id(), new User.UsernameListener() {
+                                            @Override
+                                            public void onRetrieve(String username) {
+                                                new_item.setUser_name(username);
+                                                if (location != null) {
+                                                    new_item.setLng(location.getLongitude());
+                                                    new_item.setLat(location.getLatitude());
+                                                    MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void document) {
+                                                            finish();
+                                                        }
 
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    processing = false;
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            processing = false;
+                                                        }
+                                                    });
                                                 }
-                                            });
-                                        }
+                                            }
+
+                                            @Override
+                                            public void onError() {
+
+                                            }
+                                        });
                                     }
                                 })
                                 .addOnFailureListener(AddMoodEventActivity.this, new OnFailureListener() {
@@ -143,15 +155,26 @@ public class AddMoodEventActivity extends AppCompatActivity {
                                     }
                                 });
                     } else { // Basic addition of an event with no location
-                        MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
+                        User.getUsernameExternal(new_item.getUser_id(), new User.UsernameListener() {
                             @Override
-                            public void onSuccess(Void document) {
-                                finish();
+                            public void onRetrieve(String username) {
+                                new_item.setUser_name(username);
+                                MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
+                                    @Override
+                                    public void onSuccess(Void document) {
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        processing = false;
+                                    }
+                                });
                             }
 
                             @Override
-                            public void onFailure(@NonNull Exception e) {
-                                processing = false;
+                            public void onError() {
+
                             }
                         });
                     }

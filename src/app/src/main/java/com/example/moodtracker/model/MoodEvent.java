@@ -92,7 +92,7 @@ public class MoodEvent implements Parcelable {
      * Sets user name
      * @param user_name user name to be set
      */
-    private void setUser_name(String user_name) {
+    public void setUser_name(String user_name) {
         this.user_name = user_name;
     }
 
@@ -291,6 +291,10 @@ public class MoodEvent implements Parcelable {
         lat = in.readDouble();
         lng = in.readDouble();
         social_situation = in.readString();
+    }
+
+    public String getUser_name() {
+        return user_name;
     }
 
     /**
