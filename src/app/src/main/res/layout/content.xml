@@ -101,7 +101,7 @@
                             android:text="Reason"
                             android:textAlignment="center"
                             android:textSize="18sp"
-                            android:textStyle="bold"></TextView>
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/social_situation"
@@ -119,8 +119,8 @@
                         android:id="@+id/me_photo"
                         android:layout_width="85dp"
                         android:layout_height="85dp"
-                        app:civ_border_width="2dp"
-                        app:civ_border_color="#FF000000">
+                        android:src="@drawable/white"
+                        >
                     </de.hdodenhof.circleimageview.CircleImageView>
                 </LinearLayout>
             </LinearLayout>
