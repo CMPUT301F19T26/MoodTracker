@@ -51,6 +51,7 @@ dependencies {
     def picassoVersion = "2.71828"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

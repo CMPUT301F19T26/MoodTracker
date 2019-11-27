@@ -35,6 +35,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
@@ -60,6 +62,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -109,15 +113,6 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         MoodEvent event_item = history.get(position);
         setUpMoodEvent(event_item, view);
 
-        // Handle deletion for the given moodEvent
-        Button delete_btn = view.findViewById(R.id.delete_item);
-        delete_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public  void onClick(View v) {
-                MoodHistoryController.deleteEventFromHistory(history.get(position), h, position, adapter);
-            }
-        });
-
         return view;
 
 
@@ -134,13 +129,17 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
 
         // MoodEvent Views
         CardView mood_event_item = view.findViewById(R.id.mood_event_item);
-        TextView mood = view.findViewById(R.id.event_mood);
         TextView date = view.findViewById(R.id.event_date);
-        ImageView icon = view.findViewById(R.id.icon_image);
-        ImageView photo = view.findViewById(R.id.me_photo);
+        CircleImageView icon = view.findViewById(R.id.icon_image);
+        CircleImageView photo = view.findViewById(R.id.me_photo);
         TextView reason = view.findViewById(R.id.reason);
         TextView social = view.findViewById(R.id.social_situation);
+        TextView user_name = view.findViewById(R.id.username);
         handlePhotos(photo, event_item);
+
+        if (event_item.getUser_name()!= null) {
+            user_name.setText(event_item.getUser_name());
+        }
 
         if (event_item.getReason()!= null) {
             reason.setText(event_item.getReason());
@@ -153,10 +152,10 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
             social.setText(null);
         }
         mood_event_item.setCardBackgroundColor(Color.parseColor(mood_obj.getColor()));
-        mood.setText(mood_obj.getMoodName());
         icon.setImageResource(mood_obj.getIcon());
 
-        String formatted_date = MoodHistoryHelpers.formatDate(event_item.getDate());
+        String formatted_date  = DateUtils.getRelativeTimeSpanString(MoodHistoryHelpers.convertStringtoDate(event_item.getDate()).getTime())
+                .toString();
         date.setText(formatted_date);
     }
 

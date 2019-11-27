@@ -105,6 +105,22 @@ public class User implements Parcelable {
                 });
     }
 
+    public static void getUsernameExternal(String user_id, UsernameListener listener)
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(user_id).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            listener.onRetrieve(documentSnapshot.get("username").toString());
+                        } else {
+                            listener.onError();
+                        }
+                    }
+                });
+    }
+
     public void getFollowingUsernames(UsernamesListener listener) {
         db.collection("follow")
                 .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
