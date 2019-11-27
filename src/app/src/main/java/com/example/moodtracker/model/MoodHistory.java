@@ -170,6 +170,9 @@ public class MoodHistory implements Serializable {
         String mood_id = doc.get("mood_id").toString();
         MoodEvent me = new MoodEvent(mood, user_id, date);
         me.setMood_id(mood_id);
+        if (doc.get("user_name") != null) {
+            me.setUser_name(doc.get("user_name").toString());
+        }
         if (doc.get("reason") != null) {
             me.setReason(doc.get("reason").toString());
         }

@@ -115,11 +115,6 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
 
     public void openFragment(MoodEvent moodEvent, int position) {
         boolean location_changed = false;
-        if (moodEvent.getLat() == null) {
-            location_changed = true;
-            moodEvent.setLng(0.0);
-            moodEvent.setLat(0.0);
-        }
         MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

@@ -93,7 +93,7 @@ public class constants {
     public static HashMap<String, Mood> mood_num_to_mood_obj_mapper = new HashMap<>();
     static {
         mood_num_to_mood_obj_mapper.put(NEUTRAL, new Neutral("#f498ad", R.drawable.neutral, "Neutral", NEUTRAL));
-        mood_num_to_mood_obj_mapper.put(HAPPY, new Happy("#008000" , R.drawable.happy_icon, "Happy", HAPPY));
+        mood_num_to_mood_obj_mapper.put(HAPPY, new Happy("#7FFF00" , R.drawable.happy_icon, "Happy", HAPPY));
         mood_num_to_mood_obj_mapper.put(SURPRISED, new Surprised("#ffff00", R.drawable.surprised, "Surprised", SURPRISED));
         mood_num_to_mood_obj_mapper.put(ANGRY, new Angry("#ff2929", R.drawable.angry, "Angry", ANGRY));
     }

@@ -38,9 +38,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +66,8 @@ import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
+import com.example.moodtracker.view.FindActivity;
+import com.example.moodtracker.view.ProfileViewActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -77,7 +82,7 @@ import static android.app.Activity.RESULT_OK;
  * Use the {@link MoodEventFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MoodEventFragment extends Fragment {
+public class MoodEventFragment extends Fragment implements ProfileViewFragment.OnFragmentInteractionListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String MOOD_EVENT = "mood_event";
@@ -86,9 +91,8 @@ public class MoodEventFragment extends Fragment {
 
     private LinearLayout fragment_layout;
     private LinearLayout edit_body;
-    private TextView frag_mood;
-    private ImageView mood_emoji;
-    private ImageView frag_image;
+    private AppCompatImageView mood_emoji;
+    private CircleImageView frag_image;
     private Toolbar toolbar;
     private TextView date;
     private Button delete;
@@ -104,6 +108,7 @@ public class MoodEventFragment extends Fragment {
     private ArrayAdapter<String> mood_adapt;
     private ProgressBar pbar;
     private Uri image = null;
+    private ImageView map_button;
 
     private boolean removed_image_from_me;
     // TODO: Rename and change types of parameters
@@ -152,6 +157,13 @@ public class MoodEventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+            }
+        });
+
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Go to the Map");
             }
         });
 
@@ -347,6 +359,21 @@ public class MoodEventFragment extends Fragment {
             reason.setText(e.getReason());
         }
 
+        TextView user_name = v.findViewById(R.id.username);
+        if (e.getUser_name() != null) {
+            user_name.setText(e.getUser_name());
+        }
+
+        // Onclick Handler for username
+        user_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent feedIntent = new Intent(getActivity(), ProfileViewActivity.class);
+                feedIntent.putExtra("username",e.getUser_name());
+                startActivity(feedIntent);
+            }
+        });
+
         // Image Handler
         frag_image = v.findViewById(R.id.me_frag_image);
         if (e.getPhoto_url()!= null) {
@@ -372,15 +399,19 @@ public class MoodEventFragment extends Fragment {
         // Setting the background based on the mood
         Mood selected_mood = constants.mood_num_to_mood_obj_mapper.get(e.getMood());
         fragment_layout = v.findViewById(R.id.fragment_layout);
-        fragment_layout.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
+        fragment_layout.setBackgroundColor(getResources().getColor(R.color.offWhite));
+
+        LinearLayout me_border = v.findViewById(R.id.me_border);
+        me_border.setBackgroundColor(Color.parseColor(selected_mood.getColor()));
 
         // Handle Mood Related items
         mood_emoji = v.findViewById(R.id.emoji_view);
         mood_emoji.setImageResource(selected_mood.getIcon());
 
         // Handle the Date
-        String formatted_date = MoodHistoryHelpers.formatDate(e.getDate());
         date = v.findViewById(R.id.date);
+        String formatted_date  = DateUtils.getRelativeTimeSpanString(MoodHistoryHelpers.convertStringtoDate(e.getDate()).getTime())
+                .toString();
         date.setText(formatted_date);
 
         // Set up the Toolbar
@@ -389,6 +420,12 @@ public class MoodEventFragment extends Fragment {
 
         pbar = v.findViewById(R.id.progress_bar);
         edit_body = v.findViewById(R.id.edit_body);
+
+        map_button = v.findViewById(R.id.map_button);
+        System.out.println("LATITUDE:"+ e.getLat());
+        if (e.getLat() != null) {
+            map_button.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -438,6 +475,11 @@ public class MoodEventFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**

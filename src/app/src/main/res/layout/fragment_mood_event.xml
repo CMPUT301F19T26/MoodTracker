@@ -38,201 +38,221 @@
                 android:id="@+id/toolbar_title" />
 
         </androidx.appcompat.widget.Toolbar>
-
         <LinearLayout
-
-            android:id="@+id/edit_body"
+            android:id="@+id/me_border"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:clickable="true"
-            android:fillViewport="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            tools:context=".view.fragment.MoodEventFragment">
-
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="44dp"
-                    android:layout_marginTop="27dp"
-                    android:text="@string/username"
-                    android:textStyle="bold|italic" />
-
-                <ImageView
-                    android:id="@+id/emoji_view"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="27dp"
-                    android:scaleType="fitXY" />
-
-                <Spinner
-                    android:id="@+id/me_mood_frag_spinner"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginBottom="10dp"
-                    android:autoSizeTextType="uniform"
-                    android:textAlignment="center"
-                    android:textSize="10sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-
-            <RelativeLayout
+                android:id="@+id/edit_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/button"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="@string/edit"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/done_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/button"
-                    android:backgroundTint="@color/color_happy"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="@string/done"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/cancel_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/button"
-                    android:backgroundTint="@color/colorWhite"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="@string/cancel"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/button"
-                    android:backgroundTint="@color/colorAccent"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:text="@string/delete"
-                    android:visibility="gone" />
-
-                <EditText
-                    android:id="@+id/reason_me"
-                    android:layout_width="239dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/delete"
-                    android:layout_alignStart="@+id/delete"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="17dp"
-                    android:layout_marginTop="0dp"
-                    android:enabled="false"
-                    android:hint="@string/reason"
-                    android:maxLength="20" />
-
-                <ImageView
-                    android:id="@+id/me_frag_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/me_frag_spinner"
-                    android:layout_alignStart="@+id/me_frag_spinner"
-                    android:adjustViewBounds="true"
-                    android:clickable="false"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="0dp"
-                    android:scaleType="fitXY"
-                    android:scaleY="0.9" />
+                android:background="@color/colorWhite"
+                android:clickable="true"
+                android:fillViewport="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                tools:context=".view.fragment.MoodEventFragment">
 
                 <LinearLayout
-                    android:id="@+id/photo_button_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/me_frag_image"
-                    android:layout_alignStart="@+id/me_frag_image"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/upload_photo"
+                    <TextView
+                        android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="44dp"
+                        android:layout_marginTop="27dp"
+                        android:text="@string/username"
+                        android:textStyle="bold|italic" />
+
+                    <!--                <ImageView-->
+                    <!--                    android:id="@+id/emoji_view"-->
+                    <!--                    android:layout_width="100dp"-->
+                    <!--                    android:layout_height="100dp"-->
+                    <!--                    android:layout_marginStart="25dp"-->
+                    <!--                    android:layout_marginTop="27dp"-->
+                    <!--                    android:scaleType="fitXY" />-->
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/emoji_view"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="27dp"
+                        android:scaleType="fitXY"
+                        tools:ignore="ContentDescription" />
+
+                    <Spinner
+                        android:id="@+id/me_mood_frag_spinner"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/map_button"
+                        android:visibility="gone"
+                        android:layout_width="70dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/maps_icon"
+                        style="?android:borderlessButtonStyle"
+                        />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="25dp"
+                        android:autoSizeTextType="uniform"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/button"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
-                        android:text="Upload Pic"
-                        android:textColor="@color/colorWhite"
+                        android:text="@string/edit"
                         android:visibility="gone" />
 
                     <Button
-                        android:id="@+id/remove_photo"
+                        android:id="@+id/done_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/button"
+                        android:backgroundTint="@color/color_happy"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/done"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/cancel_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/button"
+                        android:backgroundTint="@color/colorWhite"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/cancel"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/button"
                         android:backgroundTint="@color/colorAccent"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
-                        android:text="Remove"
-                        android:textColor="@color/colorWhite"
+                        android:text="@string/delete"
                         android:visibility="gone" />
-                </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/me_frag_spinner"
-                    android:layout_width="242dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/reason_me"
-                    android:layout_alignStart="@+id/reason_me"
-                    android:layout_marginStart="-3dp"
-                    android:layout_marginTop="0dp"
-                    android:clickable="false" />
+                    <EditText
+                        android:id="@+id/reason_me"
+                        android:layout_width="239dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/delete"
+                        android:layout_alignStart="@+id/delete"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginTop="0dp"
+                        android:enabled="false"
+                        android:hint="@string/reason"
+                        android:maxLength="20" />
 
-            </RelativeLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/me_frag_image"
+                        android:layout_below="@+id/me_frag_spinner"
+                        android:layout_alignStart="@+id/me_frag_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#FF000000" />
 
+                    <LinearLayout
+                        android:id="@+id/photo_button_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/me_frag_image"
+                        android:layout_alignStart="@+id/me_frag_image"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/upload_photo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button"
+                            android:backgroundTint="@color/colorPrimaryDark"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:text="Upload Pic"
+                            android:textColor="@color/colorWhite"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/remove_photo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/button"
+                            android:backgroundTint="@color/colorAccent"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:text="Remove"
+                            android:textColor="@color/colorWhite"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/me_frag_spinner"
+                        android:layout_width="242dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/reason_me"
+                        android:layout_alignStart="@+id/reason_me"
+                        android:layout_marginStart="-3dp"
+                        android:layout_marginTop="0dp"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -247,6 +267,14 @@
                 android:visibility="gone"
                  />
         </RelativeLayout>
+        <FrameLayout
+            android:id="@+id/profile_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+        </FrameLayout>
 
     </LinearLayout>
 

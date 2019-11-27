@@ -99,10 +99,6 @@ public class FeedAdapter extends ArrayAdapter<MoodEvent> {
         MoodHistoryAdapter.setUpMoodEvent(event_item, view);
 
         // Handle deletion for the given moodEvent
-        Button delete_btn = view.findViewById(R.id.delete_item);
-        if (!FirebaseAuth.getInstance().getCurrentUser().getUid().equals(event_item.getUser_id())) {
-            delete_btn.setVisibility(View.GONE);
-        }
         return view;
 
     }
