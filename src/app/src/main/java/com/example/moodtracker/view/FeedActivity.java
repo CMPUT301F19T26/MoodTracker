@@ -36,6 +36,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.FeedAdapter;
 import com.example.moodtracker.adapter.FollowAdapter;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.helpers.FirebaseHelper;
 import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
@@ -123,40 +125,20 @@ public class FeedActivity extends AppCompatActivity implements MoodEventFragment
         feedListView.setAdapter(feedAdapter);
 
         db = FirebaseFirestore.getInstance();
+        FirebaseHelper.updateFeed(db, FirebaseAuth.getInstance().getUid(), feedDataList, feedAdapter, new FirebaseHelper.FirebaseCallback() {
+            @Override
+            public void onSuccess(Object document) {
+                System.out.println("Done getting feed");
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
 
         // query list of people the current user is following
         // by looking at all instances where the follower is the current person
-        db.collection("follow")
-                .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            feedDataList.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                db.collection("users").document(document.get("following_id").toString()).collection("moodEvents").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                                MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, document.get("following_id").toString());
-                                                feedDataList.add(me);
-                                            }
-                                            Collections.sort(feedDataList, new MoodHistoryHelpers());
-                                            feedAdapter.notifyDataSetChanged();
-                                        }
-                                    }
-                                });
-                            }
-//                            Collections.sort(feedDataList, new MoodHistoryHelpers());
-//                            feedAdapter.notifyDataSetChanged();
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
 
         feedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -166,6 +148,24 @@ public class FeedActivity extends AppCompatActivity implements MoodEventFragment
                 openFragment(clicked_user, position);
             }
         });
+
+         SwipeRefreshLayout pulltoRefresh= findViewById(R.id.pullToRefresh);
+         pulltoRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+             @Override
+             public void onRefresh() {
+                 FirebaseHelper.updateFeed(db, FirebaseAuth.getInstance().getUid(), feedDataList, feedAdapter, new FirebaseHelper.FirebaseCallback() {
+                     @Override
+                     public void onSuccess(Object document) {
+                         pulltoRefresh.setRefreshing(false);
+                     }
+
+                     @Override
+                     public void onFailure(@NonNull Exception e) {
+                         pulltoRefresh.setRefreshing(false);
+                     }
+                 });
+             }
+         });
 
 
     }
