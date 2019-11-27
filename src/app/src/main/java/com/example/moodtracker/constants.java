@@ -51,6 +51,10 @@ public class constants {
     public static final String HAPPY = "1";
     public static final String SURPRISED = "2";
     public static final String ANGRY = "3";
+    public static final String SAD = "4";
+    public static final String HUNGRY = "5";
+    public static final String CONFUSED = "6";
+
 
     // Social Situations
     public static final int ALONE = 0;
@@ -74,6 +78,9 @@ public class constants {
             mood_name_to_num_mapper.put("Happy", HAPPY);
             mood_name_to_num_mapper.put("Surprised", SURPRISED);
             mood_name_to_num_mapper.put("Angry", ANGRY);
+            mood_name_to_num_mapper.put("Sad", SAD);
+            mood_name_to_num_mapper.put("Hungry", HUNGRY);
+            mood_name_to_num_mapper.put("Confused", CONFUSED);
     }
 
     /**
@@ -85,6 +92,10 @@ public class constants {
         mood_num_to_index_mapper.put(HAPPY, 1);
         mood_num_to_index_mapper.put(SURPRISED, 2);
         mood_num_to_index_mapper.put(ANGRY, 3);
+        mood_num_to_index_mapper.put(SAD, 4);
+        mood_num_to_index_mapper.put(HUNGRY, 5);
+        mood_num_to_index_mapper.put(CONFUSED, 6);
+
     }
 
     /**
@@ -96,6 +107,9 @@ public class constants {
         mood_num_to_mood_obj_mapper.put(HAPPY, new Happy("#7FFF00" , R.drawable.happy_icon, "Happy", HAPPY));
         mood_num_to_mood_obj_mapper.put(SURPRISED, new Surprised("#ffff00", R.drawable.surprised, "Surprised", SURPRISED));
         mood_num_to_mood_obj_mapper.put(ANGRY, new Angry("#ff2929", R.drawable.angry, "Angry", ANGRY));
+        mood_num_to_mood_obj_mapper.put(SAD, new Angry("#3232ff", R.drawable.sad, "Sad", SAD));
+        mood_num_to_mood_obj_mapper.put(HUNGRY, new Angry("#8B4513", R.drawable.hungry, "Hungry", HUNGRY));
+        mood_num_to_mood_obj_mapper.put(CONFUSED, new Angry("#ffdb58", R.drawable.confused, "Confused", CONFUSED));
     }
 
     /**
@@ -110,7 +124,7 @@ public class constants {
         SS_name_to_index_mapper.put("With Several", 4);
         SS_name_to_index_mapper.put("With a Crowd", 5);
     }
-    public static String[] mood_list = {"Neutral", "Happy", "Surprised", "Angry"};
-    public static String[] mood_spinner_list = {"All", "Neutral", "Happy", "Surprised", "Angry"};
+    public static String[] mood_list = {"Neutral", "Happy", "Surprised", "Angry", "Sad", "Hungry", "Confused"};
+    public static String[] mood_spinner_list = {"All", "Neutral", "Happy", "Surprised", "Angry", "Sad", "Hungry", "Confused"};
     public static String[] social_situations_list = {"None","Alone", "With One Other", "With Two Others", "With Several", "With a Crowd"};
 }
