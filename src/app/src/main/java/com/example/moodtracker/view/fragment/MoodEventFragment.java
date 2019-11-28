@@ -173,7 +173,8 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
 
                 //create stuff to send
                 LatLng location = new LatLng(mMoodEvent.getLat(), mMoodEvent.getLng());
-                String mName = mMoodEvent.getMood();
+                Mood m = constants.mood_num_to_mood_obj_mapper.get(mMoodEvent.getMood());
+                String mName = m.getMoodName();
                 User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                 //create intent

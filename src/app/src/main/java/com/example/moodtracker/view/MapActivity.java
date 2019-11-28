@@ -253,6 +253,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         Button FRIENDS = findViewById(R.id.friends_button);
         Button ALL = findViewById(R.id.all_button);
 
+        USER.setVisibility(View.VISIBLE);
+        FRIENDS.setVisibility(View.VISIBLE);
+        ALL.setVisibility(View.VISIBLE);
+
         USER.setOnClickListener(userclick);
         FRIENDS.setOnClickListener(friendclick);
         ALL.setOnClickListener(allclick);
