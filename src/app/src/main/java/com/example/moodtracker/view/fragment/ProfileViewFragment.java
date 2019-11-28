@@ -180,7 +180,7 @@ public class ProfileViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent moodHistoryIntent = new Intent(getActivity(), MoodHistoryActivity.class);
-                moodHistoryIntent.putExtra("userID", fAuth.getCurrentUser().getUid());
+                moodHistoryIntent.putExtra("userID",mUid);
                 startActivity(moodHistoryIntent);
             }
         });
