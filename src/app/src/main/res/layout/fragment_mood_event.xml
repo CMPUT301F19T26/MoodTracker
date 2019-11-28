@@ -96,16 +96,31 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <ImageView
+<!--                    <ImageView-->
+<!--                        android:id="@+id/map_button"-->
+<!--                        android:layout_width="70dp"-->
+<!--                        android:layout_height="60dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginTop="2dp"-->
+<!--                        android:src="@drawable/maps_icon"-->
+<!--                        android:visibility="gone"-->
+<!--                        style="?android:borderlessButtonStyle"-->
+<!--                        />-->
+
+
+                    <ImageButton
                         android:id="@+id/map_button"
-                        android:visibility="gone"
                         android:layout_width="70dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="2dp"
                         android:src="@drawable/maps_icon"
-                        style="?android:borderlessButtonStyle"
+                        android:scaleType="fitXY"
                         />
+<!--                        android:visibility="gone"-->
+
+<!--                        style="?android:borderlessButtonStyle"-->
+
 
                     <TextView
                         android:id="@+id/date"

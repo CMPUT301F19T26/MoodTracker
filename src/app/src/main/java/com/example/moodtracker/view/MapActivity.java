@@ -157,6 +157,25 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         //declare vars
         mMap = googleMap;
+
+        if (getIntent().getParcelableExtra("LOC") != null){
+
+            LatLng location = getIntent().getParcelableExtra("LOC");
+            String mood = getIntent().getStringExtra("MNAME");
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title(mood));
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+
+            return;
+
+        }
+
+
+
+
         ArrayList<Location> userlocations = new ArrayList<Location>();
         ArrayList<Location> friendlocations = new ArrayList<Location>();
 
