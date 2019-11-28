@@ -172,8 +172,6 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
             public void onClick(View view) {
 
                 //create stuff to send
-
-                if 
                 LatLng location = new LatLng(mMoodEvent.getLat(), mMoodEvent.getLng());
                 String mName = mMoodEvent.getMood();
                 User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid());

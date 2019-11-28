@@ -110,16 +110,19 @@
 
                     <ImageButton
                         android:id="@+id/map_button"
-                        android:layout_width="70dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="70dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="2dp"
                         android:src="@drawable/maps_icon"
                         android:scaleType="fitXY"
-                        />
-<!--                        android:visibility="gone"-->
+                        style="?android:borderlessButtonStyle"
+                        android:visibility="gone"
 
-<!--                        style="?android:borderlessButtonStyle"-->
+                        />
+
+
+
 
 
                     <TextView
