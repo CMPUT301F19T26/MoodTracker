@@ -36,6 +36,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -51,6 +53,7 @@ import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -66,8 +69,12 @@ import com.example.moodtracker.helpers.MoodHistoryHelpers;
 import com.example.moodtracker.model.Mood;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
+import com.example.moodtracker.model.User;
 import com.example.moodtracker.view.FindActivity;
+import com.example.moodtracker.view.MapActivity;
 import com.example.moodtracker.view.ProfileViewActivity;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -108,7 +115,7 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
     private ArrayAdapter<String> mood_adapt;
     private ProgressBar pbar;
     private Uri image = null;
-    private ImageView map_button;
+    private ImageButton map_button;
 
     private boolean removed_image_from_me;
     // TODO: Rename and change types of parameters
@@ -163,6 +170,23 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         map_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //create stuff to send
+                LatLng location = new LatLng(mMoodEvent.getLat(), mMoodEvent.getLng());
+                Mood m = constants.mood_num_to_mood_obj_mapper.get(mMoodEvent.getMood());
+                String mName = m.getMoodName();
+                User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                //create intent
+                Intent mapIntent = new Intent(getActivity(), MapActivity.class);
+
+                //send things to intent
+                mapIntent.putExtra("USER", user);
+                mapIntent.putExtra("LOC", location);
+                mapIntent.putExtra("MNAME", mName);
+
+                getActivity().startActivity(mapIntent);
+
                 System.out.println("Go to the Map");
             }
         });
