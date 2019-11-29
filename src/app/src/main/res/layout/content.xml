@@ -105,9 +105,7 @@
                             android:layout_width="300dp"
                             android:layout_height="120dp"
                             android:src="@drawable/white"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/round">
-                        </ImageView>
+                            android:scaleType="centerCrop"/>
 
                     </LinearLayout>
 

@@ -175,15 +175,15 @@ public class ProfileViewFragment extends Fragment {
             }
         });
 
-        MoodHistoryButton = view.findViewById(R.id.MoodHistoryButton);
-        MoodHistoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent moodHistoryIntent = new Intent(getActivity(), MoodHistoryActivity.class);
-                moodHistoryIntent.putExtra("userID",mUid);
-                startActivity(moodHistoryIntent);
-            }
-        });
+//        MoodHistoryButton = view.findViewById(R.id.MoodHistoryButton);
+//        MoodHistoryButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent moodHistoryIntent = new Intent(getActivity(), MoodHistoryActivity.class);
+//                moodHistoryIntent.putExtra("userID",mUid);
+//                startActivity(moodHistoryIntent);
+//            }
+//        });
 
 
         EditFab = view.findViewById(R.id.editFAB);
