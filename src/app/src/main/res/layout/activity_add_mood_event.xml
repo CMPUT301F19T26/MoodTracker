@@ -84,9 +84,11 @@
                 android:id="@+id/upload_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:backgroundTint="@color/colorAction"
                 android:text="Cancel Upload"
                 android:visibility="gone" />
+            
             <Button
                 android:id="@+id/add_mood_event_submit"
                 android:layout_width="match_parent"
