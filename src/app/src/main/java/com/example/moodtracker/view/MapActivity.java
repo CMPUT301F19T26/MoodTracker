@@ -41,7 +41,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.constants;
@@ -68,6 +71,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, MoodEventFragment.OnFragmentInteractionListener {
@@ -78,6 +82,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private ArrayList<Marker> friendMarkers = new ArrayList<Marker>();
     private HashMap<Integer, Marker> posmarker = new HashMap<>();
     private HashMap<Marker, Integer> markerpos = new HashMap<>();
+    private ArrayAdapter<String> adapter_map;
+
 
     //create listener
     private View.OnClickListener userclick = new View.OnClickListener() {
@@ -138,6 +144,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -264,56 +272,62 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
+        Spinner map_dropdown = findViewById(R.id.map_dropdown);
+        // Dynamically create the moods list
+        String[] map_items = {"Personal", "Friends", "All"};
+        adapter_map = new ArrayAdapter<>(this, R.layout.centered_spinner_item, map_items);
+        map_dropdown.setAdapter(adapter_map);
+        map_dropdown.setSelection(2);
+
+        map_dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch(map_dropdown.getSelectedItem().toString()) {
+                    case "All":
+                        for (Marker m : userMarkers) {
+                            m.setVisible(true);
+                        }
+
+                        for (Marker m : friendMarkers) {
+                            m.setVisible(true);
+                        }
+                        break;
+                    case "Personal":
+                        for (Marker m : friendMarkers) {
+                            m.setVisible(false);
+                        }
+
+                        for (Marker m : userMarkers) {
+                            m.setVisible(true);
+                        }
+                        break;
+                    case "Friends":
+                        for (Marker m : userMarkers) {
+                            m.setVisible(false);
+                        }
+
+                        for (Marker m : friendMarkers) {
+                            m.setVisible(true);
+                        }
+                    default:
+
+                        break;
+                }
+            }
+        });
 
 
-
-
-//        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<MoodEvent>>() {
-//            @Override
-//            public void onSuccess(ArrayList<MoodEvent> moodEvents) {
-//                //append locations to map
-//                friendMarkers.clear();
-//                System.out.println("HERE " + moodEvents.size());
-//                for(MoodEvent moodEvent: moodEvents) {
-//                    LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
-//                    Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
-//                    Marker marker = mMap.addMarker(new MarkerOptions()
-//                            .position(loc)
-//                            .title(m.getMoodName())
-////                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-//                    );
-//                    marker.setTag(moodEvent);
-//                    friendMarkers.add(marker);
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-////                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
-////                    mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
-////                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+//        Button USER = findViewById(R.id.user_button);
+//        Button FRIENDS = findViewById(R.id.friends_button);
+//        Button ALL = findViewById(R.id.all_button);
 //
-//                }
+//        USER.setVisibility(View.VISIBLE);
+//        FRIENDS.setVisibility(View.VISIBLE);
+//        ALL.setVisibility(View.VISIBLE);
 //
-//                System.out.println("LENGTHER " + friendMarkers.size());
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//
-//            }
-//        });
-
-        Button USER = findViewById(R.id.user_button);
-        Button FRIENDS = findViewById(R.id.friends_button);
-        Button ALL = findViewById(R.id.all_button);
-
-        USER.setVisibility(View.VISIBLE);
-        FRIENDS.setVisibility(View.VISIBLE);
-        ALL.setVisibility(View.VISIBLE);
-
-        USER.setOnClickListener(userclick);
-        FRIENDS.setOnClickListener(friendclick);
-        ALL.setOnClickListener(allclick);
+//        USER.setOnClickListener(userclick);
+//        FRIENDS.setOnClickListener(friendclick);
+//        ALL.setOnClickListener(allclick);
 
 //        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 //            @Override

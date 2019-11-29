@@ -129,6 +129,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
                                                     MoodHistory.externalAddMoodEvent(new_item, imguri, new MoodHistory.FirebaseCallback<Void>() {
                                                         @Override
                                                         public void onSuccess(Void document) {
+
                                                             finish();
                                                         }
 
@@ -142,7 +143,7 @@ public class AddMoodEventActivity extends AppCompatActivity {
 
                                             @Override
                                             public void onError() {
-
+                                                processing = false;
                                             }
                                         });
                                     }
