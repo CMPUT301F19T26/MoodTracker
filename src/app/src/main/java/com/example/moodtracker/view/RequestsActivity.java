@@ -127,7 +127,10 @@ public class RequestsActivity extends AppCompatActivity {
                             requestDataList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String followingId = document.get("follower_id").toString();
-                                requestDataList.add(new User(followingId));
+                                User u = new User(followingId);
+                                u.setUserName(document.get("follower_user").toString());
+                                u.temp = document.get("following_user").toString();
+                                requestDataList.add(u);
                                 requestAdapter.notifyDataSetChanged();
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 document.getId();

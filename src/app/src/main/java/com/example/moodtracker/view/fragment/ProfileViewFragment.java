@@ -267,23 +267,35 @@ public class ProfileViewFragment extends Fragment {
 
 
                 // store a request for that person in db from authenticated person
-                FirebaseFirestore.getInstance().collection("requests").document(UUID.randomUUID().toString())
-                        .set(followMap)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("HOME", "DocumentSnapshot successfully written!");
-                                UnfollowButton.setVisibility(View.VISIBLE);
-                                FollowButton.setVisibility(View.INVISIBLE);
+                User.getUsernameExternal(fAuth.getUid(), new User.UsernameListener() {
+                    @Override
+                    public void onRetrieve(String username) {
+                        followMap.put("follower_user", username);
+                        followMap.put("following_user", mUsername);
+                        FirebaseFirestore.getInstance().collection("requests").document(UUID.randomUUID().toString())
+                                .set(followMap)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("HOME", "DocumentSnapshot successfully written!");
+                                        UnfollowButton.setVisibility(View.VISIBLE);
+                                        FollowButton.setVisibility(View.INVISIBLE);
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("HOME", "Error writing document", e);
-                            }
-                        });
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("HOME", "Error writing document", e);
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
 
                 // store in db
 //                FirebaseFirestore.getInstance().collection("follow").document(UUID.randomUUID().toString())

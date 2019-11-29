@@ -21,7 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 1. Installation
-   TODO:
+
+- install the application via the APK.
 
 2. Authorization
 
@@ -36,6 +37,7 @@ SOFTWARE.
      IV. complete the sign up process by tapping the sign up button.
 
 3. Usage
+
    - Once signed in, you can view your feed history by selecting the home button on the bottom left corner navigation bar
    - If you are not following anyone, your feed will be empty. To follow a user, follow the instructions below:
      I. Search for a user by selecting the search button on the bottom navigation bar. You may search by username.
@@ -46,3 +48,7 @@ SOFTWARE.
    - To update your mood, select the add button on the bottom navigation bar in the centre.
      I. enter mood event details on the add mood page.
      II. follow the on screen prompts for the required information.
+
+4. Maintenance
+
+- follow for regular updates from the APK/source code
