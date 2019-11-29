@@ -67,7 +67,6 @@ public class SearchTest {
 
     @Test
     public void start() throws Exception {
-        //Activity activity = rule.getActivity();
-        assertEquals(1,1);
+        Activity activity = rule.getActivity();
     }
 }
