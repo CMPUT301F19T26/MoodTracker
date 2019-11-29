@@ -62,6 +62,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.moodtracker.adapter.MoodHistoryAdapter;
 import com.example.moodtracker.model.MoodEvent;
 import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.view.FeedActivity;
@@ -73,6 +74,7 @@ import com.example.moodtracker.view.mood.AddMoodEventActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
+
 
 import junit.framework.AssertionFailedError;
 
@@ -99,7 +101,7 @@ public class MoodFragmentTest {
     private Solo solo;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     String uid = FirebaseAuth.getInstance().getUid();
-    MoodHistory moodHistory = new MoodHistory(uid);
+    MoodHistory moodHistory;
 
 
 
@@ -113,18 +115,15 @@ public class MoodFragmentTest {
     public void setUp() throws Exception {
 
 
+        //clear cache
         db.clearPersistence();
         FirebaseAuth.getInstance().signOut();
 //
-//
+//      //set up login activity
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
-//        solo.finishOpenedActivities();
         Activity activity = rule.getActivity();
-//
-        View view = solo.getCurrentActivity().findViewById(R.id.ic_Profile);
 
-
-
+        //Login to app
         solo.enterText((EditText) solo.getView(R.id.text_email), "ankush@email.com");
         solo.enterText((EditText) solo.getView(R.id.text_password), "password");
 
@@ -138,26 +137,25 @@ public class MoodFragmentTest {
 
     }
 
+    //test to add event
     @Test
     public void addEvent() {
 
+        //Add mood event
         View CTButton = solo.getView("ic_Add");
         solo.clickOnView(CTButton);
-
         solo.assertCurrentActivity("Wrong Activity", AddMoodEventActivity.class);
 
-        //getmood
+        //Add Mood
         View mood_dropdown = solo.getView(Spinner.class, 0);
         solo.clickOnView(mood_dropdown);
         solo.scrollToTop();
         solo.clickOnView(solo.getView(TextView.class, 3));
 
-
-        //get social situation
+        //Add Social Situation
         View social_dropdown = solo.getView(Spinner.class, 1);
         solo.clickOnView(social_dropdown);
-        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
-        // select the 10th item in the spinner
+        solo.scrollToTop();
         solo.clickOnView(solo.getView(TextView.class, 3));
 
         //click location
@@ -165,90 +163,112 @@ public class MoodFragmentTest {
 //        solo.clickOnView(switcher);
 //        solo.clickOnText("Allow only while using the app");
 
-        //enter reason
+        //Add Reason
         solo.enterText((EditText)solo.getView(R.id.reason_edit), "MOOOO");
 
-        //click submit
+        //Submit Mood
         solo.clickOnText("Submit");
-
-//        //
-//        solo.clickOnText("Profile");
 
         //check feed
         solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
 
 
-        //check event
-//        MoodEvent clicked_event = moodHistory.history.get(0);
-//        assertEquals(clicked_event.getMood(), "Sad");
-//        assertEquals(clicked_event.getReason(), "MOOOO");
-//        assertEquals(clicked_event.getSocialSituation(), "With a Crowd");
+    }
 
+    @Test
+    public void editEvent() {
+
+        View CTButton = solo.getView("ic_Add");
+        solo.clickOnView(CTButton);
+//
+        solo.assertCurrentActivity("Wrong Activity", AddMoodEventActivity.class);
+//
+        //getmood
+        View mood_dropdown = solo.getView(Spinner.class, 0);
+        solo.clickOnView(mood_dropdown);
+        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
+        // select the 10th item in the spinner
+        solo.clickOnView(solo.getView(TextView.class, 3));
+
+        //click submit
+        solo.clickOnText("Submit");
+
+        //open event
+        ListView view = (ListView) solo.getView(R.id.mood_history);
+
+        solo.clickInList(1);
+
+        View edit = solo.getView("edit");
+        solo.clickOnView(edit);
+
+        //get social situation
+        View social_dropdown = solo.getView(Spinner.class, 1);
+        solo.clickOnView(social_dropdown);
+        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
+        // select the 10th item in the spinner
+        solo.clickOnView(solo.getView(TextView.class, 5));
+
+        //enter reason
+        solo.enterText((EditText)solo.getView(R.id.reason_me), "WOW");
+
+        //click submit
+//        View done = solo.getView("done_edit");
+//        solo.clickOnView(done);
+
+        solo.clickOnText("Done");
+
+        solo.goBack();
+
+        //check feed
+        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
 
     }
 
-//    @Test
-//    public void editEvent() {
-//        System.out.println("EDIT");
-//
-////        rule2.launchActivity(null);
-//
-//
-//        View CTButton = solo.getView("ic_Add");
-//        solo.clickOnView(CTButton);
-////
-//        solo.assertCurrentActivity("Wrong Activity", AddMoodEventActivity.class);
-////
-//        //getmood
-//        View mood_dropdown = solo.getView(Spinner.class, 0);
-//        solo.clickOnView(mood_dropdown);
-//        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
-//        // select the 10th item in the spinner
-//        solo.clickOnView(solo.getView(TextView.class, 3));
-//
-//        //click submit
-//        solo.clickOnText("Submit");
-//
-//        //open event
-//        ListView view = (ListView) solo.getView(R.id.mood_history);
-//
-//        solo.clickInList(1);
-//
-////        clickView(this, view.getChildAt(0));
-//
-////
-////        //get social situation
-////        View social_dropdown = solo.getView(Spinner.class, 1);
-////        solo.clickOnView(social_dropdown);
-////        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
-////        // select the 10th item in the spinner
-////        solo.clickOnView(solo.getView(TextView.class, 5));
-////
-////        //click location
-//////        View switcher = solo.getView(R.id.location_switch);
-//////        solo.clickOnView(switcher);
-//////        solo.clickOnText("Allow only while using the app");
-////
-////        //enter reason
-////        solo.enterText((EditText)solo.getView(R.id.reason_edit), "MOOOO");
-////
-////
-////
-////        //check feed
-////        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
-////
-////        //check event
-//////        MoodEvent clicked_event = moodHistory.history.get(0);
-//////        assertEquals(clicked_event.getMood(), "Sad");
-//////        assertEquals(clicked_event.getReason(), "MOOOO");
-//////        assertEquals(clicked_event.getSocialSituation(), "With a Crowd");
-//
-//
-//    }
+    @Test
+    public void Delete(){
+
+        //Add mood event
+        View CTButton = solo.getView("ic_Add");
+        solo.clickOnView(CTButton);
+        solo.assertCurrentActivity("Wrong Activity", AddMoodEventActivity.class);
+
+        //Add Mood
+        View mood_dropdown = solo.getView(Spinner.class, 0);
+        solo.clickOnView(mood_dropdown);
+        solo.scrollToTop();
+        solo.clickOnView(solo.getView(TextView.class, 3));
+
+        //Add Social Situation
+        View social_dropdown = solo.getView(Spinner.class, 1);
+        solo.clickOnView(social_dropdown);
+        solo.scrollToTop();
+        solo.clickOnView(solo.getView(TextView.class, 3));
+
+        //click location
+//        View switcher = solo.getView(R.id.location_switch);
+//        solo.clickOnView(switcher);
+//        solo.clickOnText("Allow only while using the app");
+
+        //Add Reason
+        solo.enterText((EditText)solo.getView(R.id.reason_edit), "MOOOO");
+
+        //Submit Mood
+        solo.clickOnText("Submit");
+
+        //check feed
+        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+
+        //click event
+        solo.clickInList(1);
+
+        solo.clickOnText("Delete");
+
+    }
+
 
     @After
     public void reset() {
-
+//
         View navbar = solo.getView(R.id.toggler);
         solo.clickOnView(navbar);
         solo.clickOnText("Logout");
