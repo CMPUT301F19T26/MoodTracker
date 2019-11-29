@@ -118,10 +118,15 @@ public class FollowingActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        Intent thisIntent = getIntent();
+        String muid = thisIntent.getStringExtra("muid");
+        String musername = thisIntent.getStringExtra("musername");
+
+
         // query list of people the current user is following
         // by looking at all instances where the follower is the current person
         db.collection("follow")
-                .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
+                .whereEqualTo("follower_id", muid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

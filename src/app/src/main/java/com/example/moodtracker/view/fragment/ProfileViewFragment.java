@@ -169,6 +169,8 @@ public class ProfileViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent followersActivity = new Intent(getActivity(), FollowersActivity.class);
+                followersActivity.putExtra("muid", mUid);
+                followersActivity.putExtra("musername", mUsername);
                 startActivity(followersActivity);
             }
         });
@@ -178,6 +180,8 @@ public class ProfileViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent followingActivity = new Intent(getActivity(), FollowingActivity.class);
+                followingActivity.putExtra("muid", mUid);
+                followingActivity.putExtra("musername", mUsername);
                 startActivity(followingActivity);
             }
         });
