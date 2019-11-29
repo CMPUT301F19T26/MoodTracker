@@ -24,32 +24,40 @@
 
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:stateListAnimator="@null"
             android:id="@+id/user_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
-            android:backgroundTint="@color/lightred"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorWhite"
+            app:strokeColor="@color/colorPrimary"
             android:text="Personal"
             android:padding="10dp"
             android:paddingRight="10dp"
             android:visibility="gone"
+
             />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/friends_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
-            android:backgroundTint="#0000FF"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorWhite"
+            app:strokeColor="@color/colorPrimary"
             android:text="Friends"
             android:padding="10dp"
             android:paddingRight="10dp"
             android:stateListAnimator="@null"
             android:visibility="gone"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/all_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +66,11 @@
             android:padding="10dp"
             android:paddingRight="10dp"
             android:stateListAnimator="@null"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorWhite"
+            app:strokeColor="@color/colorPrimary"
+            />
     </LinearLayout>
 
     </FrameLayout>
