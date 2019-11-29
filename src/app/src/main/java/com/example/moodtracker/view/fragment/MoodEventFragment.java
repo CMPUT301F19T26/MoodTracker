@@ -414,7 +414,7 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
 
         // Set up the mood as a spinner
         moods = v.findViewById(R.id.me_mood_frag_spinner);
-        mood_adapt = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, constants.mood_list);
+        mood_adapt = new ArrayAdapter<>(getActivity(),R.layout.centered_spinner_item, constants.mood_list);
         moods.setAdapter(mood_adapt);
         moods.setSelection(constants.mood_num_to_index_mapper.get(e.getMood()));
         moods.setEnabled(false);
