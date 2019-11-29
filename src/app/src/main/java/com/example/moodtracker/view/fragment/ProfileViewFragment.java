@@ -182,6 +182,43 @@ public class ProfileViewFragment extends Fragment {
             }
         });
 
+
+        FirebaseFirestore.getInstance().collection("follow")
+                .whereEqualTo("follower_id", mUid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            int count = 0;
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                count++;
+                            }
+                            FollowingButton.setText("FOLLOWING: " + Integer.toString(count));
+
+                        }
+                    }
+                });
+
+        FirebaseFirestore.getInstance().collection("follow")
+                .whereEqualTo("following_id", mUid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            int count = 0;
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                count++;
+                            }
+                            FollowersButton.setText("FOLLOWERS: " + Integer.toString(count));
+
+                        }
+                    }
+                });
+
+
+
 //        RequestsButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
