@@ -179,7 +179,7 @@ public class FindActivity extends AppCompatActivity {
                                             feedIntent.putExtra("username", list.get(position));
                                             startActivity(feedIntent);
 
-                                            Toast.makeText(FindActivity.this,list.get(position), Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(FindActivity.this,list.get(position), Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }catch (JSONException e1){

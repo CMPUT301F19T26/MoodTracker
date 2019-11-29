@@ -110,6 +110,10 @@ public class ProfileViewFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    public ProfileViewFragment() {
+
+    }
+
     public ProfileViewFragment(String uid, String username) {
         // Required empty public constructor
         displayUser = new User(uid);

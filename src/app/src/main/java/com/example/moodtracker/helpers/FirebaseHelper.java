@@ -150,9 +150,12 @@ public class FirebaseHelper {
                                                     moodEventsTemp.add(me);
                                                 }
                                                 Collections.sort(moodEventsTemp, new MoodHistoryHelpers());
-                                                MoodEvent firstOne = moodEventsTemp.get(0);
-                                                moodEventsTemp.clear();
-                                                feed.add(firstOne);
+                                                MoodEvent firstOne;
+                                                if(!moodEventsTemp.isEmpty()) {
+                                                     firstOne = moodEventsTemp.get(0);
+                                                     moodEventsTemp.clear();
+                                                    feed.add(firstOne);
+                                                }
                                                 Collections.sort(feed, new MoodHistoryHelpers());
                                                 feedadapter.notifyDataSetChanged();
                                             }
