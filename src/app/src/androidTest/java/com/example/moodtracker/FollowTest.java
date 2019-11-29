@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+
 package com.example.moodtracker;
 
 import android.app.Activity;
@@ -58,9 +59,8 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-
 @RunWith(AndroidJUnit4.class)
-public class LoginTest {
+public class FollowTest {
 
     private Solo solo;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -78,27 +78,13 @@ public class LoginTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
         Activity activity = rule.getActivity();
 
-    }
-
-
-    @Test
-    public void createUserandLogIn() {
-
-        //log in with invalid authentication
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "jared_jhonson@email.com");
-        solo.enterText((EditText)solo.getView(R.id.text_password), "very_cool");
-        solo.clickOnText("Login");
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-        boolean exists = solo.searchText("Authentication failed.");
-        assertEquals(true,exists);
-
-        //sign up user
+        //create two users
+        //sign up user 1
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.clickOnText("Signup");
         solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "david_jhonson@test.com");
-        solo.enterText((EditText)solo.getView(R.id.text_username), "david_jhonson");
+        solo.enterText((EditText)solo.getView(R.id.text_email), "follow1@test.com");
+        solo.enterText((EditText)solo.getView(R.id.text_username), "follow1");
         solo.enterText((EditText)solo.getView(R.id.text_password), "password");
         solo.clickOnButton("Signup");
         solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
@@ -110,68 +96,71 @@ public class LoginTest {
         solo.clickOnView(navbar);
         solo.clickOnText("Logout");
 
-        //Login to app
-        solo.enterText((EditText) solo.getView(R.id.text_email), "david_jhonson@test.com");
-        solo.enterText((EditText) solo.getView(R.id.text_password), "password");
-        solo.clickOnText("Login");
-        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
-        solo.clickOnText("Profile");
-        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
-
-
-    }
-
-
-    @Test
-    public void CreateUser_and_Test_bad_signup() {
-
-        //signup
+        //sign up user 2
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.clickOnText("Signup");
         solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "jared@test.com");
-        solo.enterText((EditText)solo.getView(R.id.text_username), "jared");
+        solo.enterText((EditText)solo.getView(R.id.text_email), "follow2@test.com");
+        solo.enterText((EditText)solo.getView(R.id.text_username), "follow2");
         solo.enterText((EditText)solo.getView(R.id.text_password), "password");
         solo.clickOnButton("Signup");
         solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+
+        //log out
+        solo.clickOnText("Profile");
+        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+        solo.clickOnView(navbar);
+        solo.clickOnText("Logout");
+
+    }
+
+    @Test
+    public void testFollow() {
+
+        View navbar = solo.getView(R.id.toggler);
+
+        //login and follow another user
+        //login
+        //Login to app
+        solo.enterText((EditText) solo.getView(R.id.text_email), "follow1@test.com");
+        solo.enterText((EditText) solo.getView(R.id.text_password), "password");
+        solo.clickOnText("Login");
+        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+
+        //search for other user
+        View search = solo.getView("ic_Search");
+        solo.clickOnView(search);
+        solo.enterText((EditText) solo.getView(R.id.search_bar), "follow2");
+        solo.clickInList(1);
+        View follow = solo.getView(R.id.FollowButton);
+        solo.clickOnView(follow);
 
         //logout
         solo.clickOnText("Profile");
         solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
-        View navbar = solo.getView(R.id.toggler);
         solo.clickOnView(navbar);
         solo.clickOnText("Logout");
 
-        //signup
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-        solo.clickOnText("Signup");
-        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "jared@test.com");
-        solo.enterText((EditText)solo.getView(R.id.text_username), "jared");
-        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
-        solo.clickOnButton("Signup");
-
-        //assert username is taken
-        boolean exists = solo.searchText("Username taken!");
-        assertEquals(true,exists);
-
-        //Test Login to app
-        solo.clickOnText("Login");
-        solo.enterText((EditText) solo.getView(R.id.text_email), "jared@test.com");
+        //login to other user and accept request
+        solo.enterText((EditText) solo.getView(R.id.text_email), "follow2@test.com");
         solo.enterText((EditText) solo.getView(R.id.text_password), "password");
         solo.clickOnText("Login");
         solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+
+        //acccept request
         solo.clickOnText("Profile");
         solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+        solo.clickOnView(navbar);
+        solo.clickOnText("Follow Requests");
+        solo.clickOnText("FOLLOW ALL");
+        solo.goBack();
 
 
     }
 
-
-
     @After
     public void reset() {
-
+//
         View navbar = solo.getView(R.id.toggler);
         solo.clickOnView(navbar);
         solo.clickOnText("Logout");
@@ -179,11 +168,5 @@ public class LoginTest {
     }
 
 
+
 }
-
-
-
-
-
-
-
