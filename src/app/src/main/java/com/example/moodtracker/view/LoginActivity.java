@@ -47,6 +47,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Handles login activity
+ */
 public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -56,6 +59,10 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView signupText;
 
+    /**
+     * ON create method for login activity
+     * @param savedInstanceState the saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * On start initialize
+     */
     @Override
     protected void onStart() {
         super.onStart();

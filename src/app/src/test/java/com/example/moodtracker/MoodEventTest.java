@@ -30,7 +30,9 @@ import com.example.moodtracker.model.MoodEvent;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-
+/**
+ * Testing mood events
+ */
 public class MoodEventTest {
     private static MoodEvent TestMoodEvent;
     private static MoodEvent TestMoodEvent2;

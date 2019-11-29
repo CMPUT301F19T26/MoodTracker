@@ -104,6 +104,10 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
     private ImageView lockImage;
 
 
+    /**
+     * On create method for profile
+     * @param savedInstanceState the saved instance for the profile
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,7 +200,9 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 
         }
 
-        // Handler for view/edit of a Mood Event
+        /**
+         *  Handler for view/edit of a Mood Event
+         */
         moodHistoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -263,6 +269,9 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 
     }
 
+    /**
+     * Handle app resumption
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -273,6 +282,11 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         }
     }
 
+    /**
+     * Open profile Fragment
+     * @param moodEvent the mood event
+     * @param position the position
+     */
     public void openFragment(MoodEvent moodEvent, int position) {
         boolean location_changed = false;
         MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
@@ -283,6 +297,11 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
     }
 
+    /**
+     * Display fragment
+     * @param user_id the user id
+     * @param username the user name
+     */
     private void displayFragments(String user_id, String username) {
         ProfileViewFragment profile_frag = new ProfileViewFragment(user_id, username);
         FragmentManager manager = getSupportFragmentManager();//create an instance of fragment manager
@@ -301,17 +320,32 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 
     }
 
+
+    /**
+     * On delete of fragment
+     * @param position position
+     */
     @Override
     public void onDeleteFragmentInteraction(int position) {
         MoodHistoryController.deleteEventFromHistory(moodHistory.history.get(position), moodHistory, position, HistoryAdapter);
     }
 
+    /**
+     * On update of fragment
+     * @param e the mood event
+     * @param position the position
+     * @param photo the photo
+     * @param cb the firebase callback
+     */
     @Override
     public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb) {
         // Send this new MoodEvent to the db and update the fields
         MoodHistory.externalUpdateMoodEvent(e, position, photo, moodHistory, HistoryAdapter, cb);
     }
 
+    /**
+     * On back pressed
+     */
     @Override
     public void onBackPressed() {
         final MoodEventFragment fragment = (MoodEventFragment) getSupportFragmentManager().findFragmentByTag("MOOD_EVENT_FRAGMENT");
@@ -324,6 +358,11 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         }
     }
 
+    /**
+     * Navigation item selected
+     * @param menuItem item in nav menu
+     * @return true else will break
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {

@@ -81,6 +81,10 @@ public class SignupActivity extends AppCompatActivity {
     String username;
     TextView loginText;
 
+    /**
+     * Restores saved instance for signup activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
