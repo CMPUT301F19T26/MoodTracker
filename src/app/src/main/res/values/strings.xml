@@ -20,6 +20,8 @@
     <string name="delete">Delete</string>
     <string name="reason">Reason</string>
     <string name="done">Done</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="username">Username</string>
     <string name="create_account_clickable_text">Account Clickable</string>
     <string name="create_account_prompt_string">Create Account</string>

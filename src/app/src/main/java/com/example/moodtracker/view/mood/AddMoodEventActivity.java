@@ -89,11 +89,11 @@ public class AddMoodEventActivity extends AppCompatActivity {
         mood_dropdown = findViewById(R.id.mood_type_selector);
         // Dynamically create the moods list
         String[] mood_items = Arrays.copyOf(mood_name_to_num_mapper.keySet().toArray(), mood_name_to_num_mapper.keySet().toArray().length, String[].class);
-        adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mood_items);
+        adapt = new ArrayAdapter<>(this, R.layout.centered_spinner_item, mood_items);
         mood_dropdown.setAdapter(adapt);
 
         social_situation_dropdown = findViewById(R.id.social_sitation_selector);
-        social_adapt = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, constants.social_situations_list);
+        social_adapt = new ArrayAdapter<>(this, R.layout.centered_spinner_item, constants.social_situations_list);
         social_situation_dropdown.setAdapter(social_adapt);
 
         // Submission handling
