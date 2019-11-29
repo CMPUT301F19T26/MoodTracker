@@ -25,18 +25,13 @@
 package com.example.moodtracker;
 
 import android.app.Activity;
-import android.content.Context;
-import android.widget.EditText;
-import android.widget.ListView;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.moodtracker.view.SearchActivity;
 import com.robotium.solo.Solo;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
