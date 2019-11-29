@@ -25,6 +25,9 @@ import com.example.moodtracker.view.fragment.MoodEventFragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Activity for mood History
+ */
 public class MoodHistoryActivity extends AppCompatActivity implements MoodEventFragment.OnFragmentInteractionListener {
     private ListView moodHistoryList;
     private ArrayAdapter<MoodEvent> HistoryAdapter;
@@ -90,6 +93,10 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
                 }
             }
 
+            /**
+             * Handles spinner for mood history
+             * @param mood string representation of mood
+             */
             private void handleSpinner(String mood) {
                 previously_selected =  mood_history_spinner.getSelectedItem().toString();
                 moodHistory.history.clear();
@@ -113,6 +120,11 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
 
     }
 
+    /**
+     * Open fragment
+     * @param moodEvent fragment mood event
+     * @param position position in mood history
+     */
     public void openFragment(MoodEvent moodEvent, int position) {
         boolean location_changed = false;
         MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
@@ -123,17 +135,31 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
         transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
     }
 
+    /**
+     * Handles delete
+     * @param position position from mood history to delete
+     */
     @Override
     public void onDeleteFragmentInteraction(int position) {
         MoodHistoryController.deleteEventFromHistory(moodHistory.history.get(position), moodHistory, position, HistoryAdapter);
     }
 
+    /**
+     * Upon updating fragment
+     * @param e mood event
+     * @param position position in mood history
+     * @param photo the photo to be attached
+     * @param cb firebase callback
+     */
     @Override
     public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb) {
         // Send this new MoodEvent to the db and update the fields
         MoodHistory.externalUpdateMoodEvent(e, position, photo, moodHistory, HistoryAdapter, cb);
     }
 
+    /**
+     * Handles back press event
+     */
     @Override
     public void onBackPressed() {
         final MoodEventFragment fragment = (MoodEventFragment) getSupportFragmentManager().findFragmentByTag("MOOD_EVENT_FRAGMENT");

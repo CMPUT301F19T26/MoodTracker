@@ -4,6 +4,9 @@ import com.example.moodtracker.model.Location;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+/**
+ * Testing locations
+ */
 public class LocationTest {
     private static Location newLoc;
     private static Location newLocL;

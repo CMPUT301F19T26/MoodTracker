@@ -5,8 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
+    
     <TextView
         android:id="@+id/list_username_text_request"
         android:layout_width="wrap_content"
@@ -29,29 +28,46 @@
         app:layout_constraintStart_toStartOf="@+id/list_username_text_request"
         app:layout_constraintTop_toBottomOf="@+id/list_username_text_request" />
 
-    <Button
-        android:id="@+id/reject_request_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="REJECT"
+        android:orientation="horizontal"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/follow_recent_button" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/list_uid_text_request">
 
-    <Button
-        android:id="@+id/follow_recent_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FOLLOW RECENT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/follow_all_button" />
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="@color/colorPrimary"
+            app:strokeColor="@color/colorPrimary"
+            android:id="@+id/follow_recent_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FOLLOW RECENT"
+            android:layout_weight="0.1"/>
 
-    <Button
-        android:id="@+id/follow_all_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FOLLOW ALL"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:textColor="@color/colorPrimary"
+        app:strokeColor="@color/colorPrimary"
+            android:id="@+id/follow_all_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FOLLOW ALL"
+            android:layout_weight="0.2"/>
 
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="@color/colorPrimary"
+            app:strokeColor="@color/colorPrimary"
+            android:id="@+id/reject_request_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REJECT"
+            android:layout_weight="0.7"/>
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
