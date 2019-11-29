@@ -49,7 +49,6 @@
         </activity>
         <activity android:name=".view.SignupActivity" />
         <activity android:name=".view.ProfileViewActivity" />
-        <activity android:name=".view.EditProfile" />
         <activity android:name=".view.MainActivity"/>
     </application>
 

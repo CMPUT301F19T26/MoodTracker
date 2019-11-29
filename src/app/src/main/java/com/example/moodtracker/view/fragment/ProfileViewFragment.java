@@ -37,26 +37,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.model.User;
-import com.example.moodtracker.view.EditProfile;
-import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.FollowersActivity;
 import com.example.moodtracker.view.FollowingActivity;
-import com.example.moodtracker.view.ProfileViewActivity;
-import com.example.moodtracker.view.RequestsActivity;
-import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,10 +57,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,7 +164,7 @@ public class ProfileViewFragment extends Fragment {
             }
         });
 
-        FollowingButton = view.findViewById(R.id.FollowingButton);
+        FollowingButton =  view.findViewById(R.id.FollowingButton);
         FollowingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
