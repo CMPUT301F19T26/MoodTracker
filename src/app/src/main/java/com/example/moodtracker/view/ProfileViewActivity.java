@@ -161,6 +161,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                                     moodHistoryList.setAdapter(HistoryAdapter);
                                     MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
                                 } else {
+                                    mood_history_spinner.setVisibility(View.GONE);
                                     lockImage.setVisibility(View.VISIBLE);
                                 }
                             }

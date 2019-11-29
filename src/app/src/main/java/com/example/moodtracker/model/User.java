@@ -65,6 +65,8 @@ import java.util.Collections;
 
 public class User implements Parcelable {
 
+
+
     public interface UsernameListener {
         void onRetrieve(String username);
         void onError();
@@ -82,6 +84,8 @@ public class User implements Parcelable {
 
     public String userID;
     public ArrayList<String> followingIDs = new ArrayList<String>();
+    public String user_name;
+    public String temp;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public User(String id) {
@@ -123,6 +127,14 @@ public class User implements Parcelable {
                         }
                     }
                 });
+    }
+
+    public String regulargetUserName() {
+        return this.user_name;
+    }
+
+    public void setUserName(String user_name) {
+        this.user_name = user_name;
     }
 
     public void getRequestedUsernames(UsernamesListener listener) {
@@ -226,7 +238,7 @@ public class User implements Parcelable {
 //
 //                                }
 //                            }
-//                        }
+//                        }et
 //                        cb.onSuccess(usermoods);
 //                    }
 //                });
@@ -442,6 +454,7 @@ public class User implements Parcelable {
      */
     public void writeToParcel(Parcel dest, int flags){
         dest.writeString(userID);
+        dest.writeValue(user_name);
 
     }
 
@@ -454,7 +467,7 @@ public class User implements Parcelable {
      */
     public User(Parcel parcel) {
         userID = parcel.readString();
-
+        user_name = parcel.readString();
     }
 
     //used when un-parceling our parcel (creating the object)

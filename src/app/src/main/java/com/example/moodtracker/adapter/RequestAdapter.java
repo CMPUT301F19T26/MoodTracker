@@ -105,27 +105,27 @@ public class RequestAdapter extends ArrayAdapter<User> {
         TextView usernameText = view.findViewById(R.id.list_username_text_request);
         TextView uidText = view.findViewById(R.id.list_uid_text_request);
 
-        user.getUsername(new User.UsernameListener() {
-            /**
-             * set username text
-             * @param username username to set
-             */
-            @Override
-            public void onRetrieve(String username) {
-                usernameText.setText(username);
-            }
-
-            /**
-             * on error set empty
-             */
-            @Override
-            public void onError() {
-                usernameText.setText("");
-            }
-        });
+//        user.getUsername(new User.UsernameListener() {
+//            /**
+//             * set username text
+//             * @param username username to set
+//             */
+//            @Override
+//            public void onRetrieve(String username) {
+//                usernameText.setText(username);
+//            }
+//
+//            /**
+//             * on error set empty
+//             */
+//            @Override
+//            public void onError() {
+//                usernameText.setText("");
+//            }
+//        });
 
         uidText.setText(user.getUid());
-
+        usernameText.setText(user.regulargetUserName());
 
         FirebaseAuth fAuth = FirebaseAuth.getInstance();
 
@@ -137,6 +137,8 @@ public class RequestAdapter extends ArrayAdapter<User> {
                 Map<String, Object> followMap = new HashMap<>();
                 followMap.put("follower_id", user.getUid());
                 followMap.put("following_id", fAuth.getUid());
+                followMap.put("follower_user", user.regulargetUserName());
+                followMap.put("following_user", user.temp);
                 followMap.put("type", "all");
 
                 // store a request for that person in db from authenticated person
@@ -183,6 +185,8 @@ public class RequestAdapter extends ArrayAdapter<User> {
                 Map<String, Object> followMap = new HashMap<>();
                 followMap.put("follower_id", user.getUid());
                 followMap.put("following_id", fAuth.getUid());
+                followMap.put("follower_user", user.regulargetUserName());
+                followMap.put("following_user", user.temp);
                 followMap.put("type", "recent");
 
                 FirebaseFirestore.getInstance().collection("follow").document(UUID.randomUUID().toString())

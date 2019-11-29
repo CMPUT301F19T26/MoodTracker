@@ -125,7 +125,10 @@ public class FollowingActivity extends AppCompatActivity {
                             followingDataList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String followingId = document.get("following_id").toString();
-                                followingDataList.add(new User(followingId));
+                                String followingName = document.get("following_user").toString();
+                                User u = new User(followingId);
+                                u.setUserName(followingName);
+                                followingDataList.add(u);
                                 followingAdapter.notifyDataSetChanged();
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
