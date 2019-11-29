@@ -30,13 +30,17 @@
 
 package com.example.moodtracker.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,8 +52,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
+import com.example.moodtracker.adapter.MoodHistoryAdapter;
+import com.example.moodtracker.controller.MoodHistoryController;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.model.MoodEvent;
+import com.example.moodtracker.model.MoodHistory;
 import com.example.moodtracker.model.User;
+import com.example.moodtracker.view.fragment.MoodEventFragment;
 import com.example.moodtracker.view.fragment.ProfileViewFragment;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,17 +79,19 @@ import org.w3c.dom.Document;
  * ProfileViewActivity extends AppCompactActivity
  * it overwrites onCreateView
  */
-public class ProfileViewActivity extends AppCompatActivity implements ProfileViewFragment.OnFragmentInteractionListener {
+public class ProfileViewActivity extends AppCompatActivity implements ProfileViewFragment.OnFragmentInteractionListener, MoodEventFragment.OnFragmentInteractionListener {
 
     private MaterialButton LogoutFab;
     private FirebaseAuth fAuth;
-
+    private ListView moodHistoryList;
+    private ArrayAdapter<MoodEvent> HistoryAdapter;
+    private MoodHistory moodHistory;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-
+        Context context = this;
 //        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         //Gets Current User
         fAuth = FirebaseAuth.getInstance();
@@ -99,6 +110,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
             }
         });
 
+        moodHistoryList = findViewById(R.id.mood_history);
 
         // Displays all parts of the fragment in the view
         Intent intent = getIntent();
@@ -124,6 +136,11 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for (DocumentSnapshot doc : task.getResult()) {
                         displayFragments(doc.getId(), username);
+                        moodHistory = new MoodHistory(doc.getId());
+                        HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
+                        moodHistoryList.setAdapter(HistoryAdapter);
+                        MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
+
                     }
                 }
             });
@@ -136,6 +153,10 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 @Override
                 public void onRetrieve(String username) {
                     displayFragments(uid, username);
+                    moodHistory = new MoodHistory(uid);
+                    HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
+                    moodHistoryList.setAdapter(HistoryAdapter);
+                    MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
                 }
 
                 @Override
@@ -144,6 +165,16 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
             });
 
         }
+
+        // Handler for view/edit of a Mood Event
+        moodHistoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Will call open fragment and pass it a mood event
+                MoodEvent clicked_event = moodHistory.history.get(position);
+                openFragment(clicked_event, position);
+            }
+        });
 
         //add Navigation bar functionality
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
@@ -155,14 +186,31 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (moodHistory != null) {
+            moodHistory.history.clear();
+            HistoryAdapter.notifyDataSetChanged();
+            MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
+        }
+    }
+
+    public void openFragment(MoodEvent moodEvent, int position) {
+        boolean location_changed = false;
+        MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.mood_event_frag_container, fragment, "MOOD_EVENT_FRAGMENT").commit();
+    }
+
     private void displayFragments(String user_id, String username) {
         ProfileViewFragment profile_frag = new ProfileViewFragment(user_id, username);
         FragmentManager manager = getSupportFragmentManager();//create an instance of fragment manager
-
         FragmentTransaction transaction = manager.beginTransaction();//create an instance of Fragment-transaction
-
         transaction.add(R.id.profile_container, profile_frag, "PROFILE_FRAG");
-
         transaction.commit();
     }
 
@@ -175,27 +223,27 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    @Override
+    public void onDeleteFragmentInteraction(int position) {
+        MoodHistoryController.deleteEventFromHistory(moodHistory.history.get(position), moodHistory, position, HistoryAdapter);
+    }
+
+    @Override
+    public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb) {
+        // Send this new MoodEvent to the db and update the fields
+        MoodHistory.externalUpdateMoodEvent(e, position, photo, moodHistory, HistoryAdapter, cb);
+    }
+
+    @Override
+    public void onBackPressed() {
+        final MoodEventFragment fragment = (MoodEventFragment) getSupportFragmentManager().findFragmentByTag("MOOD_EVENT_FRAGMENT");
+        if (fragment!= null && fragment.allowBackPress()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+            super.onBackPressed();
+        } else if (fragment == null) {
+            finish();
+        }
+    }
 }
-
-
-
-
-
-        //Sets the name
-//        ProfileName.setText(fAuth.getCurrentUser().getDisplayName());
-
-//        //Gets the user's profile picture
-//        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Log.e("Tuts+", "uri: " + uri.toString());
-//                DownloadLink = uri.toString();
-//                CircleImageView iv = (CircleImageView) view.findViewById(R.id.profilePictureEditFragment);
-//                Picasso.with(getContext()).load(uri.toString()).placeholder(R.drawable.ic_launcher3slanted).error(R.drawable.ic_launcher3slanted).into(iv);
-//                //Handle whatever you're going to do with the URL here
-//            }
-//        });
-
-//    }
 
 

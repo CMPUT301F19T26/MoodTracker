@@ -5,115 +5,145 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <RelativeLayout
+        android:id="@+id/top_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/top_container"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/profilePictureEditFragment"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:src="@mipmap/ic_launcher_emoji"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/userNameFragmentProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="27dp"
-            android:layout_marginTop="16dp"
+            android:layout_alignTop="@+id/profilePictureEditFragment"
+            android:layout_alignBottom="@+id/profilePictureEditFragment"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_toEndOf="@+id/profilePictureEditFragment"
             android:fontFamily="sans-serif"
             android:text="👤Username"
             android:textColor="@color/colorWhite"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profilePictureEditFragment" />
+            android:textSize="24sp" />
 
 
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/UnfollowButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:layout_alignBaseline="@id/userNameFragmentProfile"-->
+        <!--            android:layout_toEndOf="@+id/userNameFragmentProfile"-->
+        <!--            android:text="Unfollow"-->
+        <!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+        <!--            app:strokeColor="@color/colorWhite"-->
+        <!--            android:visibility="invisible"-->
+        <!--/>-->
 
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/editFAB"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:layout_alignBaseline="@id/userNameFragmentProfile"-->
+        <!--            android:layout_toEndOf="@+id/userNameFragmentProfile"-->
+        <!--            android:text="Edit Profile"-->
+        <!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+        <!--            app:strokeColor="@color/colorWhite"-->
+        <!--            android:visibility="invisible"-->
+        <!--        />-->
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/profilePictureEditFragment"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_margin="8dp"
-
-
-            android:src="@mipmap/ic_launcher_emoji"
-            tools:ignore="ContentDescription" />
-
+        <!--        <com.google.android.material.button.MaterialButton-->
+        <!--            android:id="@+id/FollowButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:layout_alignBaseline="@id/userNameFragmentProfile"-->
+        <!--            android:layout_toEndOf="@+id/userNameFragmentProfile"-->
+        <!--            android:text="Follow"-->
+        <!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+        <!--            app:strokeColor="@color/colorWhite"-->
+        <!--            android:visibility="invisible" />-->
 
     </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintOneButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintTop_toBottomOf="@id/top_container"
-        >
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/constraintOneButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/top_container"-->
+<!--        android:layout_marginLeft="5dp"-->
+<!--        android:layout_marginRight="5dp">-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/UnfollowButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="Unfollow"
-            android:textColor="@color/colorPrimary"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/colorPrimary"
-            tools:layout_editor_absoluteX="10dp" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/UnfollowButton"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Unfollow"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:strokeColor="@color/colorPrimary"-->
+<!--            tools:layout_editor_absoluteX="10dp" />-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/editFAB"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="Edit Profile"
-            android:textColor="@color/colorPrimary"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/colorPrimary"
-            tools:layout_editor_absoluteX="10dp" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/editFAB"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Edit Profile"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:strokeColor="@color/colorPrimary"-->
+<!--            tools:layout_editor_absoluteX="10dp" />-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/FollowButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/fui_bgTwitter"
-            android:gravity="center"
-            android:text="Follow"
-            android:textColor="@color/colorWhite"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="10dp" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/FollowButton"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:backgroundTint="@color/fui_bgTwitter"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Follow"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:layout_editor_absoluteX="10dp" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintTop_toBottomOf="@id/constraintOneButton">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/userNameFragmentProfile">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/FollowingButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:text="Following"
             android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toStartOf="@+id/FollowersButton"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/colorPrimary" />
@@ -121,28 +151,75 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/FollowersButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:text="Followers"
             android:textColor="@color/colorPrimary"
-            app:layout_constraintEnd_toStartOf="@+id/MoodHistoryButton"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/FollowButton"
             app:layout_constraintStart_toEndOf="@+id/FollowingButton"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/colorPrimary" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/MoodHistoryButton"
+            android:id="@+id/FollowButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
-            android:text="Mood History"
-            android:textColor="@color/colorPrimary"
+            android:backgroundTint="@color/fui_bgTwitter"
+            android:gravity="center"
+            android:text="Follow"
+            android:textColor="@color/colorWhite"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/FollowersButton"
+            app:layout_constraintStart_toEndOf="@id/FollowersButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/colorPrimary" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/editFAB"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Edit Profile"
+            android:textColor="@color/colorPrimary"
+            android:visibility="invisible"
+            app:strokeColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/FollowersButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/UnfollowButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Unfollow"
+            android:textColor="@color/colorPrimary"
+            android:visibility="invisible"
+            app:strokeColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/FollowersButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/MoodHistoryButton"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Mood History"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/FollowersButton"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:strokeColor="@color/colorPrimary" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,6 +57,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class BottomNavigationViewHelper {
 
+    MenuItem selected_tab = null;
     /**
      * Disables Shift mode
      * @param view the view on the navigation bar

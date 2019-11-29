@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     >
+        <item
+            android:id="@+id/ic_Feed"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Feed"
+            />
 
-    <item
-        android:id="@+id/ic_Feed"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="Feed"
-        />
-
-    <item
-        android:id="@+id/ic_Search"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Search"
-        />
-    <item
-        android:id="@+id/ic_Add"
-        android:icon="@drawable/ic_add_box_black_24dp"
-        android:title="Add"
-        />
-    <item
-        android:id="@+id/ic_Map"
-        android:icon="@drawable/ic_map_black_24dp"
-        android:title="Map"
-        />
+        <item
+            android:id="@+id/ic_Search"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="Search"
+            />
+        <item
+            android:id="@+id/ic_Add"
+            android:icon="@drawable/ic_add_box_black_24dp"
+            android:title="Add"
+            />
+        <item
+            android:id="@+id/ic_Map"
+            android:icon="@drawable/ic_map_black_24dp"
+            android:title="Map"
+            />
 
 
-    <item
-        android:id="@+id/ic_Profile"
-        android:icon="@drawable/ic_person_outline_black_24dp"
-        android:title="Profile"
-        />
-
+        <item
+            android:id="@+id/ic_Profile"
+            android:icon="@drawable/ic_person_outline_black_24dp"
+            android:title="Profile"
+            />
 
 
 </menu>

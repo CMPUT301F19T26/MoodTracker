@@ -125,6 +125,7 @@ public class FollowersActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String followerId = document.get("follower_id").toString();
                                 FollowersDataList.add(new User(followerId));
+                                FollowersAdapter.notifyDataSetChanged();
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
 
