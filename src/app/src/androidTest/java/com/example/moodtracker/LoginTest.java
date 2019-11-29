@@ -30,6 +30,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -71,132 +72,109 @@ public class LoginTest {
     @Before
     public void setUp() throws Exception{
 
+        //set up
         db.clearPersistence();
         FirebaseAuth.getInstance().signOut();
-
-        Runtime runtime = Runtime.getRuntime();
-        runtime.exec("pm clear com.example.moodtracker");
-
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
         Activity activity = rule.getActivity();
 
-
-
-
     }
-
-    /**
-     * Gets the Activity
-     * @throws Exception
-     */
 
 
     @Test
-    public void badLogin(){
+    public void createUserandLogIn() {
 
-        FirebaseAuth.getInstance().signOut();
+        //log in with invalid authentication
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.enterText((EditText)solo.getView(R.id.text_email), "jared_jhonson@email.com");
         solo.enterText((EditText)solo.getView(R.id.text_password), "very_cool");
         solo.clickOnText("Login");
-//        solo.clickOnView(solo.getView(R.id.button_login));
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         boolean exists = solo.searchText("Authentication failed.");
         assertEquals(true,exists);
 
-        db.clearPersistence();
-        FirebaseAuth.getInstance().signOut();
-//
-//
-    }
-////
-//    @Test
-//    public void createUser() {
-//
-//
-//
-//    }
-
-
-    @Test
-    public void createExistingUser() {
-
+        //sign up user
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.clickOnText("Signup");
         solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
-
-        solo.enterText((EditText)solo.getView(R.id.text_email), "sarthak@email.com");
-        solo.enterText((EditText)solo.getView(R.id.text_username), "sarthak");
+        solo.enterText((EditText)solo.getView(R.id.text_email), "david_jhonson@test.com");
+        solo.enterText((EditText)solo.getView(R.id.text_username), "david_jhonson");
         solo.enterText((EditText)solo.getView(R.id.text_password), "password");
-
         solo.clickOnButton("Signup");
-
-        boolean exists = solo.searchText("Username taken!");
-
-        assertEquals(true,exists);
-
-        solo.clickOnText("Login");
-
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-
-        db.clearPersistence();
-        FirebaseAuth.getInstance().signOut();
-
-    }
-//
-    @Test
-    public void Login() {
-
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "ankush@email.com");
-        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
-        solo.clickOnText("Login");
         solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
 
-        db.clearPersistence();
-        FirebaseAuth.getInstance().signOut();
+        //log out
+        solo.clickOnText("Profile");
+        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+        View navbar = solo.getView(R.id.toggler);
+        solo.clickOnView(navbar);
+        solo.clickOnText("Logout");
 
-    }
-//
-    @After
-    public void cleanUser(){
-
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-        solo.clickOnText("Signup");
-        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "can_jones@email.com");
-        solo.enterText((EditText)solo.getView(R.id.text_username), "can_jones");
-        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
-        solo.clickOnButton("Signup");
+        //Login to app
+        solo.enterText((EditText) solo.getView(R.id.text_email), "david_jhonson@test.com");
+        solo.enterText((EditText) solo.getView(R.id.text_password), "password");
+        solo.clickOnText("Login");
         solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
         solo.clickOnText("Profile");
         solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
-//        solo.clickOnText("Logout");
-//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-
-        db.clearPersistence();
-        FirebaseAuth.getInstance().signOut();
-
-//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-//        db.collection("usernames").document("bob_jones").delete();
-//        db.collection("users").document(FirebaseAuth.getInstance().getUid()).delete();
-//        FirebaseAuth.getInstance().getCurrentUser().delete();
-
-
-//
-//        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
-//        solo.clickOnButton("Profile");
-//        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
-//        solo.clickOnButton("Logout");
-//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
 
     }
-//
-//
+
+
+    @Test
+    public void CreateUser_and_Test_bad_signup() {
+
+
+        //signup
+        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+        solo.clickOnText("Signup");
+        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
+        solo.enterText((EditText)solo.getView(R.id.text_email), "jared@test.com");
+        solo.enterText((EditText)solo.getView(R.id.text_username), "jared");
+        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+        solo.clickOnButton("Signup");
+        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+
+        //logout
+        solo.clickOnText("Profile");
+        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+        View navbar = solo.getView(R.id.toggler);
+        solo.clickOnView(navbar);
+        solo.clickOnText("Logout");
+
+        //signup
+        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+        solo.clickOnText("Signup");
+        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
+        solo.enterText((EditText)solo.getView(R.id.text_email), "jared@test.com");
+        solo.enterText((EditText)solo.getView(R.id.text_username), "jared");
+        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+        solo.clickOnButton("Signup");
+
+        //assert username is taken
+        boolean exists = solo.searchText("Username taken!");
+        assertEquals(true,exists);
+
+    }
 
 
 
+    @After
+    public void reset() {
+
+        View navbar = solo.getView(R.id.toggler);
+        solo.clickOnView(navbar);
+        solo.clickOnText("Logout");
+
+    }
 
 
 }
+
+
+
+
+
+
+
