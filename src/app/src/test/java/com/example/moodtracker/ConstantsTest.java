@@ -15,6 +15,9 @@ import static com.example.moodtracker.constants.NEUTRAL;
 import static org.junit.Assert.*;
 import java.util.HashMap;
 
+/**
+ * Testing Constants class
+ */
 public class ConstantsTest {
     public static final String NEUTRAl = "0";
     public static final String HAPPY = "1";

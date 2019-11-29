@@ -63,8 +63,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Retrieves user names, user id's, handles user interactions.
+ */
 public class User implements Parcelable {
-
 
 
     public interface UsernameListener {
