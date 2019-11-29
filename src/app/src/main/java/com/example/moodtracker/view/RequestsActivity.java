@@ -1,5 +1,5 @@
 /*
- * RequestsActivity
+ * Following Activity
  *
  * Version 1.0
  *
@@ -30,17 +30,118 @@
 
 package com.example.moodtracker.view;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import com.example.moodtracker.R;
+import com.example.moodtracker.adapter.FollowAdapter;
+import com.example.moodtracker.adapter.RequestAdapter;
+import com.example.moodtracker.helpers.BottomNavigationViewHelper;
+import com.example.moodtracker.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class RequestsActivity extends AppCompatActivity {
 
+    // Declare the variables so that you will be able to reference it later.
+    ListView requestListView;
+    ArrayAdapter<User> requestAdapter;
+    ArrayList<User> requestDataList;
+
+    // new class vars
+    String TAG = "Sample";
+    Button addCityButton;
+    EditText addCityEditText;
+    EditText addProvinceEditText;
+    FirebaseFirestore db;
+
+
+    /**
+     * On create of following activity
+     * @param savedInstanceState the instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requests);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Requests");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //add Navigation bar functionality
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(4);
+        menuItem.setChecked(true);
+        BottomNavigationViewHelper.enableNavigation(RequestsActivity.this, bottomNavigationView);
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        requestListView = findViewById(R.id.list_user_requests);
+        requestDataList = new ArrayList<>();
+        requestAdapter = new RequestAdapter(this, requestDataList);
+        requestListView.setAdapter(requestAdapter);
+
+        db = FirebaseFirestore.getInstance();
+
+        // query list of people the current user is following
+        // by looking at all instances where the follower is the current person
+        db.collection("requests")
+                .whereEqualTo("following_id", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            requestDataList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String followingId = document.get("follower_id").toString();
+                                requestDataList.add(new User(followingId));
+                                requestAdapter.notifyDataSetChanged();
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                document.getId();
+
+                            }
+
+                            requestAdapter.notifyDataSetChanged();
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
     }
+
 }

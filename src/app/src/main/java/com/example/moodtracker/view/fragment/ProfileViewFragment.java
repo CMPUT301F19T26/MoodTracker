@@ -55,6 +55,7 @@ import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.FollowersActivity;
 import com.example.moodtracker.view.FollowingActivity;
 import com.example.moodtracker.view.ProfileViewActivity;
+import com.example.moodtracker.view.RequestsActivity;
 import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -94,6 +95,7 @@ public class ProfileViewFragment extends Fragment {
     private Button MoodEventButton;
     private Button MoodHistoryButton;
     private User displayUser;
+    private Button RequestsButton;
 
 
 
@@ -156,6 +158,7 @@ public class ProfileViewFragment extends Fragment {
         FollowButton = view.findViewById(R.id.FollowButton);
         UnfollowButton = view.findViewById(R.id.UnfollowButton);
 
+        RequestsButton = view.findViewById(R.id.button_view_requests);
 
         FollowersButton = view.findViewById(R.id.FollowersButton);
         FollowersButton.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +175,14 @@ public class ProfileViewFragment extends Fragment {
             public void onClick(View v) {
                 Intent followingActivity = new Intent(getActivity(), FollowingActivity.class);
                 startActivity(followingActivity);
+            }
+        });
+
+        RequestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent requestsActivity = new Intent(getActivity(), RequestsActivity.class);
+                startActivity(requestsActivity);
             }
         });
 
@@ -252,9 +263,11 @@ public class ProfileViewFragment extends Fragment {
                 Map<String, Object> followMap = new HashMap<>();
                 followMap.put("follower_id", fAuth.getUid());
                 followMap.put("following_id", displayUser.getUid());
+                followMap.put("timestamp", "time");
 
-                // store in db
-                FirebaseFirestore.getInstance().collection("follow").document(UUID.randomUUID().toString())
+
+                // store a request for that person in db from authenticated person
+                FirebaseFirestore.getInstance().collection("requests").document(UUID.randomUUID().toString())
                         .set(followMap)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -271,6 +284,25 @@ public class ProfileViewFragment extends Fragment {
                                 Log.d("HOME", "Error writing document", e);
                             }
                         });
+
+                // store in db
+//                FirebaseFirestore.getInstance().collection("follow").document(UUID.randomUUID().toString())
+//                        .set(followMap)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                Log.d("HOME", "DocumentSnapshot successfully written!");
+//                                UnfollowButton.setVisibility(View.VISIBLE);
+//                                FollowButton.setVisibility(View.INVISIBLE);
+//
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("HOME", "Error writing document", e);
+//                            }
+//                        });
 
 
 

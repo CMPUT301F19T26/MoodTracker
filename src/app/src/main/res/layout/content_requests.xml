@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/list_username_text_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:padding="2dp"
+        android:text="Username"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#4d4d4d"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/list_uid_text_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UID"
+        app:layout_constraintStart_toStartOf="@+id/list_username_text_request"
+        app:layout_constraintTop_toBottomOf="@+id/list_username_text_request" />
+
+    <Button
+        android:id="@+id/reject_request_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REJECT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/follow_recent_button" />
+
+    <Button
+        android:id="@+id/follow_recent_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOLLOW RECENT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/follow_all_button" />
+
+    <Button
+        android:id="@+id/follow_all_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOLLOW ALL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
