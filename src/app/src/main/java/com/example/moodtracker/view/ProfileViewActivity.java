@@ -378,6 +378,16 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 Intent requestsActivity = new Intent(ProfileViewActivity.this, RequestsActivity.class);
                 startActivity(requestsActivity);
                 break;
+//            case R.id.delete_account:
+//                FirebaseAuth.getInstance().getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        FirebaseFirestore.getInstance().collection("user");
+//                        Intent loginActivity = new Intent(ProfileViewActivity.this, LoginActivity.class);
+//                        startActivity(loginActivity);
+//                    }
+//                });
+//                break;
             default:
                 break;
         }
