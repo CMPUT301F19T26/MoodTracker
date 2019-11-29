@@ -41,6 +41,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,7 @@ import androidx.fragment.app.FragmentTransaction;
 //import com.example.moodtracker.view.AddMoodEvent;
 import com.example.moodtracker.R;
 import com.example.moodtracker.adapter.MoodHistoryAdapter;
+import com.example.moodtracker.constants;
 import com.example.moodtracker.controller.MoodHistoryController;
 import com.example.moodtracker.helpers.BottomNavigationViewHelper;
 import com.example.moodtracker.model.MoodEvent;
@@ -86,6 +88,9 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
     private ListView moodHistoryList;
     private ArrayAdapter<MoodEvent> HistoryAdapter;
     private MoodHistory moodHistory;
+    private String previously_selected = "All";
+    private Spinner mood_history_spinner;
+    private ArrayAdapter<String> adapt;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -173,6 +178,46 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 // Will call open fragment and pass it a mood event
                 MoodEvent clicked_event = moodHistory.history.get(position);
                 openFragment(clicked_event, position);
+            }
+        });
+
+        mood_history_spinner = findViewById(R.id.mood_history_spinner);
+        String[] mood_items = constants.mood_spinner_list;
+        adapt = new ArrayAdapter<>(this, R.layout.centered_spinner_item, mood_items);
+        mood_history_spinner.setAdapter(adapt);
+        mood_history_spinner.setSelection(0);
+
+        // Onclick handler for filtering
+        mood_history_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch(mood_history_spinner.getSelectedItem().toString()) {
+                    case "All":
+                        if (!previously_selected.equals( mood_history_spinner.getSelectedItem().toString())) {
+                            previously_selected =  mood_history_spinner.getSelectedItem().toString();
+                            moodHistory.history.clear();
+                            HistoryAdapter.notifyDataSetChanged();
+                            MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
+                        }
+                        break;
+                    default:
+                        if (!previously_selected.equals( mood_history_spinner.getSelectedItem().toString())) {
+                            handleSpinner(mood_history_spinner.getSelectedItem().toString());
+                        }
+                        break;
+                }
+            }
+
+            private void handleSpinner(String mood) {
+                previously_selected =  mood_history_spinner.getSelectedItem().toString();
+                moodHistory.history.clear();
+                HistoryAdapter.notifyDataSetChanged();
+                MoodHistory.getMoodHistoryWithFilter(HistoryAdapter, moodHistory, "mood", constants.mood_name_to_num_mapper.get(mood));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
