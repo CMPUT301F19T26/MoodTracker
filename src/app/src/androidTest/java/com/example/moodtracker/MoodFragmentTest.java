@@ -54,6 +54,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,6 +74,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
+import junit.framework.AssertionFailedError;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -84,6 +87,9 @@ import org.junit.runners.MethodSorters;
 
 import java.util.concurrent.TimeUnit;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+import static java.security.AccessController.getContext;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -102,30 +108,39 @@ public class MoodFragmentTest {
             new ActivityTestRule<>(LoginActivity.class, true, true);
 
 
+
     @Before
-    public void start() {
+    public void setUp() throws Exception {
 
-//        rule.launchActivity(null);
-
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
-        Activity activity = rule.getActivity();
 
         db.clearPersistence();
         FirebaseAuth.getInstance().signOut();
+//
+//
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+//        solo.finishOpenedActivities();
+        Activity activity = rule.getActivity();
+//
+        View view = solo.getCurrentActivity().findViewById(R.id.ic_Profile);
 
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+
 
         solo.enterText((EditText) solo.getView(R.id.text_email), "ankush@email.com");
         solo.enterText((EditText) solo.getView(R.id.text_password), "password");
+
         solo.clickOnText("Login");
         solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
 
         solo.clickOnText("Profile");
         solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+
+
+
     }
 
     @Test
     public void addEvent() {
+
         View CTButton = solo.getView("ic_Add");
         solo.clickOnView(CTButton);
 
@@ -134,8 +149,7 @@ public class MoodFragmentTest {
         //getmood
         View mood_dropdown = solo.getView(Spinner.class, 0);
         solo.clickOnView(mood_dropdown);
-        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
-        // select the 10th item in the spinner
+        solo.scrollToTop();
         solo.clickOnView(solo.getView(TextView.class, 3));
 
 
@@ -144,7 +158,7 @@ public class MoodFragmentTest {
         solo.clickOnView(social_dropdown);
         solo.scrollToTop(); // I put this in here so that it always keeps the list at start
         // select the 10th item in the spinner
-        solo.clickOnView(solo.getView(TextView.class, 5));
+        solo.clickOnView(solo.getView(TextView.class, 3));
 
         //click location
 //        View switcher = solo.getView(R.id.location_switch);
@@ -157,8 +171,12 @@ public class MoodFragmentTest {
         //click submit
         solo.clickOnText("Submit");
 
+//        //
+//        solo.clickOnText("Profile");
+
         //check feed
         solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+
 
         //check event
 //        MoodEvent clicked_event = moodHistory.history.get(0);
@@ -169,9 +187,77 @@ public class MoodFragmentTest {
 
     }
 
+//    @Test
+//    public void editEvent() {
+//        System.out.println("EDIT");
+//
+////        rule2.launchActivity(null);
+//
+//
+//        View CTButton = solo.getView("ic_Add");
+//        solo.clickOnView(CTButton);
+////
+//        solo.assertCurrentActivity("Wrong Activity", AddMoodEventActivity.class);
+////
+//        //getmood
+//        View mood_dropdown = solo.getView(Spinner.class, 0);
+//        solo.clickOnView(mood_dropdown);
+//        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
+//        // select the 10th item in the spinner
+//        solo.clickOnView(solo.getView(TextView.class, 3));
+//
+//        //click submit
+//        solo.clickOnText("Submit");
+//
+//        //open event
+//        ListView view = (ListView) solo.getView(R.id.mood_history);
+//
+//        solo.clickInList(1);
+//
+////        clickView(this, view.getChildAt(0));
+//
+////
+////        //get social situation
+////        View social_dropdown = solo.getView(Spinner.class, 1);
+////        solo.clickOnView(social_dropdown);
+////        solo.scrollToTop(); // I put this in here so that it always keeps the list at start
+////        // select the 10th item in the spinner
+////        solo.clickOnView(solo.getView(TextView.class, 5));
+////
+////        //click location
+//////        View switcher = solo.getView(R.id.location_switch);
+//////        solo.clickOnView(switcher);
+//////        solo.clickOnText("Allow only while using the app");
+////
+////        //enter reason
+////        solo.enterText((EditText)solo.getView(R.id.reason_edit), "MOOOO");
+////
+////
+////
+////        //check feed
+////        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+////
+////        //check event
+//////        MoodEvent clicked_event = moodHistory.history.get(0);
+//////        assertEquals(clicked_event.getMood(), "Sad");
+//////        assertEquals(clicked_event.getReason(), "MOOOO");
+//////        assertEquals(clicked_event.getSocialSituation(), "With a Crowd");
+//
+//
+//    }
+
     @After
     public void reset() {
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
-        Activity activity = rule.getActivity();
+
+        View navbar = solo.getView(R.id.toggler);
+        solo.clickOnView(navbar);
+        solo.clickOnText("Logout");
+
+//        System.out.println("AFTER");
+
+//        rule.launchActivity(null);
+
+//        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+//        Activity activity = rule.getActivity();
     }
 }
