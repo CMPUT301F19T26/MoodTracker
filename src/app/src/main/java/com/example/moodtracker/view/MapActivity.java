@@ -64,6 +64,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -191,9 +193,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(ArrayList<MoodEvent> moodEvents) {
                 //append locations to map
+
                 int count = 0;
 
+
                 userMarkers.clear();
+
                 for(MoodEvent moodEvent: moodEvents) {
                     LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
                     Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
@@ -209,6 +214,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
                 }
 
+
+
             }
 
             @Override
@@ -217,30 +224,38 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
-
-        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<MoodEvent>>() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        ArrayList<MoodEvent> friendMoods = new ArrayList<>();
+        user.getFriendLocations(db, FirebaseAuth.getInstance().getUid(), friendMoods, new FirebaseHelper.FirebaseCallback() {
             @Override
-            public void onSuccess(ArrayList<MoodEvent> moodEvents) {
-                //append locations to map
+            public void onSuccess(Object document) {
                 friendMarkers.clear();
-                System.out.println("HERE " + moodEvents.size());
-                for(MoodEvent moodEvent: moodEvents) {
+
+                System.out.println("HERE WOW" + friendMoods.size());
+
+
+                for(MoodEvent moodEvent: friendMoods) {
+
+
+
+
                     LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
                     Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(loc)
                             .title(m.getMoodName())
-//                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                     );
                     marker.setTag(moodEvent);
+//                    posmarker.put(count,marker);
+//                    markerpos.put(marker,count);
                     friendMarkers.add(marker);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-//                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
-//                    mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+//                    count++;
+
 
                 }
-
+                System.out.println("Done getting feed");
             }
 
             @Override
@@ -248,6 +263,45 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
             }
         });
+
+
+
+
+
+//        user.getFriendLocations(new MoodHistory.FirebaseCallback<ArrayList<MoodEvent>>() {
+//            @Override
+//            public void onSuccess(ArrayList<MoodEvent> moodEvents) {
+//                //append locations to map
+//                friendMarkers.clear();
+//                System.out.println("HERE " + moodEvents.size());
+//                for(MoodEvent moodEvent: moodEvents) {
+//                    LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
+//                    Mood m = constants.mood_num_to_mood_obj_mapper.get(moodEvent.getMood());
+//                    Marker marker = mMap.addMarker(new MarkerOptions()
+//                            .position(loc)
+//                            .title(m.getMoodName())
+////                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+//                    );
+//                    marker.setTag(moodEvent);
+//                    friendMarkers.add(marker);
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+////                    LatLng loc = new LatLng(location.getLatitude(),location.getLongitude());
+////                    mMap.addMarker(new MarkerOptions().position(loc).title(location.getMood()));
+////                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+//
+//                }
+//
+//                System.out.println("LENGTHER " + friendMarkers.size());
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//            }
+//        });
 
         Button USER = findViewById(R.id.user_button);
         Button FRIENDS = findViewById(R.id.friends_button);
