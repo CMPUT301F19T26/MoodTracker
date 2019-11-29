@@ -34,7 +34,7 @@
             android:id="@+id/nav_preferences"
             android:title="Preferences" />
         <item
-            android:id="@+id/nav_security"
-            android:title="Security" />
+            android:id="@+id/nav_requests"
+            android:title="Follow Requests" />
     </group>
 </menu>

@@ -314,7 +314,9 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 break;
             case R.id.nav_preferences:
                 break;
-            case R.id.nav_security:
+            case R.id.nav_requests:
+                Intent requestsActivity = new Intent(ProfileViewActivity.this, RequestsActivity.class);
+                startActivity(requestsActivity);
                 break;
             default:
                 break;

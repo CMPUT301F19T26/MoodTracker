@@ -158,7 +158,7 @@ public class ProfileViewFragment extends Fragment {
         FollowButton = view.findViewById(R.id.FollowButton);
         UnfollowButton = view.findViewById(R.id.UnfollowButton);
 
-        RequestsButton = view.findViewById(R.id.button_view_requests);
+//        RequestsButton = view.findViewById(R.id.button_view_requests);
 
         FollowersButton = view.findViewById(R.id.FollowersButton);
         FollowersButton.setOnClickListener(new View.OnClickListener() {
@@ -178,13 +178,13 @@ public class ProfileViewFragment extends Fragment {
             }
         });
 
-        RequestsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent requestsActivity = new Intent(getActivity(), RequestsActivity.class);
-                startActivity(requestsActivity);
-            }
-        });
+//        RequestsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent requestsActivity = new Intent(getActivity(), RequestsActivity.class);
+//                startActivity(requestsActivity);
+//            }
+//        });
 
 //        MoodHistoryButton = view.findViewById(R.id.MoodHistoryButton);
 //        MoodHistoryButton.setOnClickListener(new View.OnClickListener() {

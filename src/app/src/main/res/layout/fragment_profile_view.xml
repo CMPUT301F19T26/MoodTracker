@@ -37,16 +37,6 @@
             android:textColor="@color/colorWhite"
             android:textSize="24sp" />
 
-        <Button
-            android:id="@+id/button_view_requests"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="44dp"
-            android:layout_toEndOf="@+id/userNameFragmentProfile"
-            android:text="Requests" />
-
 
         <!--        <com.google.android.material.button.MaterialButton-->
         <!--            android:id="@+id/UnfollowButton"-->
