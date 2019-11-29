@@ -131,7 +131,7 @@ public class MoodHistoryAdapter extends ArrayAdapter<MoodEvent> {
         CardView mood_event_item = view.findViewById(R.id.mood_event_item);
         TextView date = view.findViewById(R.id.event_date);
         CircleImageView icon = view.findViewById(R.id.icon_image);
-        CircleImageView photo = view.findViewById(R.id.me_photo);
+        ImageView photo = view.findViewById(R.id.me_photo);
         TextView reason = view.findViewById(R.id.reason);
         TextView social = view.findViewById(R.id.social_situation);
         TextView user_name = view.findViewById(R.id.username);
