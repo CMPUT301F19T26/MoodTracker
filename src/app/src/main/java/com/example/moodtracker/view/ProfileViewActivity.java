@@ -40,14 +40,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -69,6 +73,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -81,7 +86,7 @@ import org.w3c.dom.Document;
  * ProfileViewActivity extends AppCompactActivity
  * it overwrites onCreateView
  */
-public class ProfileViewActivity extends AppCompatActivity implements ProfileViewFragment.OnFragmentInteractionListener, MoodEventFragment.OnFragmentInteractionListener {
+public class ProfileViewActivity extends AppCompatActivity implements ProfileViewFragment.OnFragmentInteractionListener, MoodEventFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
     private MaterialButton LogoutFab;
     private FirebaseAuth fAuth;
@@ -91,6 +96,9 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
     private String previously_selected = "All";
     private Spinner mood_history_spinner;
     private ArrayAdapter<String> adapt;
+    private DrawerLayout drawer;
+    private ImageButton toggler;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,18 +111,6 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 //        final View view = inflater.inflate(R.layout.activity_profile_view, container, false);
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        // displays username
-        // Logout Handler
-        LogoutFab = findViewById(R.id.logoutFAB);
-        LogoutFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent mainIntent = new Intent(ProfileViewActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
-            }
-        });
-
         moodHistoryList = findViewById(R.id.mood_history);
 
         // Displays all parts of the fragment in the view
@@ -124,6 +120,12 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain); //here toolbar is your id in xml
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("MoodTracker"); //string is custom name you want
+
+
+        drawer = findViewById(R.id.drawer_layout);
+        toggler = findViewById(R.id.toggler);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         if(username != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -136,6 +138,8 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         }
 
         if (username != null) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggler.setVisibility(View.GONE);
             FirebaseFirestore.getInstance().collection("users").whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -178,6 +182,13 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 // Will call open fragment and pass it a mood event
                 MoodEvent clicked_event = moodHistory.history.get(position);
                 openFragment(clicked_event, position);
+            }
+        });
+
+        toggler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(GravityCompat.END);
             }
         });
 
@@ -285,9 +296,31 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         final MoodEventFragment fragment = (MoodEventFragment) getSupportFragmentManager().findFragmentByTag("MOOD_EVENT_FRAGMENT");
         if (fragment!= null && fragment.allowBackPress()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
             super.onBackPressed();
+        } else if(drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
         } else if (fragment == null) {
             finish();
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_logout:
+                // Do some shit
+                FirebaseAuth.getInstance().signOut();
+                Intent mainIntent = new Intent(ProfileViewActivity.this, LoginActivity.class);
+                startActivity(mainIntent);
+                break;
+            case R.id.nav_preferences:
+                break;
+            case R.id.nav_security:
+                break;
+            default:
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
     }
 }
 
