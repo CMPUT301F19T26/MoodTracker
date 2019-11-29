@@ -200,19 +200,21 @@ public class ProfileViewFragment extends Fragment {
         EditFab = view.findViewById(R.id.editFAB);
         EditFab.setVisibility(View.INVISIBLE);
         if (itsMe) {
-            EditFab.setVisibility(View.VISIBLE);
-            EditFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent editActivity = new Intent(getActivity(), EditProfile.class);
-                    startActivity(editActivity);
-//                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
-//                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
-//                editActivity.putExtra("username", ProfileName.getText());
-//                startActivity(editActivity);
+            Log.d("HOME", "It's me");
+//            EditFab.setVisibility(View.VISIBLE);
 
-                }
-            });
+//            EditFab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent editActivity = new Intent(getActivity(), EditProfile.class);
+//                    startActivity(editActivity);
+////                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
+////                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
+////                editActivity.putExtra("username", ProfileName.getText());
+////                startActivity(editActivity);
+//
+//                }
+//            });
 
         } else {
 
