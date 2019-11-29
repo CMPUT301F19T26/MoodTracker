@@ -131,6 +131,13 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
     }
 
 
+    /**
+     * The Fragment for a mood event
+     * @param moodEvent The mood event to be viewed
+     * @param position the position
+     * @param location_changed True or false based on whether the location has been changed
+     * @return the fragment of the mood event
+     */
     // TODO: Rename and change types and number of parameters
     public static MoodEventFragment newInstance(MoodEvent moodEvent, int position, boolean location_changed) {
         MoodEventFragment fragment = new MoodEventFragment();
@@ -142,6 +149,10 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         return fragment;
     }
 
+    /**
+     * On creation of fragment restore mood event, and fragment data
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +164,13 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         }
     }
 
+    /**
+     * On creation of view set up fragment with mood event
+     * @param inflater inflater for layout
+     * @param container container for layout
+     * @param savedInstanceState saved instance
+     * @return the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -324,7 +342,10 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         });
         return view;
     }
-    // Logic to allow user to go back or not
+
+    /**
+     * Logic to allow user to go back or not
+     */
     public boolean allowBackPress(){
         if (loading) {
             Toast.makeText(getActivity(), "Cannot go back while loading.", Toast.LENGTH_LONG).show();
@@ -334,6 +355,9 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
     }
 
 
+    /**
+     * Enable views
+     */
     private void enableViews() {
         // Enable the views
         reason.setEnabled(true);
@@ -341,12 +365,20 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         moods.setEnabled(true);
     }
 
+    /**
+     * Disable views
+     */
     private void disableViews() {
         reason.setEnabled(false);
         social_situations.setEnabled(false);
         moods.setEnabled(false);
     }
 
+    /**
+     * determine whether to show or disable layout
+     * @param myLayout layout to edit
+     * @param choice whether or not fragment should be displayed or not
+     */
     private void layoutEnableOrDisable(LinearLayout myLayout, boolean choice) {
         for ( int i = 0; i < myLayout.getChildCount();  i++ ){
             View view = myLayout.getChildAt(i);
@@ -354,6 +386,9 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         }
     }
 
+    /**
+     * Set visibilities
+     */
     private void cancelAndEditVisibilities() {
         cancel.setVisibility(View.GONE);
         done.setVisibility(View.GONE);
@@ -362,6 +397,11 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         remove_photo.setVisibility(View.GONE);
     }
 
+    /**
+     * Place mood event into view
+     * @param e the mood event
+     * @param v the view
+     */
     private void setUpFragmentWithMoodEvent(MoodEvent e, View v) {
         cancel = v.findViewById(R.id.cancel_edit);
         done = v.findViewById(R.id.done_edit);
@@ -453,6 +493,10 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
 
     }
 
+    /**
+     * On delete change activity
+     * @param position
+     */
     // TODO: Rename method, update argument and hook method into UI event
     public void onDelete(int position) {
         if (mListener != null) {
@@ -461,12 +505,22 @@ public class MoodEventFragment extends Fragment implements ProfileViewFragment.O
         }
     }
 
+    /**
+     * update fragment elements
+     * @param e The mood event
+     * @param position the position
+     * @param photo the photo
+     * @param cb call back to firebase
+     */
     public void onUpdate(MoodEvent e, int position, Uri photo, MoodHistory.FirebaseCallback cb){
         if (mListener != null) {
             mListener.onUpdateFragmentInteraction(e, position, photo, cb);
         }
     }
 
+    /**
+     * Select file
+     */
     private void FileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
