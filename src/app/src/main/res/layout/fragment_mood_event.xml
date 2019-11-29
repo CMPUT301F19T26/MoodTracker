@@ -88,6 +88,8 @@
                     <Spinner
                         android:id="@+id/me_mood_frag_spinner"
                         android:layout_width="150dp"
+                        android:background="@drawable/bg_spinner"
+                        android:popupBackground="@color/colorPrimary"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="5dp"
