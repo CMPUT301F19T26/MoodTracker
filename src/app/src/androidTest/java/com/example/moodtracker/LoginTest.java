@@ -71,10 +71,17 @@ public class LoginTest {
     @Before
     public void setUp() throws Exception{
 
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
-        Activity activity = rule.getActivity();
         db.clearPersistence();
         FirebaseAuth.getInstance().signOut();
+
+        Runtime runtime = Runtime.getRuntime();
+        runtime.exec("pm clear com.example.moodtracker");
+
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+        Activity activity = rule.getActivity();
+
+
+
 
     }
 
