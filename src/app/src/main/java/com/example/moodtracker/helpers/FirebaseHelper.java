@@ -139,14 +139,20 @@ public class FirebaseHelper {
                                         }
                                     });
                                 } else {
-                                    db.collection("users").document(document.get("following_id").toString()).collection("moodEvents").limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    db.collection("users").document(document.get("following_id").toString()).collection("moodEvents").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
+                                                ArrayList<MoodEvent> moodEventsTemp = new ArrayList<>();
+
                                                 for (QueryDocumentSnapshot doc : task.getResult()) {
                                                     MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, document.get("following_id").toString());
-                                                    feed.add(me);
+                                                    moodEventsTemp.add(me);
                                                 }
+                                                Collections.sort(moodEventsTemp, new MoodHistoryHelpers());
+                                                MoodEvent firstOne = moodEventsTemp.get(0);
+                                                moodEventsTemp.clear();
+                                                feed.add(firstOne);
                                                 Collections.sort(feed, new MoodHistoryHelpers());
                                                 feedadapter.notifyDataSetChanged();
                                             }
