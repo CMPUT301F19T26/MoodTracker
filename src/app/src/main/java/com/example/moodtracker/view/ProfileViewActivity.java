@@ -81,6 +81,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.util.ArrayList;
+
 /**
  * @auhtor CMPUT301F19T26
  * ProfileViewActivity extends AppCompactActivity
@@ -145,11 +147,25 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for (DocumentSnapshot doc : task.getResult()) {
                         displayFragments(doc.getId(), username);
-                        moodHistory = new MoodHistory(doc.getId());
-                        HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
-                        moodHistoryList.setAdapter(HistoryAdapter);
-                        MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
 
+                        User myUser = new User(fAuth.getUid());
+                        myUser.getFollowingUsernames(new User.UsernamesListener() {
+                            @Override
+                            public void onRetrieve(ArrayList<String> usernames) {
+                                if(usernames.contains(doc.getId())) {
+                                    moodHistory = new MoodHistory(doc.getId());
+                                    HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
+                                    moodHistoryList.setAdapter(HistoryAdapter);
+                                    MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
+                                } else {
+                                    // 
+                                }
+                            }
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
                     }
                 }
             });
@@ -163,13 +179,14 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 public void onRetrieve(String username) {
                     displayFragments(uid, username);
                     moodHistory = new MoodHistory(uid);
-                    HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
+                    HistoryAdapter = new MoodHistoryAdapter(context, moodHistory);
                     moodHistoryList.setAdapter(HistoryAdapter);
                     MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
                 }
 
                 @Override
                 public void onError() {
+
                 }
             });
 

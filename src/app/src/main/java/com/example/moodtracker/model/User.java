@@ -125,6 +125,26 @@ public class User implements Parcelable {
                 });
     }
 
+    public void getRequestedUsernames(UsernamesListener listener) {
+        db.collection("requests")
+                .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String followingId = document.get("following_id").toString();
+                                followingIDs.add(followingId);
+                            }
+                            listener.onRetrieve(followingIDs);
+                        } else {
+                            listener.onError();
+                        }
+                    }
+                });
+    }
+
     public void getFollowingUsernames(UsernamesListener listener) {
         db.collection("follow")
                 .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
