@@ -129,7 +129,7 @@ public class FindActivity extends AppCompatActivity {
 
 
         searchText = findViewById(R.id.search_bar);
-        searchButton = findViewById(R.id.search_button);
+//        searchButton = findViewById(R.id.search_button);
         userListView = findViewById(R.id.result_list);
         // front end apiKey for searching
         Client client = new Client("GZMZW0XPIB", "c1b5e252ea14c337a01be1f3d9d1085e");

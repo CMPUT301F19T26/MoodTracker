@@ -7,7 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".view.mood.AddMoodEventActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/add_mood_event_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAction"
+            android:text="Submit" />
+    </RelativeLayout>
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -25,7 +42,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mood"
-                android:textSize="10pt"></TextView>
+                android:textSize="10pt">
+
+            </TextView>
 
             <Spinner
                 android:id="@+id/mood_type_selector"
@@ -40,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reason"
-                android:textSize="10pt"></TextView>
+                android:textSize="10pt" />
 
             <EditText
                 android:id="@+id/reason_edit"
@@ -51,19 +70,14 @@
                 android:inputType="textMultiLine"
                 android:maxLength="20" />
 
-            <Switch
-                android:id="@+id/location_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Location"
-                android:textSize="10pt" />
 
             <TextView
                 android:id="@+id/social_sitation_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Social Situation"
-                android:textSize="10pt"></TextView>
+                android:textSize="10pt" />
+
 
             <Spinner
                 android:id="@+id/social_sitation_selector"
@@ -72,6 +86,14 @@
                 android:background="@drawable/bg_spinner"
                 android:popupBackground="@color/colorPrimary"
                 android:spinnerMode="dropdown" />
+
+            <Switch
+                android:id="@+id/location_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textSize="10pt"
+                android:theme="@style/SwitchTheme" />
 
 
             <Button
@@ -91,12 +113,7 @@
                 android:text="Cancel Upload"
                 android:visibility="gone" />
 
-            <Button
-                android:id="@+id/add_mood_event_submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAction"
-                android:text="Submit" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

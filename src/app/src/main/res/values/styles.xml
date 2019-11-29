@@ -13,4 +13,8 @@
         <item name="android:background">@drawable/rounded_shape</item>
     </style>
 
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">#148E13</item>
+    </style>
+
 </resources>

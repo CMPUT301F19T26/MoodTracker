@@ -33,15 +33,7 @@
             android:hint="Username Search"
             android:inputType="textPersonName">
         </EditText>
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorAction"
-            android:textColor="@color/colorWhite"
-            android:text="@string/search_button_text" />
-        
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ListView
