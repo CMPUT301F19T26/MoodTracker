@@ -143,14 +143,20 @@ public class FirebaseHelper {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
+                                                ArrayList<MoodEvent> moodEventsTemp = new ArrayList<>();
+
                                                 for (QueryDocumentSnapshot doc : task.getResult()) {
                                                     MoodEvent me  = MoodHistory.buildMoodEventFromDoc(doc, document.get("following_id").toString());
-                                                    feed.add(me);
+                                                    moodEventsTemp.add(me);
+                                                }
+                                                Collections.sort(moodEventsTemp, new MoodHistoryHelpers());
+                                                MoodEvent firstOne;
+                                                if(!moodEventsTemp.isEmpty()) {
+                                                     firstOne = moodEventsTemp.get(0);
+                                                     moodEventsTemp.clear();
+                                                    feed.add(firstOne);
                                                 }
                                                 Collections.sort(feed, new MoodHistoryHelpers());
-                                                MoodEvent firstOne = feed.get(0);
-                                                feed.clear();
-                                                feed.add(firstOne);
                                                 feedadapter.notifyDataSetChanged();
                                             }
                                         }

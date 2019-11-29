@@ -35,11 +35,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -116,10 +118,15 @@ public class FollowingActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        Intent thisIntent = getIntent();
+        String muid = thisIntent.getStringExtra("muid");
+        String musername = thisIntent.getStringExtra("musername");
+
+
         // query list of people the current user is following
         // by looking at all instances where the follower is the current person
         db.collection("follow")
-                .whereEqualTo("follower_id", FirebaseAuth.getInstance().getUid())
+                .whereEqualTo("follower_id", muid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -143,6 +150,22 @@ public class FollowingActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+
+
+        followingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // returns the user that the item is clicked on
+                // this will later be passed on to a profile view activity
+
+                Intent feedIntent = new Intent(FollowingActivity.this, ProfileViewActivity.class);
+                feedIntent.putExtra("username", followingDataList.get(position).regulargetUserName());
+                startActivity(feedIntent);
+
+//                                            Toast.makeText(FindActivity.this,list.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

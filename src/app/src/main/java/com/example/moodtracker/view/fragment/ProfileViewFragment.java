@@ -37,26 +37,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.moodtracker.R;
 import com.example.moodtracker.model.User;
-import com.example.moodtracker.view.EditProfile;
-import com.example.moodtracker.view.FindActivity;
 import com.example.moodtracker.view.FollowersActivity;
 import com.example.moodtracker.view.FollowingActivity;
-import com.example.moodtracker.view.ProfileViewActivity;
-import com.example.moodtracker.view.RequestsActivity;
-import com.example.moodtracker.view.mood.MoodHistoryActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,10 +57,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,6 +98,10 @@ public class ProfileViewFragment extends Fragment {
     private String mUsername;
 
     private OnFragmentInteractionListener mListener;
+
+    public ProfileViewFragment() {
+
+    }
 
     public ProfileViewFragment(String uid, String username) {
         // Required empty public constructor
@@ -165,18 +158,59 @@ public class ProfileViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent followersActivity = new Intent(getActivity(), FollowersActivity.class);
+                followersActivity.putExtra("muid", mUid);
+                followersActivity.putExtra("musername", mUsername);
                 startActivity(followersActivity);
             }
         });
 
-        FollowingButton = view.findViewById(R.id.FollowingButton);
+        FollowingButton =  view.findViewById(R.id.FollowingButton);
         FollowingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent followingActivity = new Intent(getActivity(), FollowingActivity.class);
+                followingActivity.putExtra("muid", mUid);
+                followingActivity.putExtra("musername", mUsername);
                 startActivity(followingActivity);
             }
         });
+
+
+        FirebaseFirestore.getInstance().collection("follow")
+                .whereEqualTo("follower_id", mUid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            int count = 0;
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                count++;
+                            }
+                            FollowingButton.setText("FOLLOWING: " + Integer.toString(count));
+
+                        }
+                    }
+                });
+
+        FirebaseFirestore.getInstance().collection("follow")
+                .whereEqualTo("following_id", mUid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            int count = 0;
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                count++;
+                            }
+                            FollowersButton.setText("FOLLOWERS: " + Integer.toString(count));
+
+                        }
+                    }
+                });
+
+
 
 //        RequestsButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -200,19 +234,21 @@ public class ProfileViewFragment extends Fragment {
         EditFab = view.findViewById(R.id.editFAB);
         EditFab.setVisibility(View.INVISIBLE);
         if (itsMe) {
-            EditFab.setVisibility(View.VISIBLE);
-            EditFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent editActivity = new Intent(getActivity(), EditProfile.class);
-                    startActivity(editActivity);
-//                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
-//                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
-//                editActivity.putExtra("username", ProfileName.getText());
-//                startActivity(editActivity);
+            Log.d("HOME", "It's me");
+//            EditFab.setVisibility(View.VISIBLE);
 
-                }
-            });
+//            EditFab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent editActivity = new Intent(getActivity(), EditProfile.class);
+//                    startActivity(editActivity);
+////                Intent editActivity = new Intent(ProfileViewActivity.this, EditProfile.class);
+////                editActivity.putExtra("userID", fAuth.getCurrentUser().getUid());
+////                editActivity.putExtra("username", ProfileName.getText());
+////                startActivity(editActivity);
+//
+//                }
+//            });
 
         } else {
 
