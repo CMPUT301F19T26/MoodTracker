@@ -48,7 +48,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
-
+/**
+ * Class for editing profile and updating the database
+ */
 public class EditProfile extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     private String uid;

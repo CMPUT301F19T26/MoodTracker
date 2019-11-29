@@ -76,6 +76,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Activity for users feed
+ */
 public class FeedActivity extends AppCompatActivity implements MoodEventFragment.OnFragmentInteractionListener {
 
     // Declare the variables so that you will be able to reference it later.

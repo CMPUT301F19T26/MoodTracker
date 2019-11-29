@@ -87,6 +87,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ *
+ */
 public class FindActivity extends AppCompatActivity {
 
     ListView userListView;
