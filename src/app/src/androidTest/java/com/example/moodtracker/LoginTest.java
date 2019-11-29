@@ -29,10 +29,16 @@ import android.app.Activity;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.moodtracker.view.FeedActivity;
 import com.example.moodtracker.view.LoginActivity;
+import com.example.moodtracker.view.MainActivity;
+import com.example.moodtracker.view.ProfileViewActivity;
+import com.example.moodtracker.view.SignupActivity;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -71,11 +77,89 @@ public class LoginTest {
     }
 
     @Test
-    public void createUser() {
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+    public void badLogin(){
 
-//        solo.clickOnButton("ADD CITY");
+        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
+        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+        solo.clickOnView(solo.getView(R.id.button_login));
+//        boolean exists = solo.searchText("Authentication failed.");
+//        assertEquals(true,exists);
+
+
     }
+
+//    @Test
+//    public void createUser() {
+//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+//        solo.clickOnText("Signup");
+//        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
+//        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
+//        solo.enterText((EditText)solo.getView(R.id.text_username), "bob_jones");
+//        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+//        solo.clickOnButton("Signup");
+//        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+//
+//    }
+//
+//    @Test
+//    public void Logout() {
+//
+//        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+//        solo.clickOnButton("Profile");
+//        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+//        solo.clickOnButton("Logout");
+//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+//
+//    }
+//
+//    @Test
+//    public void createExistingUser() {
+//
+//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+//        solo.clickOnText("Signup");
+//        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
+//
+//        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
+//        solo.enterText((EditText)solo.getView(R.id.text_username), "bob_jones");
+//        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+//
+//        solo.clickOnButton("Signup");
+//
+//        boolean exists = solo.searchText("Username taken!");
+//
+//        assertEquals(true,exists);
+//
+//    }
+//
+//    @Test
+//    public void Login() {
+//
+//        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
+//        solo.clickOnText("Login");
+//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+//
+//        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
+//        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+//        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+//
+//    }
+//
+//    @After
+//    public void cleanUp(){
+//
+//        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+//        solo.clickOnButton("Profile");
+//        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+//        solo.clickOnButton("Logout");
+//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+//
+//
+//    }
+
+
+//    @After
+//    public void removeUser
 
 
 
