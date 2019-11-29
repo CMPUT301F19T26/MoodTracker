@@ -125,7 +125,6 @@ public class LoginTest {
     @Test
     public void CreateUser_and_Test_bad_signup() {
 
-
         //signup
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.clickOnText("Signup");
@@ -155,6 +154,16 @@ public class LoginTest {
         //assert username is taken
         boolean exists = solo.searchText("Username taken!");
         assertEquals(true,exists);
+
+        //Test Login to app
+        solo.clickOnText("Login");
+        solo.enterText((EditText) solo.getView(R.id.text_email), "jared@test.com");
+        solo.enterText((EditText) solo.getView(R.id.text_password), "password");
+        solo.clickOnText("Login");
+        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+        solo.clickOnText("Profile");
+        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+
 
     }
 
