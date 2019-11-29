@@ -232,9 +232,10 @@ public class ProfileViewFragment extends Fragment {
                                     UnfollowButton.setVisibility(View.INVISIBLE);
                                     FollowButton.setVisibility(View.INVISIBLE);
                                 } else {
+                                    Log.d("HOME", "Getting here");
                                     FollowButton.setVisibility(View.VISIBLE);
                                     RequestsButton.setVisibility(View.INVISIBLE);
-                                    FollowButton.setVisibility(View.INVISIBLE);
+                                    UnfollowButton.setVisibility(View.INVISIBLE);
                                 }
                             }
 

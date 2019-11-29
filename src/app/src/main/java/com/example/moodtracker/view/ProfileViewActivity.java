@@ -41,6 +41,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -100,6 +101,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
     private ArrayAdapter<String> adapt;
     private DrawerLayout drawer;
     private ImageButton toggler;
+    private ImageView lockImage;
 
 
     @Override
@@ -114,6 +116,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         moodHistoryList = findViewById(R.id.mood_history);
+        lockImage = findViewById(R.id.profile_lock_image);
 
         // Displays all parts of the fragment in the view
         Intent intent = getIntent();
@@ -158,7 +161,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                                     moodHistoryList.setAdapter(HistoryAdapter);
                                     MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
                                 } else {
-                                    // 
+                                    lockImage.setVisibility(View.VISIBLE);
                                 }
                             }
                             @Override
