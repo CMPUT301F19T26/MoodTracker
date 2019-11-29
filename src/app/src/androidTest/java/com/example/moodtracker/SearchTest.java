@@ -64,10 +64,7 @@ public class SearchTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
 
-    Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-    assertEquals("com.example.moodtracker", appContext.getPackageName());
 
-    
     @Test
     public void start() throws Exception {
         //Activity activity = rule.getActivity();
