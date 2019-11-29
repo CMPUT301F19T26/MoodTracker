@@ -87,7 +87,6 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
     private ArrayAdapter<MoodEvent> HistoryAdapter;
     private MoodHistory moodHistory;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,6 +184,16 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
         menuItem.setChecked(true);
         BottomNavigationViewHelper.enableNavigation(ProfileViewActivity.this, bottomNavigationView);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (moodHistory != null) {
+            moodHistory.history.clear();
+            HistoryAdapter.notifyDataSetChanged();
+            MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
+        }
     }
 
     public void openFragment(MoodEvent moodEvent, int position) {
