@@ -173,6 +173,11 @@ public class FeedActivity extends AppCompatActivity implements MoodEventFragment
 
     }
 
+    /**
+     * Handles opening fragment for feed
+     * @param moodEvent the mood event
+     * @param position position in feed
+     */
     private void openFragment(MoodEvent moodEvent, int position) {
         boolean location_changed = false;
         MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, location_changed);

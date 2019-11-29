@@ -88,7 +88,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- *
+ * Used to search usernames, select profiles
  */
 public class FindActivity extends AppCompatActivity {
 
@@ -102,7 +102,7 @@ public class FindActivity extends AppCompatActivity {
 
     /**
      * On Create
-     * @param savedInstanceState the instance
+     * @param savedInstanceState the saved instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

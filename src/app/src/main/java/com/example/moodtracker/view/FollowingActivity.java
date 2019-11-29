@@ -62,6 +62,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Handles following activity
+ */
 public class FollowingActivity extends AppCompatActivity {
 
     // Declare the variables so that you will be able to reference it later.

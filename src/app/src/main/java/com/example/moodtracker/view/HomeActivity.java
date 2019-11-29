@@ -56,6 +56,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Handles home activity
+ */
 public class HomeActivity extends AppCompatActivity {
 
     // move :

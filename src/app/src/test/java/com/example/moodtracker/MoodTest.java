@@ -5,6 +5,9 @@ import com.example.moodtracker.model.Mood;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+/**
+ * Testing Moods
+ */
 public class MoodTest {
     private static Mood TestMood;
 

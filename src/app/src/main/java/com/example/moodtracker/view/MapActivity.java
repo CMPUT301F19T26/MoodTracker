@@ -70,6 +70,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Handles activity for maps
+ */
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, MoodEventFragment.OnFragmentInteractionListener {
 
     //declare stuff
@@ -122,6 +125,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     };
 
+    /**
+     * Opens fragment for maps
+     * @param moodEvent the mood event
+     * @param position unique identifier for mood event
+     */
     public void openFragment(MoodEvent moodEvent, int position) {
 
         MoodEventFragment fragment = MoodEventFragment.newInstance(moodEvent, position, false);
@@ -134,6 +142,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
+    /**
+     * On create for Map activity
+     * @param savedInstanceState the saved instance for the map activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

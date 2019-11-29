@@ -63,6 +63,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Handles the requests activity
+ */
 public class RequestsActivity extends AppCompatActivity {
 
     // Declare the variables so that you will be able to reference it later.
@@ -79,7 +82,7 @@ public class RequestsActivity extends AppCompatActivity {
 
 
     /**
-     * On create of following activity
+     * On create of Requests activity
      * @param savedInstanceState the instance
      */
     @Override

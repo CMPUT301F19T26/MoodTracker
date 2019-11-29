@@ -61,6 +61,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Activity handling for followers
+ */
 public class FollowersActivity extends AppCompatActivity {
 
     // Declare the variables so that you will be able to reference it later.
