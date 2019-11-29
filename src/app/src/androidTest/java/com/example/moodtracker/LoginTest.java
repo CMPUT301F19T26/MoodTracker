@@ -59,7 +59,6 @@ import static org.junit.Assert.assertFalse;
 
 
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LoginTest {
 
     private Solo solo;
@@ -73,6 +72,9 @@ public class LoginTest {
     public void setUp() throws Exception{
 
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+        Activity activity = rule.getActivity();
+        db.clearPersistence();
+        FirebaseAuth.getInstance().signOut();
 
     }
 
@@ -80,62 +82,44 @@ public class LoginTest {
      * Gets the Activity
      * @throws Exception
      */
-    @Test
-    public void astart() throws Exception{
-        Activity activity = rule.getActivity();
-        db.clearPersistence();
-        FirebaseAuth.getInstance().signOut();
-    }
+
 
     @Test
     public void badLogin(){
 
         FirebaseAuth.getInstance().signOut();
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
-        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
-        solo.clickOnButton("Login");
+        solo.enterText((EditText)solo.getView(R.id.text_email), "jared_jhonson@email.com");
+        solo.enterText((EditText)solo.getView(R.id.text_password), "very_cool");
+        solo.clickOnText("Login");
 //        solo.clickOnView(solo.getView(R.id.button_login));
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         boolean exists = solo.searchText("Authentication failed.");
         assertEquals(true,exists);
+
+        db.clearPersistence();
+        FirebaseAuth.getInstance().signOut();
 //
 //
     }
+////
+//    @Test
+//    public void createUser() {
 //
-    @Test
-    public void createUser() {
-        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-        solo.clickOnText("Signup");
-        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
-        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
-        solo.enterText((EditText)solo.getView(R.id.text_username), "bob_jones");
-        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
-        solo.clickOnButton("Signup");
-        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
-
-    }
 //
-    @Test
-    public void dLogout() {
+//
+//    }
 
-        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
-//        solo.clickOnButton("Profile");
-//        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
-//        solo.clickOnButton("Logout");
-//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-
-    }
 
     @Test
-    public void ecreateExistingUser() {
+    public void createExistingUser() {
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.clickOnText("Signup");
         solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
 
-        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
-        solo.enterText((EditText)solo.getView(R.id.text_username), "bob_jones");
+        solo.enterText((EditText)solo.getView(R.id.text_email), "sarthak@email.com");
+        solo.enterText((EditText)solo.getView(R.id.text_username), "sarthak");
         solo.enterText((EditText)solo.getView(R.id.text_password), "password");
 
         solo.clickOnButton("Signup");
@@ -144,23 +128,49 @@ public class LoginTest {
 
         assertEquals(true,exists);
 
+        solo.clickOnText("Login");
+
+        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+
+        db.clearPersistence();
+        FirebaseAuth.getInstance().signOut();
+
     }
 //
     @Test
-    public void fLogin() {
+    public void Login() {
 
-        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
-        solo.clickOnText("Login");
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
-
-        solo.enterText((EditText)solo.getView(R.id.text_email), "bob_jones@email.com");
+        solo.enterText((EditText)solo.getView(R.id.text_email), "ankush@email.com");
         solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+        solo.clickOnText("Login");
         solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+
+        db.clearPersistence();
+        FirebaseAuth.getInstance().signOut();
 
     }
 //
     @After
-    public void cleanUp(){
+    public void cleanUser(){
+
+        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+        solo.clickOnText("Signup");
+        solo.assertCurrentActivity("Wrong Activity", SignupActivity.class);
+        solo.enterText((EditText)solo.getView(R.id.text_email), "can_jones@email.com");
+        solo.enterText((EditText)solo.getView(R.id.text_username), "can_jones");
+        solo.enterText((EditText)solo.getView(R.id.text_password), "password");
+        solo.clickOnButton("Signup");
+        solo.assertCurrentActivity("Wrong Activity", FeedActivity.class);
+        solo.clickOnText("Profile");
+        solo.assertCurrentActivity("Wrong Activity", ProfileViewActivity.class);
+//        solo.clickOnText("Logout");
+//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
+
+        db.clearPersistence();
+        FirebaseAuth.getInstance().signOut();
+
+//        solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 //        db.collection("usernames").document("bob_jones").delete();
 //        db.collection("users").document(FirebaseAuth.getInstance().getUid()).delete();
 //        FirebaseAuth.getInstance().getCurrentUser().delete();

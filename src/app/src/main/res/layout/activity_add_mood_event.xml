@@ -7,22 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".view.mood.AddMoodEventActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/add_mood_event_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAction"
-            android:text="Submit" />
-    </RelativeLayout>
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -121,7 +105,22 @@
                 <ImageView
                     android:id="@+id/me_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
+
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/bottomBar"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent">-->
+
+                <Button
+                    android:id="@+id/add_mood_event_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorAction"
+                    android:text="Submit" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
