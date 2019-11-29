@@ -158,11 +158,6 @@ public class MoodFragmentTest {
         solo.scrollToTop();
         solo.clickOnView(solo.getView(TextView.class, 3));
 
-        //click location
-//        View switcher = solo.getView(R.id.location_switch);
-//        solo.clickOnView(switcher);
-//        solo.clickOnText("Allow only while using the app");
-
         //Add Reason
         solo.enterText((EditText)solo.getView(R.id.reason_edit), "MOOOO");
 
@@ -211,12 +206,8 @@ public class MoodFragmentTest {
         //enter reason
         solo.enterText((EditText)solo.getView(R.id.reason_me), "WOW");
 
-        //click submit
-//        View done = solo.getView("done_edit");
-//        solo.clickOnView(done);
-
+        //finish
         solo.clickOnText("Done");
-
         solo.goBack();
 
         //check feed
@@ -244,11 +235,6 @@ public class MoodFragmentTest {
         solo.scrollToTop();
         solo.clickOnView(solo.getView(TextView.class, 3));
 
-        //click location
-//        View switcher = solo.getView(R.id.location_switch);
-//        solo.clickOnView(switcher);
-//        solo.clickOnText("Allow only while using the app");
-
         //Add Reason
         solo.enterText((EditText)solo.getView(R.id.reason_edit), "MOOOO");
 
@@ -261,23 +247,18 @@ public class MoodFragmentTest {
         //click event
         solo.clickInList(1);
 
+        //delete
         solo.clickOnText("Delete");
 
     }
 
 
+    //logout
     @After
     public void reset() {
-//
         View navbar = solo.getView(R.id.toggler);
         solo.clickOnView(navbar);
         solo.clickOnText("Logout");
 
-//        System.out.println("AFTER");
-
-//        rule.launchActivity(null);
-
-//        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
-//        Activity activity = rule.getActivity();
     }
 }
