@@ -126,7 +126,7 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
     @Override
     public void onDeleteFragmentInteraction(int position) {
         MoodHistoryController.deleteEventFromHistory(moodHistory.history.get(position), moodHistory, position, HistoryAdapter);
-}
+    }
 
     @Override
     public void onUpdateFragmentInteraction(MoodEvent e, int position, Uri photo, final MoodHistory.FirebaseCallback cb) {
@@ -141,18 +141,6 @@ public class MoodHistoryActivity extends AppCompatActivity implements MoodEventF
             super.onBackPressed();
         } else if (fragment == null) {
             finish();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Check which request we're responding to
-        if (requestCode == 1) { // We wanted to add a Mood Event
-//             Make sure the request was successful
-            moodHistory.history.clear();
-            HistoryAdapter.notifyDataSetChanged();
-            MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
         }
     }
 }
