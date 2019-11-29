@@ -158,7 +158,7 @@ public class ProfileViewFragment extends Fragment {
         FollowButton = view.findViewById(R.id.FollowButton);
         UnfollowButton = view.findViewById(R.id.UnfollowButton);
 
-//        RequestsButton = view.findViewById(R.id.button_view_requests);
+        RequestsButton = view.findViewById(R.id.RequestedButton);
 
         FollowersButton = view.findViewById(R.id.FollowersButton);
         FollowersButton.setOnClickListener(new View.OnClickListener() {
@@ -213,10 +213,8 @@ public class ProfileViewFragment extends Fragment {
 
                 }
             });
-            //Todo: Add follow and unfollow logic rn
+
         } else {
-
-
 
             User myUser = new User(fAuth.getUid());
             myUser.getFollowingUsernames(new User.UsernamesListener() {
@@ -225,7 +223,27 @@ public class ProfileViewFragment extends Fragment {
                     if(usernames.contains(mUid)) {
                         UnfollowButton.setVisibility(View.VISIBLE);
                     } else {
-                        FollowButton.setVisibility(View.VISIBLE);
+
+                        myUser.getRequestedUsernames(new User.UsernamesListener() {
+                            @Override
+                            public void onRetrieve(ArrayList<String> username) {
+                                if(username.contains(mUid)) {
+                                    RequestsButton.setVisibility(View.VISIBLE);
+                                    UnfollowButton.setVisibility(View.INVISIBLE);
+                                    FollowButton.setVisibility(View.INVISIBLE);
+                                } else {
+                                    Log.d("HOME", "Getting here");
+                                    FollowButton.setVisibility(View.VISIBLE);
+                                    RequestsButton.setVisibility(View.INVISIBLE);
+                                    UnfollowButton.setVisibility(View.INVISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
                     }
                 }
                 @Override
@@ -265,7 +283,6 @@ public class ProfileViewFragment extends Fragment {
                 followMap.put("following_id", displayUser.getUid());
                 followMap.put("timestamp", "time");
 
-
                 // store a request for that person in db from authenticated person
                 User.getUsernameExternal(fAuth.getUid(), new User.UsernameListener() {
                     @Override
@@ -277,8 +294,9 @@ public class ProfileViewFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Log.d("HOME", "DocumentSnapshot successfully written!");
-                                        UnfollowButton.setVisibility(View.VISIBLE);
+                                        Log.d("HOME", "DocumentSnapshot successfully written! T1");
+                                RequestsButton.setVisibility(View.VISIBLE);
+                                        UnfollowButton.setVisibility(View.INVISIBLE);
                                         FollowButton.setVisibility(View.INVISIBLE);
 
                                     }

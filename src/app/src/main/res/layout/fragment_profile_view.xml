@@ -106,6 +106,25 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/RequestedButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Requested"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimary"
+            android:visibility="invisible"
+            app:strokeColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/FollowersButton"
+            app:layout_constraintTop_toTopOf="parent"
+            android:clickable="false"
+            app:layout_constraintVertical_bias="0.0" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/UnfollowButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

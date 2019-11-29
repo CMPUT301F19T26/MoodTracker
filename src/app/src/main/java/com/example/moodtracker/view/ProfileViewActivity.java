@@ -41,6 +41,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -81,6 +82,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.util.ArrayList;
+
 /**
  * @auhtor CMPUT301F19T26
  * ProfileViewActivity extends AppCompactActivity
@@ -98,6 +101,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
     private ArrayAdapter<String> adapt;
     private DrawerLayout drawer;
     private ImageButton toggler;
+    private ImageView lockImage;
 
 
     @Override
@@ -112,6 +116,7 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         moodHistoryList = findViewById(R.id.mood_history);
+        lockImage = findViewById(R.id.profile_lock_image);
 
         // Displays all parts of the fragment in the view
         Intent intent = getIntent();
@@ -145,11 +150,26 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for (DocumentSnapshot doc : task.getResult()) {
                         displayFragments(doc.getId(), username);
-                        moodHistory = new MoodHistory(doc.getId());
-                        HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
-                        moodHistoryList.setAdapter(HistoryAdapter);
-                        MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
 
+                        User myUser = new User(fAuth.getUid());
+                        myUser.getFollowingUsernames(new User.UsernamesListener() {
+                            @Override
+                            public void onRetrieve(ArrayList<String> usernames) {
+                                if(usernames.contains(doc.getId())) {
+                                    moodHistory = new MoodHistory(doc.getId());
+                                    HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
+                                    moodHistoryList.setAdapter(HistoryAdapter);
+                                    MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
+                                } else {
+                                    mood_history_spinner.setVisibility(View.GONE);
+                                    lockImage.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
                     }
                 }
             });
@@ -163,13 +183,14 @@ public class ProfileViewActivity extends AppCompatActivity implements ProfileVie
                 public void onRetrieve(String username) {
                     displayFragments(uid, username);
                     moodHistory = new MoodHistory(uid);
-                    HistoryAdapter = new MoodHistoryAdapter(context,  moodHistory);
+                    HistoryAdapter = new MoodHistoryAdapter(context, moodHistory);
                     moodHistoryList.setAdapter(HistoryAdapter);
                     MoodHistory.getMoodHistory(HistoryAdapter, moodHistory);
                 }
 
                 @Override
                 public void onError() {
+
                 }
             });
 
