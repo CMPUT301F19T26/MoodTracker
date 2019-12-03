@@ -99,17 +99,135 @@ public class MoodHistory implements Serializable {
     public static void getMoodHistory(ArrayAdapter adapter, MoodHistory h) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
+
+
+        if(h.user_id.equals(auth.getUid())) {
+            db.collection("users").document(h.user_id).collection("moodEvents")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                if (doc.exists()) {
+                                    MoodEvent me = buildMoodEventFromDoc(doc, h.user_id);
+                                    h.history.add(me);
+                                }
+                            }
+                            // Sort the moodEvents
+                            Collections.sort(h.history, new MoodHistoryHelpers());
+                            adapter.notifyDataSetChanged();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+        } else {
+
+            FirebaseFirestore.getInstance().collection("follow")
+                    .whereEqualTo("follower_id", auth.getUid())
+                    .whereEqualTo("following_id", h.user_id)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.get("type") != null && document.get("type").equals("all")) {
+                                        db.collection("users").document(h.user_id).collection("moodEvents")
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                                                            if (doc.exists()) {
+                                                                MoodEvent me = buildMoodEventFromDoc(doc, h.user_id);
+                                                                h.history.add(me);
+                                                            }
+                                                        }
+                                                        // Sort the moodEvents
+                                                        Collections.sort(h.history, new MoodHistoryHelpers());
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                    }
+                                                });
+                                    } else {
+                                        db.collection("users").document(h.user_id).collection("moodEvents")
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                                        ArrayList<MoodEvent> moodEventsTemp = new ArrayList<>();
+
+
+                                                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                                                            if (doc.exists()) {
+                                                                MoodEvent me  = buildMoodEventFromDoc(doc, h.user_id);
+                                                                moodEventsTemp.add(me);
+                                                            }
+                                                        }
+
+                                                        Collections.sort(moodEventsTemp, new MoodHistoryHelpers());
+                                                        MoodEvent firstOne;
+                                                        if(!moodEventsTemp.isEmpty()) {
+                                                            firstOne = moodEventsTemp.get(0);
+                                                            moodEventsTemp.clear();
+                                                            h.history.add(firstOne);
+                                                        }
+
+                                                        // Sort the moodEvents
+                                                        Collections.sort(h.history, new MoodHistoryHelpers());
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+        }
+
+    }
+
+    public static void getMoodHistory(ArrayAdapter adapter, MoodHistory h, String limit) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         db.collection("users").document(h.user_id).collection("moodEvents")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        ArrayList<MoodEvent> moodEventsTemp = new ArrayList<>();
+
+
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             if (doc.exists()) {
                                 MoodEvent me  = buildMoodEventFromDoc(doc, h.user_id);
-                                h.history.add(me);
+                                moodEventsTemp.add(me);
                             }
                         }
+
+                        Collections.sort(moodEventsTemp, new MoodHistoryHelpers());
+                        MoodEvent firstOne;
+                        if(!moodEventsTemp.isEmpty()) {
+                            firstOne = moodEventsTemp.get(0);
+                            moodEventsTemp.clear();
+                            h.history.add(firstOne);
+                        }
+
                         // Sort the moodEvents
                         Collections.sort(h.history, new MoodHistoryHelpers());
                         adapter.notifyDataSetChanged();
