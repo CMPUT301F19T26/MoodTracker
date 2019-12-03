@@ -28,7 +28,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:stateListAnimator="@null"
             android:id="@+id/user_button"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:textColor="@color/colorPrimary"
@@ -44,7 +44,7 @@
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/friends_button"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:textColor="@color/colorPrimary"
@@ -59,7 +59,7 @@
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/all_button"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:text="All"
