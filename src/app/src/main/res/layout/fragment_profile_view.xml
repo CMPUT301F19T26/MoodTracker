@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/top_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="170dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical">
 
@@ -37,6 +37,48 @@
             android:textColor="@color/colorWhite"
             android:textSize="24sp" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/FollowButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:backgroundTint="@color/fui_bgTwitter"
+            android:text="Follow"
+            android:textColor="@color/colorWhite"
+            android:visibility="invisible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/RequestedButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Requested"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimary"
+            android:visibility="invisible"
+            app:strokeColor="@color/colorWhite"
+            android:clickable="false"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/UnfollowButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Unfollow"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimary"
+            android:visibility="invisible"
+            app:strokeColor="@color/colorWhite"/>
 
     </RelativeLayout>
 
@@ -50,11 +92,12 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/FollowingButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="135dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Following"
             android:textColor="@color/colorWhite"
             android:background="@color/colorPrimary"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintEnd_toStartOf="@+id/FollowersButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -63,84 +106,72 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/FollowersButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="135dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Followers"
             android:textColor="@color/colorWhite"
             android:background="@color/colorPrimary"
-            app:layout_constraintEnd_toStartOf="@+id/FollowButton"
             app:layout_constraintStart_toEndOf="@+id/FollowingButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/colorWhite" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/FollowButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/fui_bgTwitter"
-            android:gravity="center"
-            android:text="Follow"
-            android:textColor="@color/colorWhite"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/FollowersButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/editFAB"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Edit Profile"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimary"
-            android:visibility="invisible"
-            app:strokeColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/FollowersButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="135dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Edit Profile"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:background="@color/colorPrimary"-->
+<!--            android:visibility="invisible"-->
+<!--            app:strokeColor="@color/colorWhite"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/FollowersButton"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.0" />-->
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/RequestedButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Requested"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimary"
-            android:visibility="invisible"
-            app:strokeColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/FollowersButton"
-            app:layout_constraintTop_toTopOf="parent"
-            android:clickable="false"
-            app:layout_constraintVertical_bias="0.0" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/RequestedButton"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="135dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Requested"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:background="@color/colorPrimary"-->
+<!--            android:visibility="invisible"-->
+<!--            app:strokeColor="@color/colorWhite"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/FollowersButton"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:clickable="false"-->
+<!--            app:layout_constraintVertical_bias="0.0" />-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/UnfollowButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Unfollow"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimary"
-            android:visibility="invisible"
-            app:strokeColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/FollowersButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/UnfollowButton"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="135dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Unfollow"-->
+<!--            android:textColor="@color/colorWhite"-->
+<!--            android:background="@color/colorPrimary"-->
+<!--            android:visibility="invisible"-->
+<!--            app:strokeColor="@color/colorWhite"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/FollowersButton"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.0" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
