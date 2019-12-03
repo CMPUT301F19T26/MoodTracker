@@ -112,7 +112,7 @@ public class FirebaseHelper {
                 .addOnFailureListener(cb::onFailure));
     }
 
-    public static void updateFeed(FirebaseFirestore db,String user_id, ArrayList<MoodEvent> feed, FeedAdapter feedadapter, final FirebaseCallback cb) {
+    public static void updateFeed(FirebaseFirestore db, String user_id, ArrayList<MoodEvent> feed, FeedAdapter feedadapter, final FirebaseCallback cb) {
         String TAG = "Sample";
         db.collection("follow")
                 .whereEqualTo("follower_id",user_id)
