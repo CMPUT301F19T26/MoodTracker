@@ -81,6 +81,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private ArrayList<Marker> friendMarkers = new ArrayList<Marker>();
     private HashMap<Integer, Marker> posmarker = new HashMap<>();
     private HashMap<Marker, Integer> markerpos = new HashMap<>();
+    private HashMap<Integer, Marker> posmarker_friend = new HashMap<>();
+    private HashMap<Marker, Integer> markerpos_friend = new HashMap<>();
 
     //create listener
     private View.OnClickListener userclick = new View.OnClickListener() {
@@ -241,12 +243,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onSuccess(Object document) {
                 friendMarkers.clear();
 
+                int count_friend = 0;
+
                 System.out.println("HERE WOW" + friendMoods.size());
 
 
                 for(MoodEvent moodEvent: friendMoods) {
-
-
 
 
                     LatLng loc = new LatLng(moodEvent.getLat(),moodEvent.getLng());
@@ -257,11 +259,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                     );
                     marker.setTag(moodEvent);
-//                    posmarker.put(count,marker);
-//                    markerpos.put(marker,count);
+                    posmarker_friend.put(count_friend,marker);
+                    markerpos_friend.put(marker,count_friend);
                     friendMarkers.add(marker);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-//                    count++;
+                    count_friend++;
 
 
                 }
@@ -292,7 +294,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onInfoWindowClick(Marker marker) {
                 MoodEvent m = (MoodEvent)marker.getTag();
-                openFragment(m, markerpos.get(marker));
+                System.out.println("MOOD ID" + m.getUser_id());
+                System.out.println("FirebaseID" + FirebaseAuth.getInstance().getUid());
+                if (m.getUser_id().equals(FirebaseAuth.getInstance().getUid())){
+                    System.out.println("USER");
+                    openFragment(m, markerpos.get(marker));
+
+                } else {
+                    System.out.println("FRIEND");
+                    openFragment(m, markerpos_friend.get(marker));
+
+                }
+
 
             }
         });
