@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
 
 
@@ -31,14 +31,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/lightred"
             android:background="@color/colorWhite"
-            app:strokeColor="@color/colorPrimary"
+            app:strokeColor="@color/lightred"
             android:text="Personal"
+            android:textStyle="bold"
             android:padding="10dp"
             android:paddingRight="10dp"
             android:visibility="gone"
-
+            android:layout_weight="1"
             />
 
         <com.google.android.material.button.MaterialButton
@@ -47,14 +48,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/fui_linkColor"
             android:background="@color/colorWhite"
-            app:strokeColor="@color/colorPrimary"
+            app:strokeColor="@color/fui_linkColor"
             android:text="Friends"
+            android:textStyle="bold"
             android:padding="10dp"
             android:paddingRight="10dp"
             android:stateListAnimator="@null"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:layout_weight="1"
+            />
 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -63,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:text="All"
+            android:textStyle="bold"
             android:padding="10dp"
             android:paddingRight="10dp"
             android:stateListAnimator="@null"
@@ -70,6 +75,7 @@
             android:textColor="@color/colorPrimary"
             android:background="@color/colorWhite"
             app:strokeColor="@color/colorPrimary"
+            android:layout_weight="1"
             />
     </LinearLayout>
 
